@@ -1,0 +1,128 @@
+﻿@model List<ReleaseSpence.Models.Datos_energia>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		@{
+			string datos = "";
+			string datos2 = "";
+			foreach(var item in Model)
+			{
+				datos += "['" + item.fecha.ToString("yyyy-MM-dd H:mm:ss") + "', " + item.panelP.ToString().Replace(',', '.') + "] ,";
+				datos2 += "['" + item.fecha.ToString("yyyy-MM-dd H:mm:ss") + "', " + item.charP.ToString().Replace(',', '.') + "] ,";
+			}
+			if (datos.Length > 2) { datos = datos.Substring(0, datos.Length - 2); }
+			else { datos = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+			if (datos2.Length > 2) { datos2 = datos2.Substring(0, datos2.Length - 2); }
+			else { datos2 = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+			WriteLiteral(datos);
+		}
+		var line1 = [@{ WriteLiteral(datos); }];
+		var line2 = [@{ WriteLiteral(datos2); }];
+		var plot1 = $.jqplot('chart1', [line1, line2], {
+			title: 'Se han obtenido @Model.Count puntos procesando @ViewBag.total datos<br>@ViewBag.nombre - Potencia regulador de carga',
+			axes: {
+				xaxis: { renderer: $.jqplot.DateAxisRenderer, tickOptions: { formatString: '%d-%m-%Y<br>%H:%M:%S' } },
+				yaxis: { label: 'Watts', labelRenderer: $.jqplot.CanvasAxisLabelRenderer, pad: 1.1 }
+			},
+			legend: {
+				show: true,
+				location: 'e',
+				placement: 'outside'
+			},
+			series: [{ label: 'Potencia de entrada', lineWidth: 1, markerOptions: { show: false } },
+					{ label: 'Potencia de salida', lineWidth: 1, markerOptions: { show: false } }]
+		});
+
+		$("#1d").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1d&hasta=1d");
+		$("#1s").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1s&hasta=1s");
+		$("#1m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1m&hasta=1m");
+		$("#3m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=3m&hasta=3m");
+		$("#1a").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1a&hasta=1a");
+		$("#refreshlink").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+		$("#linkbat").attr("href", "@Url.Action("Graphics")/@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+		$("#linkinv").attr("href", "@Url.Action("GraphicsInv")/@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+		$("#linkconsumo").attr("href", "@Url.Action("GraphicsConsumo")/@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+		$(".autolink").change(function (e) {
+			$("#1d").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1d&hasta=1d");
+			$("#1s").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1s&hasta=1s");
+			$("#1m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1m&hasta=1m");
+			$("#3m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=3m&hasta=3m");
+			$("#1a").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1a&hasta=1a");
+			$("#refreshlink").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+			$("#linkbat").attr("href", "@Url.Action("Graphics")/@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+			$("#linkinv").attr("href", "@Url.Action("GraphicsInv")/@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+			$("#linkconsumo").attr("href", "@Url.Action("GraphicsConsumo")/@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+		});
+
+		$("#ayuda").click(function (e) {
+			$("#dialogayuda").modal({ show: true });
+		});
+		$("#cerrarayuda").click(function () {
+			$("#dialogayuda").modal("hide");
+		});
+		$("#dtp_desde").datetimepicker();
+		$("#dtp_hasta").datetimepicker();
+	});
+</script>
+<div class="bs-example">
+	<form class="form-inline" role="form">
+		<div class="form-group" style="width:180px;">
+			<label for="datos">
+				Puntos aproximados a graficar
+			</label>
+			<input type="number" class="form-control autolink" id="datos" value="@ViewBag.datos" placeholder="100">
+		</div>
+		<div class="form-group" style="width:180px;">
+			<label for="precision">Maxima precision</label>
+			<input type="checkbox" @(ViewBag.precision ? "checked" : "") class="form-control autolink" id="precision">
+		</div>
+		<div class="form-group" style="width:200px;">
+			<label for="desde">Desde</label>
+			<div class='input-group date autolink' id='dtp_desde'>
+				<input type='text' class="form-control" id="desde" data-date-format="DD-MM-YYYY HH:mm:ss" value="@ViewBag.desde.ToString("dd-MM-yyyy HH:mm:ss")" />
+				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			</div>
+		</div>
+		<div class="form-group" style="width:200px;">
+			<label for="grupo">Hasta</label>
+			<div class='input-group date autolink' id='dtp_hasta'>
+				<input type='text' class="form-control" id="hasta" data-date-format="DD-MM-YYYY HH:mm:ss" value="@ViewBag.hasta.ToString("dd-MM-yyyy HH:mm:ss")" />
+				<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+			</div>
+		</div>
+		<div class="form-group" style="width:250px;">
+			<label for="grupo">Ver los últimos datos</label>
+			<div class="btn-group" role="group" aria-label="...">
+				<a id="1d" class="btn btn-default" href="">1d</a>
+				<a id="1s" class="btn btn-default" href="">1s</a>
+				<a id="1m" class="btn btn-default" href="">1m</a>
+				<a id="3m" class="btn btn-default" href="">3m</a>
+				<a id="1a" class="btn btn-default" href="">1a</a>
+			</div>
+		</div>
+		<a id="refreshlink" class="btn btn-primary" href="">Refrescar</a>
+		<a id="linkbat" class="btn btn-primary" href="">Baterías</a>
+		<a id="linkinv" class="btn btn-primary" href="">Inversor</a>
+		<a id="linkconsumo" class="btn btn-primary" href="">Gen. vs consumo</a>
+		<a id="ayuda" class="btn btn-info"><span class="glyphicon glyphicon-question-sign" title="Ayuda"></span></a>
+	</form>
+</div>
+<div id="chart1" style="width:1200px; height:300px;"></div>
+
+<div id="dialogayuda" class="modal fade">
+	<div id="Mdayuda" class="modal-dialog">
+		<div id="Cdayuda" class="modal-content" style="padding:20px;">
+			<h4>Ayuda</h4>
+			<b>Puntos a graficar:</b> Es la cantidad de puntos que deberia tener el grafico, entre mayor sea el numero, mayor sera la cantidad de datos que se consultaran a la base de datos y el zoom del grafico sera mas alejado.<br />
+			<b>Promediar datos:</b> Es la cantidad de datos que seran agrupados para calcular cada dato promedio, con este numero en 2, se mostrarian promedios cada 2 datos, siendo estos 1 punto en el grafico, entre mas alto sea este numero menor sera la precision de los datos pero sera mayor el intervalo de tiempo resultado.
+			Este numero no afectara a la cantidad de puntos mostrados en el grafico, sino la cantidad de datos consultados a la base de datos.<br />
+			Un grafico con 200 puntos que se promedia cada 3 datos consultara un total de 600 datos a la base de datos.<br />
+			Los datos de maxima precision son obtenidos con el valor de promediar = 1.
+			<br /><br />
+			<div class="form-actions no-color">
+				<input type="button" class="btn btn-primary" name="cerrar" id="cerrarayuda" value="Cerrar">
+			</div>
+		</div>
+	</div>
+</div>

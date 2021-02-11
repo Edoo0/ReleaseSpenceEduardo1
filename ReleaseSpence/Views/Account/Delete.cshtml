@@ -1,0 +1,37 @@
+﻿@model ReleaseSpence.Models.Identity_Users
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dialog").modal({ show: true });
+            $("#cerrar").click(function () {
+                $("#dialog").modal("hide");
+            });
+        });
+    </script>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.userName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fullName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="button" class="btn btn-primary" name="cerrar" id="cerrar" value="Cancelar"> <input type="submit" class="btn btn-danger" name="enviar" id="enviar" value="Eliminar" />
+        </div>
+    }
+</div>

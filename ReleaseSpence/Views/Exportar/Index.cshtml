@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        if ('@ViewBag.hayDatos'){
+            $("#modalMessage1").modal("show")
+        }
+        else {
+            $("#modalMessage1").modal("hide")
+        }
+
+        if ('@ViewBag.hayIdSensor'){
+            $("#modalMessage2").modal("show")
+        }
+        else {
+            $("#modalMessage2").modal("hide")
+        }
+
+        
+        $("#dtp_desde").datetimepicker({
+            format: 'DD-MM-YYYY HH:mm:ss'
+        });
+        $("#dtp_hasta").datetimepicker({
+            format: 'DD-MM-YYYY HH:mm:ss'
+        });
+        $("#CSVlink").attr($("#desdef").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""), $("#hastaf").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+        $(".autolink").change(function (e) {
+			 $("#CSVlink").attr( $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""), $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+        });
+
+	});
+</script>
+
+<div style="width:100%; margin:0 auto">
+    @*Area de Busqueda*@
+
+    @using (Html.BeginForm("Index", "Exportar", FormMethod.Post))
+    {
+
+        <div class="form-inline">
+            <div class="panel-heading">
+                <h3>Exportar datos en formato CSV</h3>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="idSensorx">Pozo</label>
+                    <div class="input-group">
+                        @Html.DropDownList("idSensorx", (IEnumerable<SelectListItem>)ViewBag.idSensores, "-- Seleccione Pozo --", new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group" style="width:auto;">
+                    <label for="desde">Desde</label>
+                    <div class='input-group date autolink' id='dtp_desde'>
+                        @Html.TextBox("desdef", (string)ViewBag.desdex, new { @class = "input-group date form-control autolink", @style = "width:100%" })
+                        <span class="input-group-addon" style="width:auto">
+                            <span class="glyphicon glyphicon-calendar" style="width:auto"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group" style="width:auto;">
+                    <label for="hasta">Hasta</label>
+                    <div class='input-group date autolink' id='dtp_hasta'>
+                        @Html.TextBox("hastaf", (string)ViewBag.hastax, new { @class = "input-group date autolink form-group form-control" })
+                        <span class="input-group-addon" style="width:auto">
+                            <span class="glyphicon glyphicon-calendar" style="width:auto"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success form-control" id="CSVlink"> Exportar CSV </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalMessage1" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <h4>    No existen registros en la fecha establecida.   </h4>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalMessage2" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <h4>Debe de seleccionar un Pozo.</h4>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

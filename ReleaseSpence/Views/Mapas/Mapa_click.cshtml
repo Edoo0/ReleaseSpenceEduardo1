@@ -1,0 +1,191 @@
+﻿<script type="text/javascript">
+
+    $(function () {
+        $('#myTab li:first-child a').tab('show')
+    })
+
+	$(document).ready(function () {
+		$('#f1').submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'post',
+				url: $(this).attr("action"),
+				data: $('#f1').serialize(),
+				success: function () {
+					$("#contenidomapa").load("@Url.Action("Detalle", new { id = ViewBag.idImagen , idTipo = ViewBag.idTipo })");
+				}
+			});
+			return false;
+        });
+
+        $('#f2').submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'post',
+				url: $(this).attr("action"),
+				data: $('#f2').serialize(),
+				success: function () {
+					$("#contenidomapa").load("@Url.Action("Detalle", new { id = ViewBag.idImagen , idTipo = ViewBag.idTipo })");
+				}
+			});
+			return false;
+		});
+	});
+</script>
+
+
+    <table class="table" style="min-width:240px;">
+        <tr>
+            <th>
+                Agregar marcador en @ViewBag.x, @ViewBag.y
+            </th>
+        </tr>
+        <tr>
+            <td>
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tabSensor" data-toggle="tab" href="#sensor" role="tab" aria-selected="true">Sensor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tabPunto" data-toggle="tab" href="#punto" role="tab" aria-selected="false">Punto de Monitoreo</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+
+                    <div class="tab-pane active" id="sensor" role="tabpanel">
+                        <div id="div1">
+                            @using (Html.BeginForm("Mapa_click_sensor", "Mapas", FormMethod.Post, new { id = "f1" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("idImagen")
+                                @Html.Hidden("x")
+                                @Html.Hidden("y")
+                                <table class="table" style="min-width:240px;">
+                                    <tr>
+                                        <td>
+                                            @Html.DropDownList("idSensor", (IEnumerable<SelectListItem>)ViewBag.idSensor,"-- Clic para desplegar  --", new { @class = "form-control" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="submit" id="enviar" class="btn btn-success" value="Guardar">
+                                            <input type="button" id="cancelar" class="btn btn-primary" value="Cancelar">
+                                        </td>
+                                </table>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="tab-pane" id="punto" role="tabpanel">
+                        <div id="div2">
+                            @using (Html.BeginForm("Mapa_click_punto", "Mapas", FormMethod.Post, new { id = "f2" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("idImagen")
+                                @Html.Hidden("x")
+                                @Html.Hidden("y")
+                                <table class="table" style="min-width:240px;">
+                                    <tr>
+                                        <td>
+                                            @Html.DropDownList("idPuntoMonitoreo", (IEnumerable<SelectListItem>)ViewBag.idPuntoMonitoreo, "-- Clic para desplegar  --", new { @class = "form-control" })
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="submit" id="enviar" class="btn btn-success" value="Guardar">
+                                            <input type="button" id="cancelar" class="btn btn-primary" value="Cancelar">
+                                        </td>
+                                </table>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<table class="table" style="min-width:240px;">
+    <tr>
+        <th>
+            Agregar marcador en @ViewBag.x, @ViewBag.y
+        </th>
+    </tr>
+    <tr>
+        <td>
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="tabSensor" data-toggle="tab" href="#sensor" role="tab" aria-selected="true">Sensor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tabPunto" data-toggle="tab" href="#punto" role="tab" aria-selected="false">Punto de Monitoreo</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="sensor" role="tabpanel">
+                    <div id="div1">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    @Html.DropDownList("idSensor");
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <input type="submit" id="enviar" class="btn btn-success" value="pico"><input type="button" id="cancelar" class="btn btn-primary" value="Cancelar">
+                    </div>
+                </div>
+
+
+                <div class="tab-pane" id="punto" role="tabpanel">
+                    <div id="div2">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    @Html.DropDownList("idPuntoDeMonitoreo")
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <input type="submit" id="enviar" class="btn btn-success" value="palquelee">
+                        <input type="button" id="cancelar" class="btn btn-primary" value="Cancelar">
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>*@

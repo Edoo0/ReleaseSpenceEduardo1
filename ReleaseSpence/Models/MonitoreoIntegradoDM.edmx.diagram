@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5081fa0f797a4a129d45e8fd7a24227d" Name="Diagram1" ZoomLevel="94">
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_clima" Width="1.5" PointX="8.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_co2" Width="1.5" PointX="8.375" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_energia" Width="1.5" PointX="9.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_extensometro" Width="1.5" PointX="9.875" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_o2" Width="1.5" PointX="11.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_piezometro" Width="1.5" PointX="9.125" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Datos_pm10" Width="1.5" PointX="11.375" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Figuras" Width="1.5" PointX="3.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Imagen_TipoSensor" Width="1.5" PointX="3.5" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Imagenes" Width="1.5" PointX="0.625" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Marcadores" Width="1.5" PointX="12.25" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Sensores" Width="1.5" PointX="6.625" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Sensores_Piezometros" Width="1.5" PointX="8.375" PointY="28.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.TipoSensores" Width="1.5" PointX="0.875" PointY="19.75" IsExpanded="true" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_CL_REFERENCE_SENSORES" ManuallyRouted="true" >
+          <ConnectorPoint PointX="7.125" PointY="17.25" />
+          <ConnectorPoint PointX="7.125" PointY="10.461253255208334" />
+          <ConnectorPoint PointX="7.7604191666666669" PointY="10.461253255208334" />
+          <ConnectorPoint PointX="7.9270858333333329" PointY="10.461253255208334" />
+          <ConnectorPoint PointX="8.25" PointY="10.461253255208334" />
+        </AssociationConnector>
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_CO_REFERENCE_SENSORES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_EN_REFERENCE_SENSORES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_EX_REFERENCE_SENSORES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_O2_REFERENCE_SENSORES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_PI_REFERENCE_SENSORES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_DATOS_PM_REFERENCE_SENSORES" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_SENSORES_REFERENCE_FIGURAS" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_IMAGEN_T_REFERENCE_IMAGENES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_IMAGEN_T_REFERENCE_TIPOSENS" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_MARCADOR_REFERENCE_IMAGENES" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_MARCADOR_REFERENCE_SENSORES" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_Sensores_Piezometros_Sensores" ManuallyRouted="false" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_SENSORES_REFERENCE_TIPOSENS" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Identity_Roles" Width="1.5" PointX="10.375" PointY="2.5" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Identity_UserClaims" Width="1.5" PointX="14.875" PointY="3.625" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Identity_UserLogins" Width="1.5" PointX="14.875" PointY="1" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Identity_Users" Width="1.5" PointX="12.625" PointY="1.25" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.Identity_UserRoles" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.Punto_de_Monitoreo" Width="1.5" PointX="4" PointY="22.375" IsExpanded="true" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_SENSORES_REFERENCE_PUNTODEMONITOREO" />
+        <EntityTypeShape EntityType="MonitoreoIntegradoModel.MarcadoresMpz" Width="1.5" PointX="6.375" PointY="24.25" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_SENSORESMPZ_REFERENCE_FIGURAS" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_IMAGENES" />
+        <AssociationConnector Association="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

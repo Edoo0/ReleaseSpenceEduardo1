@@ -1,0 +1,14 @@
+﻿@model ReleaseSpence.Models.Sensores
+
+<b>Fecha ultima lectura: </b> @ViewBag.fecha<br />
+
+<b>Ultimas lecturas:</b><br />
+<b>Cota de agua: </b> @ViewBag.cotaAgua MSNM<br />
+<b>Columna de agua: </b> @ViewBag.columnaAgua Metros<br />
+
+<b>Promedios ultima semana:</b><br />
+<b>Cota de agua: </b> @ViewBag.promedio MSNM<br />
+<b>Columna de agua: </b> @ViewBag.promedioColumna Metros<br /><br />
+
+@Html.ActionLink("Ver Graficos", "Graphics", "Mapas", new { id = Model.idSensor, idTipo = Model.idTipo, precision = true,
+datos = 200, desde = DateTime.Now.AddMonths(-1).ToString("ddMMyyyyHHmmss"), hasta = DateTime.Now.ToString("ddMMyyyyHHmmss") }, new { @class = "btn btn-primary", target = "_blank" })

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Sensores>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.popup").click(function (e) {
+                e.preventDefault();
+                $("#Mdialog").css("width", "");
+                $("#Cdialog").load($(this).attr("href"));
+            });
+        });
+    </script>
+    <h2>Listado de Sensores</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idSensor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayName("Figura")
+            </th>
+            <th>
+                @Html.DisplayName("Tipo de Sensor")
+            </th>
+            <th>
+                @Html.DisplayName("Punto Monitoreo")
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-edit" title="Editar"></span> / <span class="glyphicon glyphicon-remove" title="Eliminar"></span> / <span class="glyphicon glyphicon-list-alt" title="Corregir Datos"></span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idSensor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Figuras.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoSensores.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Punto_de_Monitoreo.nombre)
+                </td>
+                <td>
+                    <a href=@Url.Action("Edit", "Sensores", new { id = item.idSensor })><span class="glyphicon glyphicon-edit" title="Editar"></span></a> /
+                    <a href=@Url.Action("Delete", "Sensores", new { id = item.idSensor }) class="popup"><span class="glyphicon glyphicon-remove" title="Eliminar"></span></a>
+                    
+                    @if (item.idTipo == 7)
+                    {
+                        WriteLiteral(" / ");<a href=@Url.Action("DatosPiezo", "Sensores", new { id = item.idSensor })><span class="glyphicon glyphicon-list-alt" title="Corregir Datos"></span></a>}
+                </td>
+            </tr>}
+    </table>
+    @Html.ActionLink("Agregar Nuevo", "Tipo", "Sensores", new { }, new { @class = "btn btn-primary" })
+</div>
+

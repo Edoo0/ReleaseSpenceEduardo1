@@ -1,0 +1,2368 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MonitoreoIntegradoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Datos_clima">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="tempInt" Type="real" />
+          <Property Name="tempExt" Type="real" />
+          <Property Name="dewpoint" Type="real" />
+          <Property Name="humedadInt" Type="tinyint" />
+          <Property Name="humedadExt" Type="tinyint" />
+          <Property Name="vientoVel" Type="real" />
+          <Property Name="vientoGrados" Type="smallint" />
+          <Property Name="vientoDir" Type="varchar" MaxLength="4" />
+          <Property Name="sensacionTerm" Type="real" />
+          <Property Name="lluviaH" Type="real" />
+          <Property Name="lluviaD" Type="real" />
+          <Property Name="lluviaT" Type="real" />
+          <Property Name="presion" Type="real" />
+          <Property Name="tendencia" Type="varchar" MaxLength="16" />
+          <Property Name="pronostico" Type="varchar" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="Datos_co2">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="dato" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Datos_energia">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="panelV" Type="real" />
+          <Property Name="panelC" Type="real" />
+          <Property Name="panelP" Type="real" />
+          <Property Name="charC" Type="real" />
+          <Property Name="charP" Type="real" />
+          <Property Name="charE" Type="real" />
+          <Property Name="charT" Type="real" />
+          <Property Name="batV" Type="real" />
+          <Property Name="batC" Type="real" />
+          <Property Name="batP" Type="real" />
+          <Property Name="batSOC" Type="real" />
+          <Property Name="batCE" Type="real" />
+          <Property Name="batTTG" Type="int" />
+          <Property Name="inv_inC" Type="real" />
+          <Property Name="inv_inP" Type="real" />
+          <Property Name="inv_outC" Type="real" />
+          <Property Name="inv_outP" Type="real" />
+          <Property Name="invE" Type="real" />
+        </EntityType>
+        <EntityType Name="Datos_extensometro">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="dato" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Datos_o2">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="dato" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Datos_piezometro">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="cotaAgua" Type="real" Nullable="false" />
+          <Property Name="metrosSensor" Type="real" Nullable="false" />
+          <Property Name="temperatura_pz" Type="real" Nullable="false" />
+          <Property Name="bUnits" Type="real" Nullable="false" />
+          <Property Name="presion_pz" Type="real" Nullable="false" />
+          <Property Name="presion_bmp" Type="real" />
+          <Property Name="temperatura_bmp" Type="real" />
+        </EntityType>
+        <EntityType Name="Datos_pm10">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="dato" Type="real" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Figuras">
+          <Key>
+            <PropertyRef Name="idFigura" />
+          </Key>
+          <Property Name="idFigura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipo" Type="smallint" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="128" />
+          <Property Name="size" Type="smallint" Nullable="false" />
+          <Property Name="color" Type="varchar" MaxLength="6" />
+          <Property Name="borde" Type="smallint" />
+          <Property Name="colorBorde" Type="varchar" MaxLength="6" />
+          <Property Name="rotacion" Type="smallint" />
+        </EntityType>
+        <EntityType Name="Identity_Roles">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Identity_UserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Identity_UserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Identity_UserRoles">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idUsuario" Type="int" Nullable="false" />
+          <Property Name="idRol" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Identity_Users">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullName" Type="nvarchar(max)" />
+          <Property Name="email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="pass" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="userName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Imagen_TipoSensor">
+          <Key>
+            <PropertyRef Name="idImagen" />
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idImagen" Type="int" Nullable="false" />
+          <Property Name="idTipo" Type="int" Nullable="false" />
+          <Property Name="ordenar" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Imagenes">
+          <Key>
+            <PropertyRef Name="idImagen" />
+          </Key>
+          <Property Name="idImagen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="64" Nullable="false" />
+          <Property Name="mx" Type="real" />
+          <Property Name="nx" Type="real" />
+          <Property Name="my" Type="real" />
+          <Property Name="ny" Type="real" />
+        </EntityType>
+        <EntityType Name="Marcadores">
+          <Key>
+            <PropertyRef Name="idSensor" />
+          </Key>
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="idImagen" Type="int" Nullable="false" />
+          <Property Name="x" Type="smallint" Nullable="false" />
+          <Property Name="y" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MarcadoresMpz">
+          <Key>
+            <PropertyRef Name="idPuntoMonitoreo" />
+          </Key>
+          <Property Name="idPuntoMonitoreo" Type="int" Nullable="false" />
+          <Property Name="idImagen" Type="int" Nullable="false" />
+          <Property Name="x" Type="smallint" Nullable="false" />
+          <Property Name="y" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Punto_de_Monitoreo">
+          <Key>
+            <PropertyRef Name="idPuntoMonitoreo" />
+          </Key>
+          <Property Name="idPuntoMonitoreo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idFigura" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="carpeta" Type="real" />
+          <Property Name="cotaTierra" Type="real" />
+        </EntityType>
+        <EntityType Name="Sensores">
+          <Key>
+            <PropertyRef Name="idSensor" />
+          </Key>
+          <Property Name="idSensor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idTipo" Type="int" Nullable="false" />
+          <Property Name="idFigura" Type="int" Nullable="false" />
+          <Property Name="idPuntoMonitoreo" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="maxLimit" Type="real" />
+          <Property Name="minLimit" Type="real" />
+          <Property Name="syncToken" Type="varchar" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="Sensores_Piezometros">
+          <Key>
+            <PropertyRef Name="idSensor" />
+          </Key>
+          <Property Name="idSensor" Type="int" Nullable="false" />
+          <Property Name="seriePiezo" Type="varchar" MaxLength="64" />
+          <Property Name="profundidadPozo" Type="real" />
+          <Property Name="cotaTierra" Type="real" />
+          <Property Name="distT_A" Type="real" />
+          <Property Name="cotaAgua" Type="real" />
+          <Property Name="cotaSensor" Type="real" />
+          <Property Name="metrosSensor" Type="real" />
+          <Property Name="carpeta" Type="real" />
+          <Property Name="coefA" Type="real" />
+          <Property Name="coefB" Type="real" />
+          <Property Name="coefC" Type="real" />
+          <Property Name="tempK" Type="real" />
+          <Property Name="tempI" Type="real" />
+          <Property Name="baroI" Type="real" />
+          <Property Name="freqRead" Type="int" />
+          <Property Name="freqSend" Type="int" />
+        </EntityType>
+        <EntityType Name="TipoSensores">
+          <Key>
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idTipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DATOS_CL_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_clima" Type="Self.Datos_clima" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_clima">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_CO_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_co2" Type="Self.Datos_co2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_co2">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_EN_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_energia" Type="Self.Datos_energia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_energia">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_EX_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_extensometro" Type="Self.Datos_extensometro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_extensometro">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_O2_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_o2" Type="Self.Datos_o2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_o2">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_PI_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_piezometro" Type="Self.Datos_piezometro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_piezometro">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_PM_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_pm10" Type="Self.Datos_pm10" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_pm10">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId">
+          <End Role="Identity_Users" Type="Self.Identity_Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Identity_UserClaims" Type="Self.Identity_UserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_Users">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Identity_UserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId">
+          <End Role="Identity_Users" Type="Self.Identity_Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Identity_UserLogins" Type="Self.Identity_UserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_Users">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Identity_UserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Identity_UserRoles_dbo_Identity_Roles_idRol">
+          <End Role="Identity_Roles" Type="Self.Identity_Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Identity_UserRoles" Type="Self.Identity_UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_Roles">
+              <PropertyRef Name="idRol" />
+            </Principal>
+            <Dependent Role="Identity_UserRoles">
+              <PropertyRef Name="idRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Identity_UserRoles_dbo_Identity_Users_idUsuario">
+          <End Role="Identity_Users" Type="Self.Identity_Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Identity_UserRoles" Type="Self.Identity_UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_Users">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Identity_UserRoles">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMAGEN_T_REFERENCE_IMAGENES">
+          <End Role="Imagenes" Type="Self.Imagenes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Imagen_TipoSensor" Type="Self.Imagen_TipoSensor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagenes">
+              <PropertyRef Name="idImagen" />
+            </Principal>
+            <Dependent Role="Imagen_TipoSensor">
+              <PropertyRef Name="idImagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMAGEN_T_REFERENCE_TIPOSENS">
+          <End Role="TipoSensores" Type="Self.TipoSensores" Multiplicity="1" />
+          <End Role="Imagen_TipoSensor" Type="Self.Imagen_TipoSensor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSensores">
+              <PropertyRef Name="idTipo" />
+            </Principal>
+            <Dependent Role="Imagen_TipoSensor">
+              <PropertyRef Name="idTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADOR_REFERENCE_IMAGENES">
+          <End Role="Imagenes" Type="Self.Imagenes" Multiplicity="1" />
+          <End Role="Marcadores" Type="Self.Marcadores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagenes">
+              <PropertyRef Name="idImagen" />
+            </Principal>
+            <Dependent Role="Marcadores">
+              <PropertyRef Name="idImagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADOR_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Marcadores" Type="Self.Marcadores" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Marcadores">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADORMPZ_REFERENCE_IMAGENES">
+          <End Role="Imagenes" Type="Self.Imagenes" Multiplicity="1" />
+          <End Role="MarcadoresMpz" Type="Self.MarcadoresMpz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagenes">
+              <PropertyRef Name="idImagen" />
+            </Principal>
+            <Dependent Role="MarcadoresMpz">
+              <PropertyRef Name="idImagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO">
+          <End Role="Punto_de_Monitoreo" Type="Self.Punto_de_Monitoreo" Multiplicity="1" />
+          <End Role="MarcadoresMpz" Type="Self.MarcadoresMpz" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Punto_de_Monitoreo">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Principal>
+            <Dependent Role="MarcadoresMpz">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sensores_Piezometros_Sensores">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Sensores_Piezometros" Type="Self.Sensores_Piezometros" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Sensores_Piezometros">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SENSORES_REFERENCE_FIGURAS">
+          <End Role="Figuras" Type="Self.Figuras" Multiplicity="1" />
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Figuras">
+              <PropertyRef Name="idFigura" />
+            </Principal>
+            <Dependent Role="Sensores">
+              <PropertyRef Name="idFigura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SENSORES_REFERENCE_PUNTOMONITOREO">
+          <End Role="Punto_de_Monitoreo" Type="Self.Punto_de_Monitoreo" Multiplicity="1" />
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Punto_de_Monitoreo">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Principal>
+            <Dependent Role="Sensores">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SENSORES_REFERENCE_TIPOSENS">
+          <End Role="TipoSensores" Type="Self.TipoSensores" Multiplicity="1" />
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSensores">
+              <PropertyRef Name="idTipo" />
+            </Principal>
+            <Dependent Role="Sensores">
+              <PropertyRef Name="idTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SENSORESMPZ_REFERENCE_FIGURAS">
+          <End Role="Figuras" Type="Self.Figuras" Multiplicity="1" />
+          <End Role="Punto_de_Monitoreo" Type="Self.Punto_de_Monitoreo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Figuras">
+              <PropertyRef Name="idFigura" />
+            </Principal>
+            <Dependent Role="Punto_de_Monitoreo">
+              <PropertyRef Name="idFigura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Datos_co2_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="dato" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Datos_co2_Graphics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_energia_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="panelV" Type="real" Mode="In" />
+          <Parameter Name="panelC" Type="real" Mode="In" />
+          <Parameter Name="panelP" Type="real" Mode="In" />
+          <Parameter Name="charC" Type="real" Mode="In" />
+          <Parameter Name="charP" Type="real" Mode="In" />
+          <Parameter Name="charE" Type="real" Mode="In" />
+          <Parameter Name="charT" Type="real" Mode="In" />
+          <Parameter Name="batV" Type="real" Mode="In" />
+          <Parameter Name="batC" Type="real" Mode="In" />
+          <Parameter Name="batP" Type="real" Mode="In" />
+          <Parameter Name="batSOC" Type="real" Mode="In" />
+          <Parameter Name="batCE" Type="real" Mode="In" />
+          <Parameter Name="batTTG" Type="int" Mode="In" />
+          <Parameter Name="inv_inC" Type="real" Mode="In" />
+          <Parameter Name="inv_inP" Type="real" Mode="In" />
+          <Parameter Name="inv_outC" Type="real" Mode="In" />
+          <Parameter Name="inv_outP" Type="real" Mode="In" />
+          <Parameter Name="invE" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Datos_energia_GraphicsBat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_energia_GraphicsChar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_energia_GraphicsConsumo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_energia_GraphicsInv" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_extensometro_Alertas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="idTipo" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_extensometro_AlertasDet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_extensometro_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="dato" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Datos_extensometro_Graphics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_piezometro_Alertas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="idTipo" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_piezometro_AlertasDet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_piezometro_Corregir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+          <Parameter Name="cotaSensor" Type="real" Mode="In" />
+          <Parameter Name="coefA" Type="real" Mode="In" />
+          <Parameter Name="coefB" Type="real" Mode="In" />
+          <Parameter Name="coefC" Type="real" Mode="In" />
+          <Parameter Name="tempK" Type="real" Mode="In" />
+          <Parameter Name="tempI" Type="real" Mode="In" />
+          <Parameter Name="baroI" Type="real" Mode="In" />
+          <Parameter Name="metrosSensor" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Datos_piezometro_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="cotaAgua" Type="real" Mode="In" />
+          <Parameter Name="metrosSensor" Type="real" Mode="In" />
+          <Parameter Name="temperatura_pz" Type="real" Mode="In" />
+          <Parameter Name="bUnits" Type="real" Mode="In" />
+          <Parameter Name="presion_pz" Type="real" Mode="In" />
+          <Parameter Name="temperatura_bmp" Type="real" Mode="In" />
+          <Parameter Name="presion_bmp" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Datos_piezometro_Graphics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="precision" Type="bit" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_piezometro_Range" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="desde" Type="datetime" Mode="In" />
+          <Parameter Name="hasta" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="Datos_pm10_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="fecha" Type="datetime" Mode="In" />
+          <Parameter Name="dato" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Datos_pm10_Graphics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="multipler" Type="int" Mode="In" />
+          <Parameter Name="datos" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Figuras_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="tipo" Type="smallint" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="size" Type="smallint" Mode="In" />
+          <Parameter Name="color" Type="varchar" Mode="In" />
+          <Parameter Name="borde" Type="smallint" Mode="In" />
+          <Parameter Name="colorBorde" Type="varchar" Mode="In" />
+          <Parameter Name="rotacion" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Figuras_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="tipo" Type="smallint" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="size" Type="smallint" Mode="In" />
+          <Parameter Name="color" Type="varchar" Mode="In" />
+          <Parameter Name="borde" Type="smallint" Mode="In" />
+          <Parameter Name="colorBorde" Type="varchar" Mode="In" />
+          <Parameter Name="rotacion" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Identity_UserRoles_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idRol" Type="int" Mode="In" />
+          <Parameter Name="idUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Identity_UserRoles_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idRol" Type="int" Mode="In" />
+          <Parameter Name="idUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Identity_Users_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idUsuario" Type="int" Mode="In" />
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+          <Parameter Name="userName" Type="nvarchar" Mode="In" />
+          <Parameter Name="fullName" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="Imagen_TipoSensor_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="idTipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Imagen_TipoSensor_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="idTipo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Imagenes_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Imagenes_Georeferenciar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="mx" Type="float" Mode="In" />
+          <Parameter Name="nx" Type="float" Mode="In" />
+          <Parameter Name="my" Type="float" Mode="In" />
+          <Parameter Name="ny" Type="float" Mode="In" />
+        </Function>
+        <Function Name="Imagenes_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Marcadores_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="x" Type="smallint" Mode="In" />
+          <Parameter Name="y" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="Marcadores_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MarcadoresMpz_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPuntoMonitoreo" Type="int" Mode="In" />
+          <Parameter Name="idImagen" Type="int" Mode="In" />
+          <Parameter Name="x" Type="smallint" Mode="In" />
+          <Parameter Name="y" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="MarcadoresMpz_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPuntoMonitoreo" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PuntoMonitoreo_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="carpeta" Type="real" Mode="In" />
+          <Parameter Name="cotaTierra" Type="real" Mode="In" />
+        </Function>
+        <Function Name="PuntoMonitoreo_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPuntoMonitoreo" Type="int" Mode="In" />
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="carpeta" Type="real" Mode="In" />
+          <Parameter Name="cotaTierra" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Sensores_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idTipo" Type="int" Mode="In" />
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="idPuntoMonitoreo" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="maxLimit" Type="real" Mode="In" />
+          <Parameter Name="minLimit" Type="real" Mode="In" />
+        </Function>
+        <Function Name="Sensores_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="idPuntoMonitoreo" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="maxLimit" Type="real" Mode="In" />
+          <Parameter Name="minLimit" Type="real" Mode="In" />
+        </Function>
+        <Function Name="SensoresPiezometros_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idTipo" Type="int" Mode="In" />
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="idPuntoMonitoreo" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="maxLimit" Type="real" Mode="In" />
+          <Parameter Name="minLimit" Type="real" Mode="In" />
+          <Parameter Name="seriePiezo" Type="varchar" Mode="In" />
+          <Parameter Name="profundidadPozo" Type="real" Mode="In" />
+          <Parameter Name="cotaTierra" Type="real" Mode="In" />
+          <Parameter Name="distT_A" Type="real" Mode="In" />
+          <Parameter Name="cotaAgua" Type="real" Mode="In" />
+          <Parameter Name="cotaSensor" Type="real" Mode="In" />
+          <Parameter Name="metrosSensor" Type="real" Mode="In" />
+          <Parameter Name="carpeta" Type="real" Mode="In" />
+          <Parameter Name="coefA" Type="real" Mode="In" />
+          <Parameter Name="coefB" Type="real" Mode="In" />
+          <Parameter Name="coefC" Type="real" Mode="In" />
+          <Parameter Name="tempK" Type="real" Mode="In" />
+          <Parameter Name="tempI" Type="real" Mode="In" />
+          <Parameter Name="baroI" Type="real" Mode="In" />
+          <Parameter Name="freqRead" Type="int" Mode="In" />
+          <Parameter Name="freqSend" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SensoresPiezometros_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSensor" Type="int" Mode="In" />
+          <Parameter Name="idFigura" Type="int" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="maxLimit" Type="real" Mode="In" />
+          <Parameter Name="minLimit" Type="real" Mode="In" />
+          <Parameter Name="seriePiezo" Type="varchar" Mode="In" />
+          <Parameter Name="profundidadPozo" Type="real" Mode="In" />
+          <Parameter Name="cotaTierra" Type="real" Mode="In" />
+          <Parameter Name="distT_A" Type="real" Mode="In" />
+          <Parameter Name="cotaAgua" Type="real" Mode="In" />
+          <Parameter Name="cotaSensor" Type="real" Mode="In" />
+          <Parameter Name="metrosSensor" Type="real" Mode="In" />
+          <Parameter Name="carpeta" Type="real" Mode="In" />
+          <Parameter Name="coefA" Type="real" Mode="In" />
+          <Parameter Name="coefB" Type="real" Mode="In" />
+          <Parameter Name="coefC" Type="real" Mode="In" />
+          <Parameter Name="tempK" Type="real" Mode="In" />
+          <Parameter Name="tempI" Type="real" Mode="In" />
+          <Parameter Name="baroI" Type="real" Mode="In" />
+          <Parameter Name="freqRead" Type="int" Mode="In" />
+          <Parameter Name="freqSend" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="MonitoreoIntegradoModelStoreContainer">
+          <EntitySet Name="Datos_clima" EntityType="Self.Datos_clima" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_co2" EntityType="Self.Datos_co2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_energia" EntityType="Self.Datos_energia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_extensometro" EntityType="Self.Datos_extensometro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_o2" EntityType="Self.Datos_o2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_piezometro" EntityType="Self.Datos_piezometro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Datos_pm10" EntityType="Self.Datos_pm10" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Figuras" EntityType="Self.Figuras" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identity_Roles" EntityType="Self.Identity_Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identity_UserClaims" EntityType="Self.Identity_UserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identity_UserLogins" EntityType="Self.Identity_UserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identity_UserRoles" EntityType="Self.Identity_UserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Identity_Users" EntityType="Self.Identity_Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Imagen_TipoSensor" EntityType="Self.Imagen_TipoSensor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Imagenes" EntityType="Self.Imagenes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marcadores" EntityType="Self.Marcadores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MarcadoresMpz" EntityType="Self.MarcadoresMpz" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Punto_de_Monitoreo" EntityType="Self.Punto_de_Monitoreo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sensores" EntityType="Self.Sensores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sensores_Piezometros" EntityType="Self.Sensores_Piezometros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoSensores" EntityType="Self.TipoSensores" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DATOS_CL_REFERENCE_SENSORES" Association="Self.FK_DATOS_CL_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_clima" EntitySet="Datos_clima" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_CO_REFERENCE_SENSORES" Association="Self.FK_DATOS_CO_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_co2" EntitySet="Datos_co2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_EN_REFERENCE_SENSORES" Association="Self.FK_DATOS_EN_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_energia" EntitySet="Datos_energia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_EX_REFERENCE_SENSORES" Association="Self.FK_DATOS_EX_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_extensometro" EntitySet="Datos_extensometro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_O2_REFERENCE_SENSORES" Association="Self.FK_DATOS_O2_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_o2" EntitySet="Datos_o2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_PI_REFERENCE_SENSORES" Association="Self.FK_DATOS_PI_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_piezometro" EntitySet="Datos_piezometro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_PM_REFERENCE_SENSORES" Association="Self.FK_DATOS_PM_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_pm10" EntitySet="Datos_pm10" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId" Association="Self.FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId">
+            <End Role="Identity_Users" EntitySet="Identity_Users" />
+            <End Role="Identity_UserClaims" EntitySet="Identity_UserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId" Association="Self.FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId">
+            <End Role="Identity_Users" EntitySet="Identity_Users" />
+            <End Role="Identity_UserLogins" EntitySet="Identity_UserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Identity_UserRoles_dbo_Identity_Roles_idRol" Association="Self.FK_dbo_Identity_UserRoles_dbo_Identity_Roles_idRol">
+            <End Role="Identity_Roles" EntitySet="Identity_Roles" />
+            <End Role="Identity_UserRoles" EntitySet="Identity_UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Identity_UserRoles_dbo_Identity_Users_idUsuario" Association="Self.FK_dbo_Identity_UserRoles_dbo_Identity_Users_idUsuario">
+            <End Role="Identity_Users" EntitySet="Identity_Users" />
+            <End Role="Identity_UserRoles" EntitySet="Identity_UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMAGEN_T_REFERENCE_IMAGENES" Association="Self.FK_IMAGEN_T_REFERENCE_IMAGENES">
+            <End Role="Imagenes" EntitySet="Imagenes" />
+            <End Role="Imagen_TipoSensor" EntitySet="Imagen_TipoSensor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMAGEN_T_REFERENCE_TIPOSENS" Association="Self.FK_IMAGEN_T_REFERENCE_TIPOSENS">
+            <End Role="TipoSensores" EntitySet="TipoSensores" />
+            <End Role="Imagen_TipoSensor" EntitySet="Imagen_TipoSensor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADOR_REFERENCE_IMAGENES" Association="Self.FK_MARCADOR_REFERENCE_IMAGENES">
+            <End Role="Imagenes" EntitySet="Imagenes" />
+            <End Role="Marcadores" EntitySet="Marcadores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADOR_REFERENCE_SENSORES" Association="Self.FK_MARCADOR_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Marcadores" EntitySet="Marcadores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADORMPZ_REFERENCE_IMAGENES" Association="Self.FK_MARCADORMPZ_REFERENCE_IMAGENES">
+            <End Role="Imagenes" EntitySet="Imagenes" />
+            <End Role="MarcadoresMpz" EntitySet="MarcadoresMpz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO" Association="Self.FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO">
+            <End Role="Punto_de_Monitoreo" EntitySet="Punto_de_Monitoreo" />
+            <End Role="MarcadoresMpz" EntitySet="MarcadoresMpz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sensores_Piezometros_Sensores" Association="Self.FK_Sensores_Piezometros_Sensores">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Sensores_Piezometros" EntitySet="Sensores_Piezometros" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SENSORES_REFERENCE_FIGURAS" Association="Self.FK_SENSORES_REFERENCE_FIGURAS">
+            <End Role="Figuras" EntitySet="Figuras" />
+            <End Role="Sensores" EntitySet="Sensores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SENSORES_REFERENCE_PUNTOMONITOREO" Association="Self.FK_SENSORES_REFERENCE_PUNTOMONITOREO">
+            <End Role="Punto_de_Monitoreo" EntitySet="Punto_de_Monitoreo" />
+            <End Role="Sensores" EntitySet="Sensores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SENSORES_REFERENCE_TIPOSENS" Association="Self.FK_SENSORES_REFERENCE_TIPOSENS">
+            <End Role="TipoSensores" EntitySet="TipoSensores" />
+            <End Role="Sensores" EntitySet="Sensores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SENSORESMPZ_REFERENCE_FIGURAS" Association="Self.FK_SENSORESMPZ_REFERENCE_FIGURAS">
+            <End Role="Figuras" EntitySet="Figuras" />
+            <End Role="Punto_de_Monitoreo" EntitySet="Punto_de_Monitoreo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MonitoreoIntegradoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Datos_clima">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="tempInt" Type="Single" />
+          <Property Name="tempExt" Type="Single" />
+          <Property Name="dewpoint" Type="Single" />
+          <Property Name="humedadInt" Type="Byte" />
+          <Property Name="humedadExt" Type="Byte" />
+          <Property Name="vientoVel" Type="Single" />
+          <Property Name="vientoGrados" Type="Int16" />
+          <Property Name="vientoDir" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="sensacionTerm" Type="Single" />
+          <Property Name="lluviaH" Type="Single" />
+          <Property Name="lluviaD" Type="Single" />
+          <Property Name="lluviaT" Type="Single" />
+          <Property Name="presion" Type="Single" />
+          <Property Name="tendencia" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <Property Name="pronostico" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_CL_REFERENCE_SENSORES" FromRole="Datos_clima" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Datos_co2">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dato" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_CO_REFERENCE_SENSORES" FromRole="Datos_co2" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Datos_energia">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="panelV" Type="Single" />
+          <Property Name="panelC" Type="Single" />
+          <Property Name="panelP" Type="Single" />
+          <Property Name="charC" Type="Single" />
+          <Property Name="charP" Type="Single" />
+          <Property Name="charE" Type="Single" />
+          <Property Name="charT" Type="Single" />
+          <Property Name="batV" Type="Single" />
+          <Property Name="batC" Type="Single" />
+          <Property Name="batP" Type="Single" />
+          <Property Name="batSOC" Type="Single" />
+          <Property Name="batCE" Type="Single" />
+          <Property Name="batTTG" Type="Int32" />
+          <Property Name="inv_inC" Type="Single" />
+          <Property Name="inv_inP" Type="Single" />
+          <Property Name="inv_outC" Type="Single" />
+          <Property Name="inv_outP" Type="Single" />
+          <Property Name="invE" Type="Single" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_EN_REFERENCE_SENSORES" FromRole="Datos_energia" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Datos_extensometro">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dato" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_EX_REFERENCE_SENSORES" FromRole="Datos_extensometro" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Datos_o2">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dato" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_O2_REFERENCE_SENSORES" FromRole="Datos_o2" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Datos_piezometro">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="cotaAgua" Type="Single" Nullable="false" />
+          <Property Name="metrosSensor" Type="Single" Nullable="false" />
+          <Property Name="bUnits" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_PI_REFERENCE_SENSORES" FromRole="Datos_piezometro" ToRole="Sensores" />
+          <Property Name="temperatura_pz" Type="Single" Nullable="false" />
+          <Property Name="presion_pz" Type="Single" Nullable="false" />
+          <Property Name="presion_bmp" Type="Single" />
+          <Property Name="temperatura_bmp" Type="Single" />
+        </EntityType>
+        <EntityType Name="Datos_pm10">
+          <Key>
+            <PropertyRef Name="idDato" />
+          </Key>
+          <Property Name="idDato" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dato" Type="Single" Nullable="false" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_DATOS_PM_REFERENCE_SENSORES" FromRole="Datos_pm10" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Figuras">
+          <Key>
+            <PropertyRef Name="idFigura" />
+          </Key>
+          <Property Name="idFigura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="Int16" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="size" Type="Int16" Nullable="false" />
+          <Property Name="color" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="borde" Type="Int16" />
+          <Property Name="colorBorde" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="rotacion" Type="Int16" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_SENSORES_REFERENCE_FIGURAS" FromRole="Figuras" ToRole="Sensores" />
+          <NavigationProperty Name="Punto_de_Monitoreo" Relationship="MonitoreoIntegradoModel.FK_SENSORESMPZ_REFERENCE_FIGURAS" FromRole="Figuras" ToRole="Punto_de_Monitoreo" />
+        </EntityType>
+        <EntityType Name="Imagen_TipoSensor">
+          <Key>
+            <PropertyRef Name="idImagen" />
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idImagen" Type="Int32" Nullable="false" />
+          <Property Name="idTipo" Type="Int32" Nullable="false" />
+          <Property Name="ordenar" Type="Byte" />
+          <NavigationProperty Name="Imagenes" Relationship="Self.FK_IMAGEN_T_REFERENCE_IMAGENES" FromRole="Imagen_TipoSensor" ToRole="Imagenes" />
+          <NavigationProperty Name="TipoSensores" Relationship="Self.FK_IMAGEN_T_REFERENCE_TIPOSENS" FromRole="Imagen_TipoSensor" ToRole="TipoSensores" />
+        </EntityType>
+        <EntityType Name="Imagenes">
+          <Key>
+            <PropertyRef Name="idImagen" />
+          </Key>
+          <Property Name="idImagen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="64" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mx" Type="Single" />
+          <Property Name="nx" Type="Single" />
+          <Property Name="my" Type="Single" />
+          <Property Name="ny" Type="Single" />
+          <NavigationProperty Name="Imagen_TipoSensor" Relationship="Self.FK_IMAGEN_T_REFERENCE_IMAGENES" FromRole="Imagenes" ToRole="Imagen_TipoSensor" />
+          <NavigationProperty Name="Marcadores" Relationship="Self.FK_MARCADOR_REFERENCE_IMAGENES" FromRole="Imagenes" ToRole="Marcadores" />
+          <NavigationProperty Name="MarcadoresMpz" Relationship="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_IMAGENES" FromRole="Imagenes" ToRole="MarcadoresMpz" />
+        </EntityType>
+        <EntityType Name="Marcadores">
+          <Key>
+            <PropertyRef Name="idSensor" />
+          </Key>
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="idImagen" Type="Int32" Nullable="false" />
+          <Property Name="x" Type="Int16" Nullable="false" />
+          <Property Name="y" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Imagenes" Relationship="Self.FK_MARCADOR_REFERENCE_IMAGENES" FromRole="Marcadores" ToRole="Imagenes" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_MARCADOR_REFERENCE_SENSORES" FromRole="Marcadores" ToRole="Sensores" />
+        </EntityType>
+        <EntityType Name="Sensores">
+          <Key>
+            <PropertyRef Name="idSensor" />
+          </Key>
+          <Property Name="idSensor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idTipo" Type="Int32" Nullable="false" />
+          <Property Name="idFigura" Type="Int32" Nullable="false" />
+          <Property Name="idPuntoMonitoreo" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="maxLimit" Type="Single" />
+          <Property Name="minLimit" Type="Single" />
+          <NavigationProperty Name="Datos_clima" Relationship="Self.FK_DATOS_CL_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_clima" />
+          <NavigationProperty Name="Datos_co2" Relationship="Self.FK_DATOS_CO_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_co2" />
+          <NavigationProperty Name="Datos_energia" Relationship="Self.FK_DATOS_EN_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_energia" />
+          <NavigationProperty Name="Datos_extensometro" Relationship="Self.FK_DATOS_EX_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_extensometro" />
+          <NavigationProperty Name="Datos_o2" Relationship="Self.FK_DATOS_O2_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_o2" />
+          <NavigationProperty Name="Datos_piezometro" Relationship="Self.FK_DATOS_PI_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_piezometro" />
+          <NavigationProperty Name="Datos_pm10" Relationship="Self.FK_DATOS_PM_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Datos_pm10" />
+          <NavigationProperty Name="Figuras" Relationship="Self.FK_SENSORES_REFERENCE_FIGURAS" FromRole="Sensores" ToRole="Figuras" />
+          <NavigationProperty Name="Marcadores" Relationship="Self.FK_MARCADOR_REFERENCE_SENSORES" FromRole="Sensores" ToRole="Marcadores" />
+          <NavigationProperty Name="Sensores_Piezometros" Relationship="Self.FK_Sensores_Piezometros_Sensores" FromRole="Sensores" ToRole="Sensores_Piezometros" />
+          <NavigationProperty Name="TipoSensores" Relationship="Self.FK_SENSORES_REFERENCE_TIPOSENS" FromRole="Sensores" ToRole="TipoSensores" />
+          <Property Name="syncToken" Type="String" MaxLength="8" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Punto_de_Monitoreo" Relationship="MonitoreoIntegradoModel.FK_SENSORES_REFERENCE_PUNTODEMONITOREO" FromRole="Sensores" ToRole="Punto_de_Monitoreo" />
+        </EntityType>
+        <EntityType Name="Sensores_Piezometros">
+          <Key>
+            <PropertyRef Name="idSensor" />
+          </Key>
+          <Property Name="idSensor" Type="Int32" Nullable="false" />
+          <Property Name="seriePiezo" Type="String" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="profundidadPozo" Type="Single" />
+          <Property Name="cotaTierra" Type="Single" />
+          <Property Name="distT_A" Type="Single" />
+          <Property Name="cotaAgua" Type="Single" />
+          <Property Name="cotaSensor" Type="Single" />
+          <Property Name="metrosSensor" Type="Single" />
+          <Property Name="coefA" Type="Single" />
+          <Property Name="coefB" Type="Single" />
+          <Property Name="coefC" Type="Single" />
+          <Property Name="tempK" Type="Single" />
+          <Property Name="tempI" Type="Single" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_Sensores_Piezometros_Sensores" FromRole="Sensores_Piezometros" ToRole="Sensores" />
+          <Property Name="freqRead" Type="Int32" />
+          <Property Name="freqSend" Type="Int32" />
+          <Property Name="baroI" Type="Single" />
+          <Property Name="carpeta" Type="Single" />
+        </EntityType>
+        <EntityType Name="TipoSensores">
+          <Key>
+            <PropertyRef Name="idTipo" />
+          </Key>
+          <Property Name="idTipo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Imagen_TipoSensor" Relationship="Self.FK_IMAGEN_T_REFERENCE_TIPOSENS" FromRole="TipoSensores" ToRole="Imagen_TipoSensor" />
+          <NavigationProperty Name="Sensores" Relationship="Self.FK_SENSORES_REFERENCE_TIPOSENS" FromRole="TipoSensores" ToRole="Sensores" />
+        </EntityType>
+        <Association Name="FK_DATOS_CL_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_clima" Type="Self.Datos_clima" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_clima">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_CO_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_co2" Type="Self.Datos_co2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_co2">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_EN_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_energia" Type="Self.Datos_energia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_energia">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_EX_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_extensometro" Type="Self.Datos_extensometro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_extensometro">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_O2_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_o2" Type="Self.Datos_o2" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_o2">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_PI_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_piezometro" Type="Self.Datos_piezometro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_piezometro">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DATOS_PM_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Datos_pm10" Type="Self.Datos_pm10" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Datos_pm10">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SENSORES_REFERENCE_FIGURAS">
+          <End Role="Figuras" Type="Self.Figuras" Multiplicity="1" />
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Figuras">
+              <PropertyRef Name="idFigura" />
+            </Principal>
+            <Dependent Role="Sensores">
+              <PropertyRef Name="idFigura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMAGEN_T_REFERENCE_IMAGENES">
+          <End Role="Imagenes" Type="Self.Imagenes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Imagen_TipoSensor" Type="Self.Imagen_TipoSensor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagenes">
+              <PropertyRef Name="idImagen" />
+            </Principal>
+            <Dependent Role="Imagen_TipoSensor">
+              <PropertyRef Name="idImagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_IMAGEN_T_REFERENCE_TIPOSENS">
+          <End Role="TipoSensores" Type="Self.TipoSensores" Multiplicity="1" />
+          <End Role="Imagen_TipoSensor" Type="Self.Imagen_TipoSensor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSensores">
+              <PropertyRef Name="idTipo" />
+            </Principal>
+            <Dependent Role="Imagen_TipoSensor">
+              <PropertyRef Name="idTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADOR_REFERENCE_IMAGENES">
+          <End Role="Imagenes" Type="Self.Imagenes" Multiplicity="1" />
+          <End Role="Marcadores" Type="Self.Marcadores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagenes">
+              <PropertyRef Name="idImagen" />
+            </Principal>
+            <Dependent Role="Marcadores">
+              <PropertyRef Name="idImagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADOR_REFERENCE_SENSORES">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Marcadores" Type="Self.Marcadores" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Marcadores">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sensores_Piezometros_Sensores">
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="1" />
+          <End Role="Sensores_Piezometros" Type="Self.Sensores_Piezometros" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sensores">
+              <PropertyRef Name="idSensor" />
+            </Principal>
+            <Dependent Role="Sensores_Piezometros">
+              <PropertyRef Name="idSensor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SENSORES_REFERENCE_TIPOSENS">
+          <End Role="TipoSensores" Type="Self.TipoSensores" Multiplicity="1" />
+          <End Role="Sensores" Type="Self.Sensores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoSensores">
+              <PropertyRef Name="idTipo" />
+            </Principal>
+            <Dependent Role="Sensores">
+              <PropertyRef Name="idTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MonitoreoIntegradoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Datos_clima" EntityType="Self.Datos_clima" />
+          <EntitySet Name="Datos_co2" EntityType="Self.Datos_co2" />
+          <EntitySet Name="Datos_energia" EntityType="Self.Datos_energia" />
+          <EntitySet Name="Datos_extensometro" EntityType="Self.Datos_extensometro" />
+          <EntitySet Name="Datos_o2" EntityType="Self.Datos_o2" />
+          <EntitySet Name="Datos_piezometro" EntityType="Self.Datos_piezometro" />
+          <EntitySet Name="Datos_pm10" EntityType="Self.Datos_pm10" />
+          <EntitySet Name="Figuras" EntityType="Self.Figuras" />
+          <EntitySet Name="Imagen_TipoSensor" EntityType="Self.Imagen_TipoSensor" />
+          <EntitySet Name="Imagenes" EntityType="Self.Imagenes" />
+          <EntitySet Name="Marcadores" EntityType="Self.Marcadores" />
+          <EntitySet Name="Sensores" EntityType="Self.Sensores" />
+          <EntitySet Name="Sensores_Piezometros" EntityType="Self.Sensores_Piezometros" />
+          <EntitySet Name="TipoSensores" EntityType="Self.TipoSensores" />
+          <AssociationSet Name="FK_DATOS_CL_REFERENCE_SENSORES" Association="Self.FK_DATOS_CL_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_clima" EntitySet="Datos_clima" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_CO_REFERENCE_SENSORES" Association="Self.FK_DATOS_CO_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_co2" EntitySet="Datos_co2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_EN_REFERENCE_SENSORES" Association="Self.FK_DATOS_EN_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_energia" EntitySet="Datos_energia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_EX_REFERENCE_SENSORES" Association="Self.FK_DATOS_EX_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_extensometro" EntitySet="Datos_extensometro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_O2_REFERENCE_SENSORES" Association="Self.FK_DATOS_O2_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_o2" EntitySet="Datos_o2" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_PI_REFERENCE_SENSORES" Association="Self.FK_DATOS_PI_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_piezometro" EntitySet="Datos_piezometro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DATOS_PM_REFERENCE_SENSORES" Association="Self.FK_DATOS_PM_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Datos_pm10" EntitySet="Datos_pm10" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SENSORES_REFERENCE_FIGURAS" Association="Self.FK_SENSORES_REFERENCE_FIGURAS">
+            <End Role="Figuras" EntitySet="Figuras" />
+            <End Role="Sensores" EntitySet="Sensores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMAGEN_T_REFERENCE_IMAGENES" Association="Self.FK_IMAGEN_T_REFERENCE_IMAGENES">
+            <End Role="Imagenes" EntitySet="Imagenes" />
+            <End Role="Imagen_TipoSensor" EntitySet="Imagen_TipoSensor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_IMAGEN_T_REFERENCE_TIPOSENS" Association="Self.FK_IMAGEN_T_REFERENCE_TIPOSENS">
+            <End Role="TipoSensores" EntitySet="TipoSensores" />
+            <End Role="Imagen_TipoSensor" EntitySet="Imagen_TipoSensor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADOR_REFERENCE_IMAGENES" Association="Self.FK_MARCADOR_REFERENCE_IMAGENES">
+            <End Role="Imagenes" EntitySet="Imagenes" />
+            <End Role="Marcadores" EntitySet="Marcadores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADOR_REFERENCE_SENSORES" Association="Self.FK_MARCADOR_REFERENCE_SENSORES">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Marcadores" EntitySet="Marcadores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sensores_Piezometros_Sensores" Association="Self.FK_Sensores_Piezometros_Sensores">
+            <End Role="Sensores" EntitySet="Sensores" />
+            <End Role="Sensores_Piezometros" EntitySet="Sensores_Piezometros" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SENSORES_REFERENCE_TIPOSENS" Association="Self.FK_SENSORES_REFERENCE_TIPOSENS">
+            <End Role="TipoSensores" EntitySet="TipoSensores" />
+            <End Role="Sensores" EntitySet="Sensores" />
+          </AssociationSet>
+          <FunctionImport Name="Datos_co2_Create">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="dato" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_co2_Graphics" ReturnType="Collection(MonitoreoIntegradoModel.Datos_co2_Graphics_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_energia_Create">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="panelV" Mode="In" Type="Single" />
+            <Parameter Name="panelC" Mode="In" Type="Single" />
+            <Parameter Name="panelP" Mode="In" Type="Single" />
+            <Parameter Name="charC" Mode="In" Type="Single" />
+            <Parameter Name="charP" Mode="In" Type="Single" />
+            <Parameter Name="charE" Mode="In" Type="Single" />
+            <Parameter Name="charT" Mode="In" Type="Single" />
+            <Parameter Name="batV" Mode="In" Type="Single" />
+            <Parameter Name="batC" Mode="In" Type="Single" />
+            <Parameter Name="batP" Mode="In" Type="Single" />
+            <Parameter Name="batSOC" Mode="In" Type="Single" />
+            <Parameter Name="batCE" Mode="In" Type="Single" />
+            <Parameter Name="batTTG" Mode="In" Type="Int32" />
+            <Parameter Name="inv_inC" Mode="In" Type="Single" />
+            <Parameter Name="inv_inP" Mode="In" Type="Single" />
+            <Parameter Name="inv_outC" Mode="In" Type="Single" />
+            <Parameter Name="inv_outP" Mode="In" Type="Single" />
+            <Parameter Name="invE" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_energia_GraphicsBat" ReturnType="Collection(MonitoreoIntegradoModel.Datos_energia_GraphicsBat_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_energia_GraphicsChar" ReturnType="Collection(MonitoreoIntegradoModel.Datos_energia_GraphicsChar_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_energia_GraphicsConsumo" ReturnType="Collection(MonitoreoIntegradoModel.Datos_energia_GraphicsConsumo_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_energia_GraphicsInv" ReturnType="Collection(MonitoreoIntegradoModel.Datos_energia_GraphicsInv_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_extensometro_Create">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="dato" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_extensometro_Graphics" ReturnType="Collection(MonitoreoIntegradoModel.Datos_extensometro_Graphics_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_piezometro_Alertas">
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="idTipo" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_piezometro_AlertasDet">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_piezometro_Create">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="cotaAgua" Mode="In" Type="Single" />
+            <Parameter Name="metrosSensor" Mode="In" Type="Single" />
+            <Parameter Name="temperatura_pz" Mode="In" Type="Single" />
+            <Parameter Name="bUnits" Mode="In" Type="Single" />
+            <Parameter Name="presion_pz" Mode="In" Type="Single" />
+            <Parameter Name="temperatura_bmp" Mode="In" Type="Single" />
+            <Parameter Name="presion_bmp" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_piezometro_Graphics">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="precision" Mode="In" Type="Boolean" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_pm10_Create">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="dato" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_pm10_Graphics" ReturnType="Collection(MonitoreoIntegradoModel.Datos_pm10_Graphics_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="multipler" Mode="In" Type="Int32" />
+            <Parameter Name="datos" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Figuras_Create" ReturnType="Collection(Int32)">
+            <Parameter Name="tipo" Mode="In" Type="Int16" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="size" Mode="In" Type="Int16" />
+            <Parameter Name="color" Mode="In" Type="String" />
+            <Parameter Name="borde" Mode="In" Type="Int16" />
+            <Parameter Name="colorBorde" Mode="In" Type="String" />
+            <Parameter Name="rotacion" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Figuras_Update">
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="tipo" Mode="In" Type="Int16" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="size" Mode="In" Type="Int16" />
+            <Parameter Name="color" Mode="In" Type="String" />
+            <Parameter Name="borde" Mode="In" Type="Int16" />
+            <Parameter Name="colorBorde" Mode="In" Type="String" />
+            <Parameter Name="rotacion" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Imagen_TipoSensor_Create">
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="idTipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Imagen_TipoSensor_Delete">
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="idTipo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Imagenes_Create" ReturnType="Collection(Int32)">
+          <Parameter Name="nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Imagenes_Georeferenciar">
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="mx" Mode="In" Type="Double" />
+            <Parameter Name="nx" Mode="In" Type="Double" />
+            <Parameter Name="my" Mode="In" Type="Double" />
+            <Parameter Name="ny" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="Imagenes_Update">
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Marcadores_Create">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="x" Mode="In" Type="Int16" />
+            <Parameter Name="y" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="Marcadores_Delete">
+          <Parameter Name="idSensor" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sensores_Create" ReturnType="Collection(Int32)">
+            <Parameter Name="idTipo" Mode="In" Type="Int32" />
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="idPuntoMonitoreo" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="maxLimit" Mode="In" Type="Single" />
+            <Parameter Name="minLimit" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="Sensores_Update">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="idPuntoMonitoreo" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="maxLimit" Mode="In" Type="Single" />
+            <Parameter Name="minLimit" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="SensoresPiezometros_Create" ReturnType="Collection(Int32)">
+            <Parameter Name="idTipo" Mode="In" Type="Int32" />
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="idPuntoMonitoreo" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="maxLimit" Mode="In" Type="Single" />
+            <Parameter Name="minLimit" Mode="In" Type="Single" />
+            <Parameter Name="seriePiezo" Mode="In" Type="String" />
+            <Parameter Name="profundidadPozo" Mode="In" Type="Single" />
+            <Parameter Name="cotaTierra" Mode="In" Type="Single" />
+            <Parameter Name="distT_A" Mode="In" Type="Single" />
+            <Parameter Name="cotaAgua" Mode="In" Type="Single" />
+            <Parameter Name="cotaSensor" Mode="In" Type="Single" />
+            <Parameter Name="metrosSensor" Mode="In" Type="Single" />
+            <Parameter Name="carpeta" Mode="In" Type="Single" />
+            <Parameter Name="coefA" Mode="In" Type="Single" />
+            <Parameter Name="coefB" Mode="In" Type="Single" />
+            <Parameter Name="coefC" Mode="In" Type="Single" />
+            <Parameter Name="tempK" Mode="In" Type="Single" />
+            <Parameter Name="tempI" Mode="In" Type="Single" />
+            <Parameter Name="baroI" Mode="In" Type="Single" />
+            <Parameter Name="freqRead" Mode="In" Type="Int32" />
+            <Parameter Name="freqSend" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_piezometro_Range" ReturnType="Collection(MonitoreoIntegradoModel.Datos_piezometro_Range_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SensoresPiezometros_Update">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="maxLimit" Mode="In" Type="Single" />
+            <Parameter Name="minLimit" Mode="In" Type="Single" />
+            <Parameter Name="seriePiezo" Mode="In" Type="String" />
+            <Parameter Name="profundidadPozo" Mode="In" Type="Single" />
+            <Parameter Name="cotaTierra" Mode="In" Type="Single" />
+            <Parameter Name="distT_A" Mode="In" Type="Single" />
+            <Parameter Name="cotaAgua" Mode="In" Type="Single" />
+            <Parameter Name="cotaSensor" Mode="In" Type="Single" />
+            <Parameter Name="metrosSensor" Mode="In" Type="Single" />
+            <Parameter Name="carpeta" Mode="In" Type="Single" />
+            <Parameter Name="coefA" Mode="In" Type="Single" />
+            <Parameter Name="coefB" Mode="In" Type="Single" />
+            <Parameter Name="coefC" Mode="In" Type="Single" />
+            <Parameter Name="tempK" Mode="In" Type="Single" />
+            <Parameter Name="tempI" Mode="In" Type="Single" />
+            <Parameter Name="baroI" Mode="In" Type="Single" />
+            <Parameter Name="freqRead" Mode="In" Type="Int32" />
+            <Parameter Name="freqSend" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Identity_Roles" EntityType="MonitoreoIntegradoModel.Identity_Roles" />
+          <EntitySet Name="Identity_UserClaims" EntityType="MonitoreoIntegradoModel.Identity_UserClaims" />
+          <EntitySet Name="Identity_UserLogins" EntityType="MonitoreoIntegradoModel.Identity_UserLogins" />
+          <EntitySet Name="Identity_Users" EntityType="MonitoreoIntegradoModel.Identity_Users" />
+          <AssociationSet Name="FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId" Association="MonitoreoIntegradoModel.FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId">
+            <End Role="Identity_Users" EntitySet="Identity_Users" />
+            <End Role="Identity_UserClaims" EntitySet="Identity_UserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId" Association="MonitoreoIntegradoModel.FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId">
+            <End Role="Identity_Users" EntitySet="Identity_Users" />
+            <End Role="Identity_UserLogins" EntitySet="Identity_UserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="Identity_UserRoles" Association="MonitoreoIntegradoModel.Identity_UserRoles">
+            <End Role="Identity_Roles" EntitySet="Identity_Roles" />
+            <End Role="Identity_Users" EntitySet="Identity_Users" />
+          </AssociationSet>
+          <FunctionImport Name="Identity_UserRoles_Create">
+            <Parameter Name="idRol" Mode="In" Type="Int32" />
+            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Identity_UserRoles_Delete">
+            <Parameter Name="idRol" Mode="In" Type="Int32" />
+            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Identity_Users_Update">
+            <Parameter Name="idUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="userName" Mode="In" Type="String" />
+            <Parameter Name="fullName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_extensometro_Alertas" ReturnType="Collection(MonitoreoIntegradoModel.Datos_extensometro_Alertas_Result)">
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="idTipo" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_extensometro_AlertasDet" ReturnType="Collection(MonitoreoIntegradoModel.Datos_extensometro_AlertasDet_Result)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="Datos_piezometro_Corregir" ReturnType="Collection(Int32)">
+            <Parameter Name="idSensor" Mode="In" Type="Int32" />
+            <Parameter Name="desde" Mode="In" Type="DateTime" />
+            <Parameter Name="hasta" Mode="In" Type="DateTime" />
+            <Parameter Name="cotaSensor" Mode="In" Type="Single" />
+            <Parameter Name="coefA" Mode="In" Type="Single" />
+            <Parameter Name="coefB" Mode="In" Type="Single" />
+            <Parameter Name="coefC" Mode="In" Type="Single" />
+            <Parameter Name="tempK" Mode="In" Type="Single" />
+            <Parameter Name="tempI" Mode="In" Type="Single" />
+            <Parameter Name="baroI" Mode="In" Type="Single" />
+            <Parameter Name="metrosSensor" Mode="In" Type="Single" />
+          </FunctionImport>
+          <EntitySet Name="Punto_de_Monitoreo" EntityType="MonitoreoIntegradoModel.Punto_de_Monitoreo" />
+          <AssociationSet Name="FK_SENSORES_REFERENCE_PUNTODEMONITOREO" Association="MonitoreoIntegradoModel.FK_SENSORES_REFERENCE_PUNTODEMONITOREO">
+            <End Role="Punto_de_Monitoreo" EntitySet="Punto_de_Monitoreo" />
+            <End Role="Sensores" EntitySet="Sensores" />
+          </AssociationSet>
+          <FunctionImport Name="PuntoMonitoreo_Create" ReturnType="Collection(MonitoreoIntegradoModel.PuntoMonitoreo_Create_Result)">
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="carpeta" Mode="In" Type="Single" />
+            <Parameter Name="cotaTierra" Mode="In" Type="Single" />
+          </FunctionImport>
+          <FunctionImport Name="PuntoMonitoreo_Update">
+            <Parameter Name="idPuntoMonitoreo" Mode="In" Type="Int32" />
+            <Parameter Name="idFigura" Mode="In" Type="Int32" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="carpeta" Mode="In" Type="Single" />
+            <Parameter Name="cotaTierra" Mode="In" Type="Single" />
+          </FunctionImport>
+          <EntitySet Name="MarcadoresMpz" EntityType="MonitoreoIntegradoModel.MarcadoresMpz" />
+          <AssociationSet Name="FK_SENSORESMPZ_REFERENCE_FIGURAS" Association="MonitoreoIntegradoModel.FK_SENSORESMPZ_REFERENCE_FIGURAS">
+            <End Role="Figuras" EntitySet="Figuras" />
+            <End Role="Punto_de_Monitoreo" EntitySet="Punto_de_Monitoreo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADORMPZ_REFERENCE_IMAGENES" Association="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_IMAGENES">
+            <End Role="Imagenes" EntitySet="Imagenes" />
+            <End Role="MarcadoresMpz" EntitySet="MarcadoresMpz" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO" Association="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO">
+            <End Role="Punto_de_Monitoreo" EntitySet="Punto_de_Monitoreo" />
+            <End Role="MarcadoresMpz" EntitySet="MarcadoresMpz" />
+          </AssociationSet>
+          <FunctionImport Name="MarcadoresMpz_Create">
+            <Parameter Name="idPuntoMonitoreo" Mode="In" Type="Int32" />
+            <Parameter Name="idImagen" Mode="In" Type="Int32" />
+            <Parameter Name="x" Mode="In" Type="Int16" />
+            <Parameter Name="y" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="MarcadoresMpz_Delete">
+            <Parameter Name="idPuntoMonitoreo" Mode="In" Type="Int32" />
+          </FunctionImport>
+          </EntityContainer>
+        <ComplexType Name="Datos_co2_Graphics_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="dato" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_energia_GraphicsBat_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="batV" Nullable="true" />
+          <Property Type="Single" Name="batC" Nullable="true" />
+          <Property Type="Single" Name="charT" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_energia_GraphicsChar_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="panelP" Nullable="true" />
+          <Property Type="Single" Name="charP" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_energia_GraphicsConsumo_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="charP" Nullable="true" />
+          <Property Type="Single" Name="inv_inP" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_energia_GraphicsInv_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="inv_inP" Nullable="true" />
+          <Property Type="Single" Name="inv_outP" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_extensometro_Graphics_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="dato" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_pm10_Graphics_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="true" Precision="23" />
+          <Property Type="Single" Name="dato" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_piezometro_Range_Result">
+          <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+          <Property Type="Single" Name="cotaAgua" Nullable="false" />
+          <Property Type="Single" Name="metrosSensor" Nullable="false" />
+          <Property Type="Single" Name="temperatura" Nullable="false" />
+          <Property Type="Single" Name="bUnits" Nullable="false" />
+          <Property Type="Single" Name="presion" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Identity_Roles">
+          <Key>
+            <PropertyRef Name="idRol" />
+          </Key>
+          <Property Name="idRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Identity_Users" Relationship="MonitoreoIntegradoModel.Identity_UserRoles" FromRole="Identity_Roles" ToRole="Identity_Users" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Identity_UserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Identity_Users" Relationship="MonitoreoIntegradoModel.FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId" FromRole="Identity_UserClaims" ToRole="Identity_Users" />
+        </EntityType>
+        <EntityType Name="Identity_UserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Identity_Users" Relationship="MonitoreoIntegradoModel.FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId" FromRole="Identity_UserLogins" ToRole="Identity_Users" />
+        </EntityType>
+        <EntityType Name="Identity_Users">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="userName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Identity_UserClaims" Relationship="MonitoreoIntegradoModel.FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId" FromRole="Identity_Users" ToRole="Identity_UserClaims" />
+          <NavigationProperty Name="Identity_UserLogins" Relationship="MonitoreoIntegradoModel.FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId" FromRole="Identity_Users" ToRole="Identity_UserLogins" />
+          <NavigationProperty Name="Identity_Roles" Relationship="MonitoreoIntegradoModel.Identity_UserRoles" FromRole="Identity_Users" ToRole="Identity_Roles" />
+        </EntityType>
+        <Association Name="FK_dbo_Identity_UserClaims_dbo_Identity_Users_UserId">
+          <End Type="MonitoreoIntegradoModel.Identity_Users" Role="Identity_Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MonitoreoIntegradoModel.Identity_UserClaims" Role="Identity_UserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_Users">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Identity_UserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Identity_UserLogins_dbo_Identity_Users_UserId">
+          <End Type="MonitoreoIntegradoModel.Identity_Users" Role="Identity_Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="MonitoreoIntegradoModel.Identity_UserLogins" Role="Identity_UserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Identity_Users">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="Identity_UserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Identity_UserRoles">
+          <End Type="MonitoreoIntegradoModel.Identity_Roles" Role="Identity_Roles" Multiplicity="*" />
+          <End Type="MonitoreoIntegradoModel.Identity_Users" Role="Identity_Users" Multiplicity="*" />
+        </Association>
+        <ComplexType Name="Datos_extensometro_Alertas_Result">
+          <Property Type="Int32" Name="idSensor" Nullable="true" />
+          <Property Type="String" Name="nombre" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="cantidad" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Datos_extensometro_AlertasDet_Result">
+          <Property Type="Int32" Name="idSensor" Nullable="true" />
+          <Property Type="Single" Name="dato" Nullable="false" />
+          <Property Type="DateTime" Name="fecha" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="Punto_de_Monitoreo">
+          <Key>
+            <PropertyRef Name="idPuntoMonitoreo" />
+          </Key>
+          <Property Name="idPuntoMonitoreo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idFigura" Type="Int32" Nullable="false" />
+          <Property Name="carpeta" Type="Single" />
+          <Property Name="cotaTierra" Type="Single" />
+          <NavigationProperty Name="Sensores" Relationship="MonitoreoIntegradoModel.FK_SENSORES_REFERENCE_PUNTODEMONITOREO" FromRole="Punto_de_Monitoreo" ToRole="Sensores" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Figuras" Relationship="MonitoreoIntegradoModel.FK_SENSORESMPZ_REFERENCE_FIGURAS" FromRole="Punto_de_Monitoreo" ToRole="Figuras" />
+          <NavigationProperty Name="MarcadoresMpz" Relationship="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO" FromRole="Punto_de_Monitoreo" ToRole="MarcadoresMpz" />
+        </EntityType>
+        <Association Name="FK_SENSORES_REFERENCE_PUNTODEMONITOREO">
+          <End Type="MonitoreoIntegradoModel.Punto_de_Monitoreo" Role="Punto_de_Monitoreo" Multiplicity="1" />
+          <End Type="MonitoreoIntegradoModel.Sensores" Role="Sensores" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Punto_de_Monitoreo">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Principal>
+            <Dependent Role="Sensores">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="PuntoMonitoreo_Create_Result">
+          <Property Type="Int32" Name="idPuntoMonitoreo" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="128" />
+          <Property Type="Single" Name="carpeta" Nullable="true" />
+          <Property Type="Single" Name="cotaTierra" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="MarcadoresMpz">
+          <Key>
+            <PropertyRef Name="idPuntoMonitoreo" />
+          </Key>
+          <Property Name="idPuntoMonitoreo" Type="Int32" Nullable="false" />
+          <Property Name="idImagen" Type="Int32" Nullable="false" />
+          <Property Name="x" Type="Int16" Nullable="false" />
+          <Property Name="y" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Imagenes" Relationship="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_IMAGENES" FromRole="MarcadoresMpz" ToRole="Imagenes" />
+          <NavigationProperty Name="Punto_de_Monitoreo" Relationship="MonitoreoIntegradoModel.FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO" FromRole="MarcadoresMpz" ToRole="Punto_de_Monitoreo" />
+        </EntityType>
+        <Association Name="FK_SENSORESMPZ_REFERENCE_FIGURAS">
+          <End Type="MonitoreoIntegradoModel.Figuras" Role="Figuras" Multiplicity="1" />
+          <End Type="MonitoreoIntegradoModel.Punto_de_Monitoreo" Role="Punto_de_Monitoreo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Figuras">
+              <PropertyRef Name="idFigura" />
+            </Principal>
+            <Dependent Role="Punto_de_Monitoreo">
+              <PropertyRef Name="idFigura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADORMPZ_REFERENCE_IMAGENES">
+          <End Type="MonitoreoIntegradoModel.Imagenes" Role="Imagenes" Multiplicity="1" />
+          <End Type="MonitoreoIntegradoModel.MarcadoresMpz" Role="MarcadoresMpz" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Imagenes">
+              <PropertyRef Name="idImagen" />
+            </Principal>
+            <Dependent Role="MarcadoresMpz">
+              <PropertyRef Name="idImagen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MARCADORMPZ_REFERENCE_PUNTO_DE_MONITOREO">
+          <End Type="MonitoreoIntegradoModel.Punto_de_Monitoreo" Role="Punto_de_Monitoreo" Multiplicity="1" />
+          <End Type="MonitoreoIntegradoModel.MarcadoresMpz" Role="MarcadoresMpz" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Punto_de_Monitoreo">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Principal>
+            <Dependent Role="MarcadoresMpz">
+              <PropertyRef Name="idPuntoMonitoreo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MonitoreoIntegradoModelStoreContainer" CdmEntityContainer="MonitoreoIntegradoEntities">
+          <EntitySetMapping Name="Datos_clima">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_clima">
+              <MappingFragment StoreEntitySet="Datos_clima">
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="tempInt" ColumnName="tempInt" />
+                <ScalarProperty Name="tempExt" ColumnName="tempExt" />
+                <ScalarProperty Name="dewpoint" ColumnName="dewpoint" />
+                <ScalarProperty Name="humedadInt" ColumnName="humedadInt" />
+                <ScalarProperty Name="humedadExt" ColumnName="humedadExt" />
+                <ScalarProperty Name="vientoVel" ColumnName="vientoVel" />
+                <ScalarProperty Name="vientoGrados" ColumnName="vientoGrados" />
+                <ScalarProperty Name="vientoDir" ColumnName="vientoDir" />
+                <ScalarProperty Name="sensacionTerm" ColumnName="sensacionTerm" />
+                <ScalarProperty Name="lluviaH" ColumnName="lluviaH" />
+                <ScalarProperty Name="lluviaD" ColumnName="lluviaD" />
+                <ScalarProperty Name="lluviaT" ColumnName="lluviaT" />
+                <ScalarProperty Name="presion" ColumnName="presion" />
+                <ScalarProperty Name="tendencia" ColumnName="tendencia" />
+                <ScalarProperty Name="pronostico" ColumnName="pronostico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_co2">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_co2">
+              <MappingFragment StoreEntitySet="Datos_co2">
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_energia">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_energia">
+              <MappingFragment StoreEntitySet="Datos_energia">
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="panelV" ColumnName="panelV" />
+                <ScalarProperty Name="panelC" ColumnName="panelC" />
+                <ScalarProperty Name="panelP" ColumnName="panelP" />
+                <ScalarProperty Name="charC" ColumnName="charC" />
+                <ScalarProperty Name="charP" ColumnName="charP" />
+                <ScalarProperty Name="charE" ColumnName="charE" />
+                <ScalarProperty Name="charT" ColumnName="charT" />
+                <ScalarProperty Name="batV" ColumnName="batV" />
+                <ScalarProperty Name="batC" ColumnName="batC" />
+                <ScalarProperty Name="batP" ColumnName="batP" />
+                <ScalarProperty Name="batSOC" ColumnName="batSOC" />
+                <ScalarProperty Name="batCE" ColumnName="batCE" />
+                <ScalarProperty Name="batTTG" ColumnName="batTTG" />
+                <ScalarProperty Name="inv_inC" ColumnName="inv_inC" />
+                <ScalarProperty Name="inv_inP" ColumnName="inv_inP" />
+                <ScalarProperty Name="inv_outC" ColumnName="inv_outC" />
+                <ScalarProperty Name="inv_outP" ColumnName="inv_outP" />
+                <ScalarProperty Name="invE" ColumnName="invE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_extensometro">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_extensometro">
+              <MappingFragment StoreEntitySet="Datos_extensometro">
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_o2">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_o2">
+              <MappingFragment StoreEntitySet="Datos_o2">
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_piezometro">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_piezometro">
+              <MappingFragment StoreEntitySet="Datos_piezometro">
+                <ScalarProperty Name="temperatura_bmp" ColumnName="temperatura_bmp" />
+                <ScalarProperty Name="presion_bmp" ColumnName="presion_bmp" />
+                <ScalarProperty Name="presion_pz" ColumnName="presion_pz" />
+                <ScalarProperty Name="temperatura_pz" ColumnName="temperatura_pz" />
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="cotaAgua" ColumnName="cotaAgua" />
+                <ScalarProperty Name="metrosSensor" ColumnName="metrosSensor" />
+                <ScalarProperty Name="bUnits" ColumnName="bUnits" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Datos_pm10">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Datos_pm10">
+              <MappingFragment StoreEntitySet="Datos_pm10">
+                <ScalarProperty Name="idDato" ColumnName="idDato" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Figuras">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Figuras">
+              <MappingFragment StoreEntitySet="Figuras">
+                <ScalarProperty Name="idFigura" ColumnName="idFigura" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="borde" ColumnName="borde" />
+                <ScalarProperty Name="colorBorde" ColumnName="colorBorde" />
+                <ScalarProperty Name="rotacion" ColumnName="rotacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Imagen_TipoSensor">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Imagen_TipoSensor">
+              <MappingFragment StoreEntitySet="Imagen_TipoSensor">
+                <ScalarProperty Name="idImagen" ColumnName="idImagen" />
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="ordenar" ColumnName="ordenar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Imagenes">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Imagenes">
+              <MappingFragment StoreEntitySet="Imagenes">
+                <ScalarProperty Name="idImagen" ColumnName="idImagen" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="mx" ColumnName="mx" />
+                <ScalarProperty Name="nx" ColumnName="nx" />
+                <ScalarProperty Name="my" ColumnName="my" />
+                <ScalarProperty Name="ny" ColumnName="ny" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marcadores">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Marcadores">
+              <MappingFragment StoreEntitySet="Marcadores">
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="idImagen" ColumnName="idImagen" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="y" ColumnName="y" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sensores">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Sensores">
+              <MappingFragment StoreEntitySet="Sensores">
+                <ScalarProperty Name="idPuntoMonitoreo" ColumnName="idPuntoMonitoreo" />
+                <ScalarProperty Name="syncToken" ColumnName="syncToken" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="idFigura" ColumnName="idFigura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="maxLimit" ColumnName="maxLimit" />
+                <ScalarProperty Name="minLimit" ColumnName="minLimit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sensores_Piezometros">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Sensores_Piezometros">
+              <MappingFragment StoreEntitySet="Sensores_Piezometros">
+                <ScalarProperty Name="carpeta" ColumnName="carpeta" />
+                <ScalarProperty Name="baroI" ColumnName="baroI" />
+                <ScalarProperty Name="freqSend" ColumnName="freqSend" />
+                <ScalarProperty Name="freqRead" ColumnName="freqRead" />
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="seriePiezo" ColumnName="seriePiezo" />
+                <ScalarProperty Name="profundidadPozo" ColumnName="profundidadPozo" />
+                <ScalarProperty Name="cotaTierra" ColumnName="cotaTierra" />
+                <ScalarProperty Name="distT_A" ColumnName="distT_A" />
+                <ScalarProperty Name="cotaAgua" ColumnName="cotaAgua" />
+                <ScalarProperty Name="cotaSensor" ColumnName="cotaSensor" />
+                <ScalarProperty Name="metrosSensor" ColumnName="metrosSensor" />
+                <ScalarProperty Name="coefA" ColumnName="coefA" />
+                <ScalarProperty Name="coefB" ColumnName="coefB" />
+                <ScalarProperty Name="coefC" ColumnName="coefC" />
+                <ScalarProperty Name="tempK" ColumnName="tempK" />
+                <ScalarProperty Name="tempI" ColumnName="tempI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoSensores">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.TipoSensores">
+              <MappingFragment StoreEntitySet="TipoSensores">
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Datos_co2_Create" FunctionName="MonitoreoIntegradoModel.Store.Datos_co2_Create" />
+          <FunctionImportMapping FunctionImportName="Datos_co2_Graphics" FunctionName="MonitoreoIntegradoModel.Store.Datos_co2_Graphics">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_co2_Graphics_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_energia_Create" FunctionName="MonitoreoIntegradoModel.Store.Datos_energia_Create" />
+          <FunctionImportMapping FunctionImportName="Datos_energia_GraphicsBat" FunctionName="MonitoreoIntegradoModel.Store.Datos_energia_GraphicsBat">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_energia_GraphicsBat_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="batV" ColumnName="batV" />
+                <ScalarProperty Name="batC" ColumnName="batC" />
+                <ScalarProperty Name="charT" ColumnName="charT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_energia_GraphicsChar" FunctionName="MonitoreoIntegradoModel.Store.Datos_energia_GraphicsChar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_energia_GraphicsChar_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="panelP" ColumnName="panelP" />
+                <ScalarProperty Name="charP" ColumnName="charP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_energia_GraphicsConsumo" FunctionName="MonitoreoIntegradoModel.Store.Datos_energia_GraphicsConsumo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_energia_GraphicsConsumo_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="charP" ColumnName="charP" />
+                <ScalarProperty Name="inv_inP" ColumnName="inv_inP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_energia_GraphicsInv" FunctionName="MonitoreoIntegradoModel.Store.Datos_energia_GraphicsInv">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_energia_GraphicsInv_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="inv_inP" ColumnName="inv_inP" />
+                <ScalarProperty Name="inv_outP" ColumnName="inv_outP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_extensometro_Create" FunctionName="MonitoreoIntegradoModel.Store.Datos_extensometro_Create" />
+          <FunctionImportMapping FunctionImportName="Datos_extensometro_Graphics" FunctionName="MonitoreoIntegradoModel.Store.Datos_extensometro_Graphics">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_extensometro_Graphics_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_piezometro_Alertas" FunctionName="MonitoreoIntegradoModel.Store.Datos_piezometro_Alertas" />
+          <FunctionImportMapping FunctionImportName="Datos_piezometro_AlertasDet" FunctionName="MonitoreoIntegradoModel.Store.Datos_piezometro_AlertasDet" />
+          <FunctionImportMapping FunctionImportName="Datos_piezometro_Create" FunctionName="MonitoreoIntegradoModel.Store.Datos_piezometro_Create" />
+          <FunctionImportMapping FunctionImportName="Datos_piezometro_Graphics" FunctionName="MonitoreoIntegradoModel.Store.Datos_piezometro_Graphics" />
+          <FunctionImportMapping FunctionImportName="Datos_pm10_Create" FunctionName="MonitoreoIntegradoModel.Store.Datos_pm10_Create" />
+          <FunctionImportMapping FunctionImportName="Datos_pm10_Graphics" FunctionName="MonitoreoIntegradoModel.Store.Datos_pm10_Graphics">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_pm10_Graphics_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Figuras_Create" FunctionName="MonitoreoIntegradoModel.Store.Figuras_Create" />
+          <FunctionImportMapping FunctionImportName="Figuras_Update" FunctionName="MonitoreoIntegradoModel.Store.Figuras_Update" />
+          <FunctionImportMapping FunctionImportName="Imagen_TipoSensor_Create" FunctionName="MonitoreoIntegradoModel.Store.Imagen_TipoSensor_Create" />
+          <FunctionImportMapping FunctionImportName="Imagen_TipoSensor_Delete" FunctionName="MonitoreoIntegradoModel.Store.Imagen_TipoSensor_Delete" />
+          <FunctionImportMapping FunctionImportName="Imagenes_Create" FunctionName="MonitoreoIntegradoModel.Store.Imagenes_Create" />
+          <FunctionImportMapping FunctionImportName="Imagenes_Georeferenciar" FunctionName="MonitoreoIntegradoModel.Store.Imagenes_Georeferenciar" />
+          <FunctionImportMapping FunctionImportName="Imagenes_Update" FunctionName="MonitoreoIntegradoModel.Store.Imagenes_Update" />
+          <FunctionImportMapping FunctionImportName="Marcadores_Create" FunctionName="MonitoreoIntegradoModel.Store.Marcadores_Create" />
+          <FunctionImportMapping FunctionImportName="Marcadores_Delete" FunctionName="MonitoreoIntegradoModel.Store.Marcadores_Delete" />
+          <FunctionImportMapping FunctionImportName="Sensores_Create" FunctionName="MonitoreoIntegradoModel.Store.Sensores_Create" />
+          <FunctionImportMapping FunctionImportName="Sensores_Update" FunctionName="MonitoreoIntegradoModel.Store.Sensores_Update" />
+          <FunctionImportMapping FunctionImportName="SensoresPiezometros_Create" FunctionName="MonitoreoIntegradoModel.Store.SensoresPiezometros_Create" />
+          <FunctionImportMapping FunctionImportName="Datos_piezometro_Range" FunctionName="MonitoreoIntegradoModel.Store.Datos_piezometro_Range">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_piezometro_Range_Result">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="cotaAgua" ColumnName="cotaAgua" />
+                <ScalarProperty Name="metrosSensor" ColumnName="metrosSensor" />
+                <ScalarProperty Name="temperatura" ColumnName="temperatura" />
+                <ScalarProperty Name="bUnits" ColumnName="bUnits" />
+                <ScalarProperty Name="presion" ColumnName="presion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SensoresPiezometros_Update" FunctionName="MonitoreoIntegradoModel.Store.SensoresPiezometros_Update" />
+          <EntitySetMapping Name="Identity_Roles">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Identity_Roles">
+              <MappingFragment StoreEntitySet="Identity_Roles">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Identity_UserClaims">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Identity_UserClaims">
+              <MappingFragment StoreEntitySet="Identity_UserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Identity_UserLogins">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Identity_UserLogins">
+              <MappingFragment StoreEntitySet="Identity_UserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Identity_Users">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Identity_Users">
+              <MappingFragment StoreEntitySet="Identity_Users">
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Identity_UserRoles" TypeName="MonitoreoIntegradoModel.Identity_UserRoles" StoreEntitySet="Identity_UserRoles">
+            <EndProperty Name="Identity_Users">
+              <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+            </EndProperty>
+            <EndProperty Name="Identity_Roles">
+              <ScalarProperty Name="idRol" ColumnName="idRol" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="Identity_UserRoles_Create" FunctionName="MonitoreoIntegradoModel.Store.Identity_UserRoles_Create" />
+          <FunctionImportMapping FunctionImportName="Identity_UserRoles_Delete" FunctionName="MonitoreoIntegradoModel.Store.Identity_UserRoles_Delete" />
+          <FunctionImportMapping FunctionImportName="Identity_Users_Update" FunctionName="MonitoreoIntegradoModel.Store.Identity_Users_Update" />
+          <FunctionImportMapping FunctionImportName="Datos_extensometro_Alertas" FunctionName="MonitoreoIntegradoModel.Store.Datos_extensometro_Alertas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_extensometro_Alertas_Result">
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_extensometro_AlertasDet" FunctionName="MonitoreoIntegradoModel.Store.Datos_extensometro_AlertasDet">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.Datos_extensometro_AlertasDet_Result">
+                <ScalarProperty Name="idSensor" ColumnName="idSensor" />
+                <ScalarProperty Name="dato" ColumnName="dato" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Datos_piezometro_Corregir" FunctionName="MonitoreoIntegradoModel.Store.Datos_piezometro_Corregir" />
+          <EntitySetMapping Name="Punto_de_Monitoreo">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.Punto_de_Monitoreo">
+              <MappingFragment StoreEntitySet="Punto_de_Monitoreo">
+                <ScalarProperty Name="idFigura" ColumnName="idFigura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="cotaTierra" ColumnName="cotaTierra" />
+                <ScalarProperty Name="carpeta" ColumnName="carpeta" />
+                <ScalarProperty Name="idPuntoMonitoreo" ColumnName="idPuntoMonitoreo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PuntoMonitoreo_Create" FunctionName="MonitoreoIntegradoModel.Store.PuntoMonitoreo_Create">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MonitoreoIntegradoModel.PuntoMonitoreo_Create_Result">
+                <ScalarProperty Name="idPuntoMonitoreo" ColumnName="idPuntoMonitoreo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="carpeta" ColumnName="carpeta" />
+                <ScalarProperty Name="cotaTierra" ColumnName="cotaTierra" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PuntoMonitoreo_Update" FunctionName="MonitoreoIntegradoModel.Store.PuntoMonitoreo_Update" />
+          <EntitySetMapping Name="MarcadoresMpz">
+            <EntityTypeMapping TypeName="MonitoreoIntegradoModel.MarcadoresMpz">
+              <MappingFragment StoreEntitySet="MarcadoresMpz">
+                <ScalarProperty Name="y" ColumnName="y" />
+                <ScalarProperty Name="x" ColumnName="x" />
+                <ScalarProperty Name="idImagen" ColumnName="idImagen" />
+                <ScalarProperty Name="idPuntoMonitoreo" ColumnName="idPuntoMonitoreo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="MarcadoresMpz_Create" FunctionName="MonitoreoIntegradoModel.Store.MarcadoresMpz_Create" />
+          <FunctionImportMapping FunctionImportName="MarcadoresMpz_Delete" FunctionName="MonitoreoIntegradoModel.Store.MarcadoresMpz_Delete" />
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

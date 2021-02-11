@@ -1,0 +1,51 @@
+﻿@model ReleaseSpence.Models.Sensores
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Sensores</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Figuras.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Figuras.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Marcadores.idSensor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Marcadores.idSensor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoSensores.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoSensores.nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idSensor }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

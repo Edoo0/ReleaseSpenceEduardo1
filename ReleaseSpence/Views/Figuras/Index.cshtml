@@ -1,0 +1,97 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Figuras>
+@{ Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.popup").click(function (e) {
+                e.preventDefault();
+                $("#Mdialog").css("width", "");
+                $("#Cdialog").load($(this).attr("href"));
+            });
+        });
+    </script>
+    @Html.ActionLink("Crear Nueva", "Create", "Figuras", new { }, new { @class = "btn btn-primary" })
+    <h2>Listado de Figuras</h2>
+
+    @using (Html.BeginForm("Index", "Figuras", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        <label>Nombre:</label> @Html.TextBox("buscar") <input type="submit" value="Buscar" class="btn btn-primary" />
+    }
+    <br />
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.borde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.colorBorde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rotacion)
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-eye-open" title="Previsualizar"></span> / <span class="glyphicon glyphicon-edit" title="Edtar"></span> / <span class="glyphicon glyphicon-remove" title="Eliminar"></span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @switch (item.tipo)
+                {
+                    case 1:
+                            @Html.Raw("Circulo")
+                            break;
+                        case 2:
+                            @Html.Raw("Cuadrado")
+                            break;
+                        case 3:
+                            @Html.Raw("Estrella")
+                            break;
+                        case 4:
+                            @Html.Raw("Triangulo")
+                            break;
+                        case 5:
+                            @Html.Raw("Cruz")
+                            break;
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.size)
+                </td>
+                <td>
+                    @Html.TextBox("color", "#" + item.color, new { type = "color", disabled = "disabled" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.borde)
+                </td>
+                <td>
+                    @Html.TextBox("color", "#" + item.colorBorde, new { type = "color", disabled = "disabled" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rotacion)
+                </td>
+                <td>
+                    <a href=@Url.Action("Preview", "Figuras", new { id = item.idFigura }) class="popup"><span class="glyphicon glyphicon-eye-open" title="Previsualizar"></span></a> / <a href=@Url.Action("Edit", "Figuras", new { id = item.idFigura })><span class="glyphicon glyphicon-edit" title="Editar"></span></a> / <a href=@Url.Action("Delete", "Figuras", new { id = item.idFigura }) class="popup"><span class="glyphicon glyphicon-remove" title="Eliminar"></span></a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

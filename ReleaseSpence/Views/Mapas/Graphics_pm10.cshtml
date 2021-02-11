@@ -1,0 +1,26 @@
+﻿@model List<ReleaseSpence.Models.Datos_pm10>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<script type="text/javascript">
+$(document).ready(function ()
+{
+	var line1 = [@{
+		string datos = "";
+		foreach(var item in Model)
+		{
+			datos += "['" + item.fecha.ToString("yyyy-MM-dd H:mm:ss") + "', " + item.dato.ToString().Replace(',', '.') + "] ,";
+		}
+		datos = datos.Substring(0, datos.Length - 2);
+		WriteLiteral(datos);
+	}];
+	var plot1 = $.jqplot('chart1', [line1], {
+		title: '@ViewBag.nombre',
+		axes: {
+			xaxis: { renderer: $.jqplot.DateAxisRenderer, tickOptions: { formatString: '%d/%m/%Y<br>%H:%M' } },
+			yaxis: { pad: 1 }
+		},
+		series: [{ lineWidth: 1, markerOptions: { show: false } }]
+	});
+});
+</script>
+<div id="chart1" style="width:1200px; height:600px;"></div>

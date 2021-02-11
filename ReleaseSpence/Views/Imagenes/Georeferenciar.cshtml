@@ -1,0 +1,175 @@
+﻿@model ReleaseSpence.Models.Imagenes
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+@using System.Globalization
+@{
+	int anchoimg = System.Drawing.Image.FromFile(Server.MapPath("~/Images/Mapas/" + Model.idImagen + ".jpg")).Width;
+	short borde = 10;
+	short info_offset = 10;
+	short info_border = 2;
+	short info_padding = 2;
+}
+<script type="text/javascript">
+	$(document).ready(function()
+	{
+		var left = 0;
+		var top = 0;
+		var ejecutar = true;
+		var puntos = 0;
+		var geoset = false;
+		var x, y, x1, y1, n1, e1, x2, y2, n2, e2;
+		@if(Model.mx != null)
+		{
+			WriteLiteral("puntos = 2; geoset = true;");
+		}
+		$("#mapa").on("mousemove", function(e)
+		{
+			if(ejecutar)
+			{
+				if(left > e.pageX)
+				{
+					$("#mouseinfo").css("left", e.pageX - $("#mapcont").position().left + @info_offset);
+					$("#mouseform").css("left", e.pageX - $("#mapcont").position().left + @info_offset);
+				}
+				else if(left < e.pageX)
+				{
+					$("#mouseinfo").css("left", e.pageX - $("#mapcont").position().left - @(info_border*2) - $("#mouseinfo").width() - @(info_padding*2) - @info_offset);
+					$("#mouseform").css("left", e.pageX - $("#mapcont").position().left - @(info_border*2) - $("#mouseform").width() - @(info_padding*2) - @info_offset);
+				}
+				left = e.pageX;
+				if(top > e.pageY)
+				{
+					$("#mouseinfo").css("top", e.pageY - $("#mapcont").position().top + @info_offset);
+					$("#mouseform").css("top", e.pageY - $("#mapcont").position().top + @info_offset);
+				}
+				else if(top < e.pageY)
+				{
+					$("#mouseinfo").css("top", e.pageY - $("#mapcont").position().top - @(info_border*2) - $("#mouseinfo").height() - @(info_padding*2) - @info_offset);
+					$("#mouseform").css("top", e.pageY - $("#mapcont").position().top - @(info_border*2) - $("#mouseform").height() - @(info_padding*2) - @info_offset);
+				}
+				top = e.pageY;
+				x = Math.round(e.pageX - $("#mapcont").position().left - @borde);
+				y = Math.round(e.pageY - $("#mapcont").position().top - @borde);
+				if(!geoset) $("#mouseinfo").html("X: " + x + "<br>Y: " + y);
+				else $("#mouseinfo").html("E: " + Math.round((x*parseFloat($("#mx").val())+parseFloat($("#nx").val()))*1000)/1000 + "<br>N: " +  Math.round((y*parseFloat($("#my").val())+parseFloat($("#ny").val()))*1000)/1000);
+			}
+		});
+		$("#mapa").click(function(e)
+		{
+			if(ejecutar && puntos < 2)
+			{
+				ejecutar = false;
+				$("#mouseinfo").css("visibility", "hidden");
+				$("#mouseform").css("visibility", "visible");
+			}
+			else $("#dialogayuda").modal({ show: true });
+		});
+		$("#guardar").click(function()
+		{
+			if(puntos == 0)
+			{
+				x1 = x;
+				y1 = y;
+				e1 = parseFloat($("#este").val());
+				n1 = parseFloat($("#norte").val());
+				$("#este").val("");
+				$("#norte").val("");
+			}
+			else if(puntos == 1)
+			{
+				x2 = x;
+				y2 = y;
+				e2 = parseFloat($("#este").val());
+				n2 = parseFloat($("#norte").val());
+				$("#mx").val((e2-e1)/(x2-x1));
+				$("#nx").val(parseFloat($("#mx").val())*-x1+e1);
+				$("#my").val((n2-n1)/(y2-y1));
+				$("#ny").val(parseFloat($("#my").val())*-y1+n1);
+				$("#este").val("");
+				$("#norte").val("");
+				geoset = true;
+				$("#dialogayuda").modal({ show: true });
+			}
+			else $("#dialogayuda").modal({ show: true });
+			puntos++;
+			ejecutar = true;
+			$("#mouseinfo").css("visibility", "visible");
+			$("#mouseform").css("visibility", "hidden");
+		});
+		$("#cancelar").click(function()
+		{
+			ejecutar = true;
+			$("#mouseinfo").css("visibility", "visible");
+			$("#mouseform").css("visibility", "hidden");
+		});
+		$("#cerrarayuda").click(function()
+		{
+			$("#dialogayuda").modal("hide");
+		});
+		$("#reset").click(function()
+		{
+			$("#dialogayuda").modal("hide");
+			puntos = 0;
+			geoset = false;
+		});
+	});
+</script>
+@Html.ActionLink("Volver", "Index", "Imagenes", new { }, new { @class = "btn btn-primary" })
+<h2>Georeferenciar Plano</h2>
+Haga clic en 2 puntos del plano que tengan una diferencia en Norte y Este, entre mayor sea la diferencia, más precisa será la georeferenciación de la imagen.
+<div id="mapcont" style="position:relative; width:auto; height:auto;">
+	<div id="mapa" style="width:@(anchoimg+borde*2)px; height:auto; overflow:hidden; position:relative; background-color:#333; border-style:double; border-width:@(borde)px; border-color:#000; border-radius:@(borde)px;">
+		<img src="~/Images/Mapas/@(Model.idImagen).jpg">
+	</div>
+	<div id="mouseinfo" style="background-color:#FF0; border-style:dotted; border-color:#000; border-width:@(info_border)px; padding:@(info_padding)px; position:absolute; width:auto; min-width:60px; height:auto; top:0; left:0; line-height:1;"></div>
+	<div id="mouseform" style="background-color:#FF0; border-style:dotted; border-color:#000; border-width:@(info_border)px; padding:@(info_padding)px; position:absolute; width:auto; min-width:60px; height:auto; top:0; left:0; line-height:1; visibility:hidden">
+		<table class="table" style="min-width:240px;">
+			<tr>
+				<td>
+					<label for="este" class="control-label">Este</label>
+				</td>
+				<td>
+					<input type="number" step="any" class="form-control autolink" id="este" placeholder="E">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="norte" class="control-label">Norte</label>
+				</td>
+				<td>
+					<input type="number" step="any" class="form-control autolink" id="norte" placeholder="N">
+				</td>
+			</tr>
+			<tr>
+				<td><a id="guardar" class="btn btn-success">Guardar</a></td>
+				<td><a id="cancelar" class="btn btn-primary">Cancelar</a></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div id="dialogayuda" class="modal fade">
+	<div id="Mdayuda" class="modal-dialog">
+		<div id="Cdayuda" class="modal-content" style="padding:20px;">
+			@using (Html.BeginForm("Georeferenciar", "Imagenes", FormMethod.Post, new { id = "f1" }))
+			{
+				@Html.AntiForgeryToken()
+				@Html.HiddenFor(model => model.idImagen)
+				CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+				@Html.HiddenFor(model => model.mx)
+				@Html.HiddenFor(model => model.nx)
+				@Html.HiddenFor(model => model.my)
+				@Html.HiddenFor(model => model.ny)
+				CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-CL");
+				<h4>Información</h4>
+				<p>La imagen ha sido georeferenciada, ahora puede cerrar este dialogo para probar que la georeferenciación sea correcta
+				pasando el cursor del raton sobre la imagen.<br />
+				Si está conforme con la precisión de la georeferenciación vuelva a hacer clic en un punto de la imagen y luego haga clic en el botón "Guardar Cambios",
+				de lo contrario haga clic en el botón "Restablecer" para indicar 2 puntos nuevos.</p>
+				<br /><br />
+				<a class="btn btn-primary" name="cerrar" id="cerrarayuda">Cerrar</a> 
+				<input type="submit" id="enviar" class="btn btn-success" value="Guardar Cambios"> 
+				<a class="btn btn-warning" name="reset" id="reset">Restablecer</a>
+			}
+			</div>
+		</div>
+	</div>
+</div>

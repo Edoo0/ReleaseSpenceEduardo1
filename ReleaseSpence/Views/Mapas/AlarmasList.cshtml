@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Datos_sensor_alarmList>
+
+<script type="text/javascript">
+	$(document).ready(function ()
+	{
+		$("#dialog").modal({ show: true });
+		$("#cerrar").click(function ()
+		{
+			$("#dialog").modal("hide");
+		});
+	});
+</script>
+<h3>Alertas del sensor @ViewBag.sensor.nombre @Html.ActionLink("Ver todas", "Graphics", "Mapas",
+new { id = ViewBag.sensor.idSensor, idTipo = ViewBag.sensor.idTipo, precision = false, datos = 200, desde = @ViewBag.desde.ToString("ddMMyyyyHHmmss"), hasta = @ViewBag.hasta.ToString("ddMMyyyyHHmmss") },
+		new { @class = "btn btn-primary", target = "_blank" })</h3>
+<ul>
+	@foreach (var item in Model)
+	{
+		<li>Valor: @item.dato / Fecha: @item.fecha @Html.ActionLink("Ver gráfico", "Graphics", "Mapas",
+		new { id = item.idSensor, idTipo = ViewBag.sensor.idTipo, precision = false, datos = 200, desde = item.fecha.AddDays(-1).ToString("ddMMyyyyHHmmss"), hasta = item.fecha.AddDays(1).ToString("ddMMyyyyHHmmss") },
+		new { target = "_blank" })</li>
+	}
+</ul>
+
+<div class="form-actions no-color">
+	<input type="button" class="btn btn-primary" name="cerrar" id="cerrar" value="Cerrar" />
+</div>

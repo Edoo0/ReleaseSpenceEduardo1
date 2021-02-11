@@ -1,0 +1,45 @@
+﻿<script type="text/javascript">
+	$(document).ready(function () {
+		$('#f1').submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'post',
+				url: $(this).attr("action"),
+				data: $('#f1').serialize(),
+				success: function () {
+					$("#contenidomapa").load("@Url.Action("Detalle", new { id = ViewBag.idImagen , idTipo = ViewBag.idTipo })");
+				}
+			});
+			return false;
+		});
+	});
+</script>
+@using (Html.BeginForm("Mapa_click", "Imagenes", FormMethod.Post, new { id = "f1" }))
+{
+	@Html.AntiForgeryToken()
+	@Html.Hidden("idImagen")
+	@Html.Hidden("x")
+	@Html.Hidden("y")
+	<table class="table" style="min-width:240px;">
+		<tr>
+			<td>
+				<label for="norte" class="control-label">Norte</label>
+			</td>
+			<td>
+				<input type="number" step="any" class="form-control autolink" id="norte" placeholder="N">
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<label for="este" class="control-label">Este</label>
+			</td>
+			<td>
+				<input type="number" step="any" class="form-control autolink" id="este" placeholder="E">
+			</td>
+		</tr>
+		<tr>
+			<td><input type="submit" id="enviar" class="btn btn-success" value="Guardar"></td>
+			<td><input type="button" id="cancelar" class="btn btn-primary" value="Cancelar"></td>
+		</tr>
+	</table>
+}

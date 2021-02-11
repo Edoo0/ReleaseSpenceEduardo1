@@ -1,0 +1,48 @@
+﻿@model ReleaseSpence.Models.ResetPassVM
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    @Html.ActionLink("Volver", "Index", "Account", new { }, new { @class = "btn btn-primary" })
+    <h2>Restablecer Contraseña</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idUsuario)
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.userName, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.userName)
+                </td>
+                <td>
+                    @Model.userName
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.NewPassword, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.NewPassword)
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" id="enviar" class="btn btn-warning" value="Guardar Cambios">
+                </td>
+            </tr>
+        </table>
+    }
+</div>

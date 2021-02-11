@@ -1,0 +1,124 @@
+﻿@model ReleaseSpence.Models.Figuras
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#Mdialog").width(parseInt($("#dibujo").attr("width")) + 40);
+		$("#dialog").modal({ show: true });
+		$("#cerrar").click(function () {
+			$("#dialog").modal("hide");
+		});
+	});
+</script>
+@switch (Model.tipo)
+{
+	case 1:
+		{
+			<svg id="dibujo" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Model.size" height="@Model.size">
+				<circle cx="@(Model.size/2)" cy="@(Model.size/2)" r="@(Model.size/2 - Model.borde/2)"
+						fill="#@Model.color" stroke-width="@Model.borde" stroke="#@Model.colorBorde" />
+			</svg>
+		}
+		break;
+	case 2:
+		{
+			int largo = (Model.size - Model.borde).Value;
+			double centro = Model.size * 1.42 / 2;
+			short x1, x2, x3, x4, y1, y2, y3, y4, deg;
+			deg = Model.rotacion.Value;
+			x1 = (short)Math.Round(centro + (largo * 1.42 / 2) * Funciones.coseno(225 - deg));
+			y1 = (short)Math.Round(centro + (largo * 1.42 / 2) * Funciones.seno(225 - deg));
+			x2 = (short)Math.Round(x1 + largo * Funciones.coseno(90 - deg));
+			y2 = (short)Math.Round(y1 + largo * Funciones.seno(90 - deg));
+			x3 = (short)Math.Round(x2 + largo * Funciones.coseno(0 - deg));
+			y3 = (short)Math.Round(y2 + largo * Funciones.seno(0 - deg));
+			x4 = (short)Math.Round(x3 + largo * Funciones.coseno(270 - deg));
+			y4 = (short)Math.Round(y3 + largo * Funciones.seno(270 - deg));
+			<svg id="dibujo" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+				<polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4"
+						 fill="#@Model.color" stroke-width="@Model.borde" stroke="#@Model.colorBorde" />
+			</svg>
+		}
+		break;
+	case 3:
+		{
+			int largo = Model.size;
+			int x1 = 0;
+			int x2 = largo;
+			int x3 = (int)Math.Round(x2 + largo * Funciones.coseno(144));
+			int x4 = (int)Math.Round(x3 + largo * Funciones.coseno(288));
+			int x5 = (int)Math.Round(x4 + largo * Funciones.coseno(72));
+			int y1 = (int)Math.Round(largo * 0.36);
+			int y2 = y1;
+			int y3 = (int)Math.Round(y2 + largo * Funciones.seno(144));
+			int y4 = (int)Math.Round(y3 + largo * Funciones.seno(288));
+			int y5 = (int)Math.Round(y4 + largo * Funciones.seno(72));
+			<svg id="dibujo" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@(Model.size)" height="@Math.Round(Model.size*0.95)">
+				<polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4 @x5,@y5"
+						 fill="#@Model.color" />
+			</svg>
+		}
+		break;
+	case 4:
+		{
+			short deg = Model.rotacion.Value;
+			double largo = (Model.size - Model.borde * Math.Pow(3, 1 / 2.0)).Value;
+			double centro = Model.size / Math.Pow(3, 1 / 2.0);
+			int x1, x2, x3, y1, y2, y3;
+			double baseX, baseY;
+			baseX = (centro + (Model.size * Math.Pow(3, 1 / 2.0) / 6 - Model.borde / 2) * Funciones.coseno(90 - deg)).Value;
+			baseY = (centro + (Model.size * Math.Pow(3, 1 / 2.0) / 6 - Model.borde / 2) * Funciones.seno(90 - deg)).Value;
+			x1 = (int)Math.Round(baseX + largo / 2 * Funciones.coseno(180 - deg));
+			y1 = (int)Math.Round(baseY + largo / 2 * Funciones.seno(180 - deg));
+			x2 = (int)Math.Round(x1 + largo * Funciones.coseno(300 - deg));
+			y2 = (int)Math.Round(y1 + largo * Funciones.seno(300 - deg));
+			x3 = (int)Math.Round(x2 + largo * Funciones.coseno(60 - deg));
+			y3 = (int)Math.Round(y2 + largo * Funciones.seno(60 - deg));
+			<svg id="dibujo" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+				<polygon points="@x1,@y1 @x2,@y2 @x3,@y3"
+						 fill="#@Model.color" stroke-width="@Model.borde" stroke="#@Model.colorBorde" />
+			</svg>
+		}
+		break;
+	case 5:
+		{
+			double linea = (Model.size / 3.0 - Model.borde / 3.0).Value;
+			double centro = Model.size * 1.2 / 2;
+			short deg = Model.rotacion.Value;
+			int x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12;
+			double baseX, baseY;
+			baseX = centro + linea * 1.5 * Funciones.coseno(90 - deg);
+			baseY = centro + linea * 1.5 * Funciones.seno(90 - deg);
+			x1 = (int)Math.Round(baseX + (linea / 2) * Funciones.coseno(180 - deg));
+			y1 = (int)Math.Round(baseY + (linea / 2) * Funciones.seno(180 - deg));
+			x2 = (int)Math.Round(x1 + linea * Funciones.coseno(270 - deg));
+			y2 = (int)Math.Round(y1 + linea * Funciones.seno(270 - deg));
+			x3 = (int)Math.Round(x2 + linea * Funciones.coseno(180 - deg));
+			y3 = (int)Math.Round(y2 + linea * Funciones.seno(180 - deg));
+			x4 = (int)Math.Round(x3 + linea * Funciones.coseno(270 - deg));
+			y4 = (int)Math.Round(y3 + linea * Funciones.seno(270 - deg));
+			x5 = (int)Math.Round(x4 + linea * Funciones.coseno(0 - deg));
+			y5 = (int)Math.Round(y4 + linea * Funciones.seno(0 - deg));
+			x6 = (int)Math.Round(x5 + linea * Funciones.coseno(270 - deg));
+			y6 = (int)Math.Round(y5 + linea * Funciones.seno(270 - deg));
+			x7 = (int)Math.Round(x6 + linea * Funciones.coseno(0 - deg));
+			y7 = (int)Math.Round(y6 + linea * Funciones.seno(0 - deg));
+			x8 = (int)Math.Round(x7 + linea * Funciones.coseno(90 - deg));
+			y8 = (int)Math.Round(y7 + linea * Funciones.seno(90 - deg));
+			x9 = (int)Math.Round(x8 + linea * Funciones.coseno(0 - deg));
+			y9 = (int)Math.Round(y8 + linea * Funciones.seno(0 - deg));
+			x10 = (int)Math.Round(x9 + linea * Funciones.coseno(90 - deg));
+			y10 = (int)Math.Round(y9 + linea * Funciones.seno(90 - deg));
+			x11 = (int)Math.Round(x10 + linea * Funciones.coseno(180 - deg));
+			y11 = (int)Math.Round(y10 + linea * Funciones.seno(180 - deg));
+			x12 = (int)Math.Round(x11 + linea * Funciones.coseno(90 - deg));
+			y12 = (int)Math.Round(y11 + linea * Funciones.seno(90 - deg));
+			<svg id="dibujo" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+				<polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4 @x5,@y5 @x6,@y6 @x7,@y7 @x8,@y8 @x9,@y9 @x10,@y10 @x11,@y11 @x12,@y12"
+						 fill="#@Model.color" stroke-width="@Model.borde" stroke="#@Model.colorBorde" />
+			</svg>
+		}
+		break;
+}
+<div class="form-actions no-color">
+	<input type="button" class="btn btn-primary" name="cerrar" id="cerrar" value="Cerrar" />
+</div>

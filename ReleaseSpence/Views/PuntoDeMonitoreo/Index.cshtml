@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Punto_de_Monitoreo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<int> listPuntos = ViewBag.puntosAGraficar;
+}
+<div style="padding:20px;">
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.popup").click(function (e) {
+                e.preventDefault();
+                $("#Mdialog").css("width", "");
+                $("#Cdialog").load($(this).attr("href"));
+            });
+        });
+    </script>
+
+    <h2>Listado de Puntos de Monitoreo</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idPuntoMonitoreo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.carpeta)
+            </th>
+
+            <th>
+                <span class="glyphicon glyphicon-edit" title="Editar"></span>
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-eye-open" title="Ver Sensores Asociados"></span>
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-stats" title="Ver Gráfico Multipiezómetro"></span>
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-remove" title="Eliminar"></span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model.OrderBy(o => o.idPuntoMonitoreo))
+        {
+            <tr>
+                @if (item.idPuntoMonitoreo != 0)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idPuntoMonitoreo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.carpeta)
+                    </td>
+                    <td>
+                        <a href=@Url.Action("EditPuntoMonitoreo", "PuntoDeMonitoreo", new { id = item.idPuntoMonitoreo })><span class="glyphicon glyphicon-edit" title="Editar"></span></a>
+                    </td>
+                    <td>
+                        <a href=@Url.Action("SensoresAsociados", "PuntoDeMonitoreo", new { id = item.idPuntoMonitoreo })><span class="glyphicon glyphicon-eye-open" title="Ver Sensores Asociados"></span></a>
+                    </td>
+                    <td>
+                        @for (int i = 0; i < listPuntos.Count(); i++)
+                        {
+                            if (listPuntos[i] == item.idPuntoMonitoreo)
+                            {
+                                <a href=@Url.Action("Index", "Multipiezometro", new { @id = item.idPuntoMonitoreo, @idTipo = 7, @precision = true, @datos = 200, @desde = DateTime.Now.AddMonths(-1).ToString("dd-MM-yyyy HH:mm:ss").Replace(":", "").Replace("-", "").Replace(" ", ""), @hasta = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss").Replace(":", "").Replace("-", "").Replace(" ", "") })>
+                                    <span class="glyphicon glyphicon-stats" title="Ver Gráfico Multipiezómetro"></span>
+                                </a>
+                            }
+                        }
+                    </td>
+                    <td>
+                        <a href=@Url.Action("Delete", "PuntoDeMonitoreo", new { id = item.idPuntoMonitoreo }) class="popup"><span class="glyphicon glyphicon-remove" title="Eliminar"></span></a>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+    @Html.ActionLink("Agregar Nuevo", "Create", "PuntoDeMonitoreo", new { }, new { @class = "btn btn-primary" })
+
+</div>

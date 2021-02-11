@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Imagenes>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.popup").click(function (e) {
+                e.preventDefault();
+                $("#Mdialog").css("width", "");
+                $("#Cdialog").load($(this).attr("href"));
+            });
+        });
+    </script>
+    @Html.ActionLink("Cargar Nuevo", "Create", "Imagenes", new { }, new { @class = "btn btn-primary" })
+    <h2>Listado de Planos</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                Miniatura
+            </th>
+            <th>
+                Georeferenciar
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-edit" title="Edtar"></span> / <span class="glyphicon glyphicon-remove" title="Eliminar"></span>
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    <a href="~/Images/Mapas/@(item.idImagen).jpg" target="_blank"><img src="~/Images/Mapas/@(item.idImagen).jpg" style="max-width:600px; max-height:100px;" /></a>
+                </td>
+                <td>
+                    <a href=@Url.Action("Georeferenciar", "Imagenes", new { id = item.idImagen })>Georeferenciar</a>
+                </td>
+                <td>
+                    <a href=@Url.Action("Edit", "Imagenes", new { id = item.idImagen })><span class="glyphicon glyphicon-edit" title="Editar"></span></a> / <a href=@Url.Action("Delete", "Imagenes", new { id = item.idImagen }) class="popup"><span class="glyphicon glyphicon-remove" title="Eliminar"></span></a>
+                </td>
+            </tr>}
+    </table>
+</div>

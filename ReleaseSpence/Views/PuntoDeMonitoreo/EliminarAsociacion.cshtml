@@ -1,0 +1,31 @@
+﻿@model ReleaseSpence.Models.Sensores
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#dialog").modal({ show: true });
+        $("#cerrar").click(function () {
+            $("#dialog").modal("hide");
+        });
+    });
+</script>
+
+<h4>¿Esta seguro de eliminar la asociacion?</h4>
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.nombre)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.nombre)
+    </dd>
+
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-actions no-color">
+        <input type="button" class="btn btn-primary" name="cerrar" id="cerrar" value="Cancelar"> <input type="submit" class="btn btn-danger" name="enviar" id="enviar" value="Eliminar Asociación" />
+    </div>
+}

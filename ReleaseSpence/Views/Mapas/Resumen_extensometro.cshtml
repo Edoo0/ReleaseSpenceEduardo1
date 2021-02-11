@@ -1,0 +1,6 @@
+﻿@model ReleaseSpence.Models.Sensores
+
+<b>Fecha ultima lectura: </b> @ViewBag.fecha<br />
+<b>Ultima lectura: </b> @ViewBag.dato mm<br />
+@Html.ActionLink("Ver Graficos", "Graphics", "Mapas", new { id = Model.idSensor, idTipo = Model.idTipo, precision = false,
+datos = 200, desde = DateTime.Now.AddDays(-7).ToString("ddMMyyyyHHmmss"), hasta = DateTime.Now.ToString("ddMMyyyyHHmmss") }, new { @class = "btn btn-primary", target = "_blank" })

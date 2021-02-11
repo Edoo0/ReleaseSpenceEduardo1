@@ -1,0 +1,248 @@
+﻿@model ReleaseSpence.Models.Figuras
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        function preview() {
+            $("#circulo").css("visibility", "hidden");
+            $("#cuadrado").css("visibility", "hidden");
+            $("#estrella").css("visibility", "hidden");
+            $("#triangulo").css("visibility", "hidden");
+            $("#cruz").css("visibility", "hidden");
+            switch ($("#tipo").val()) {
+                case "1":
+                    $("#circulo").attr("cx", Math.round($("#size").val() / 2));
+                    $("#circulo").attr("cy", Math.round($("#size").val() / 2));
+                    $("#circulo").attr("r", Math.round($("#size").val() / 2 - $("#borde").val() / 2));
+                    $("#circulo").attr("fill", $("#color").val());
+                    $("#circulo").attr("stroke-width", $("#borde").val());
+                    $("#circulo").attr("stroke", $("#colorBorde").val());
+                    $("#circulo").css("visibility", "visible");
+                    break;
+                case "2":
+                    var largo = $("#size").val() - $("#borde").val();
+                    var centro = $("#size").val() * 1.42 / 2;
+                    var deg = $("#rotacion").val();
+                    var x1, x2, x3, x4, y1, y2, y3, y4;
+                    x1 = Math.round(centro + (largo * 1.42 / 2) * coseno(225 - deg));
+                    y1 = Math.round(centro + (largo * 1.42 / 2) * seno(225 - deg));
+                    x2 = Math.round(x1 + largo * coseno(90 - deg));
+                    y2 = Math.round(y1 + largo * seno(90 - deg));
+                    x3 = Math.round(x2 + largo * coseno(0 - deg));
+                    y3 = Math.round(y2 + largo * seno(0 - deg));
+                    x4 = Math.round(x3 + largo * coseno(270 - deg));
+                    y4 = Math.round(y3 + largo * seno(270 - deg));
+                    $("#cuadrado").attr("points", x1 + "," + y1 + " " + x2 + "," + y2 + " " + x3 + "," + y3 + " " + x4 + "," + y4);
+                    $("#cuadrado").attr("fill", $("#color").val());
+                    $("#cuadrado").attr("stroke-width", $("#borde").val());
+                    $("#cuadrado").attr("stroke", $("#colorBorde").val());
+                    $("#cuadrado").css("visibility", "visible");
+                    break;
+                case "3":
+                    var largo = $("#size").val();
+                    var x1 = 0;
+                    var x2 = Math.round(largo);
+                    var x3 = Math.round(x2 + largo * coseno(144));
+                    var x4 = Math.round(x3 + largo * coseno(288));
+                    var x5 = Math.round(x4 + largo * coseno(72));
+                    var y1 = Math.round(largo * 0.36);
+                    var y2 = Math.round(y1);
+                    var y3 = Math.round(y2 + largo * seno(144));
+                    var y4 = Math.round(y3 + largo * seno(288));
+                    var y5 = Math.round(y4 + largo * seno(72));
+                    $("#estrella").attr("points", x1 + "," + y1 + " " + x2 + "," + y2 + " " + x3 + "," + y3 + " " + x4 + "," + y4 + " " + x5 + "," + y5);
+                    $("#estrella").attr("fill", $("#color").val());
+                    $("#estrella").css("visibility", "visible");
+                    break;
+                case "4":
+                    var deg = $("#rotacion").val();
+                    var largo = $("#size").val() - $("#borde").val() * Math.pow(3, 1 / 2);
+                    var centro = $("#size").val() / Math.pow(3, 1 / 2);
+                    //h = ($("#size").val()*(Math.pow(3, 1/2))/2)/2;
+                    var x1, x2, x3, y1, y2, y3;
+                    var baseX, baseY;
+                    baseX = centro + ($("#size").val() * Math.pow(3, 1 / 2) / 6 - $("#borde").val() / 2) * coseno(90 - deg);
+                    baseY = centro + ($("#size").val() * Math.pow(3, 1 / 2) / 6 - $("#borde").val() / 2) * seno(90 - deg);
+                    x1 = Math.round(baseX + largo / 2 * coseno(180 - deg));
+                    y1 = Math.round(baseY + largo / 2 * seno(180 - deg));
+                    x2 = Math.round(x1 + largo * coseno(300 - deg));
+                    y2 = Math.round(y1 + largo * seno(300 - deg));
+                    x3 = Math.round(x2 + largo * coseno(60 - deg));
+                    y3 = Math.round(y2 + largo * seno(60 - deg));
+                    $("#triangulo").attr("points", x1 + "," + y1 + " " + x2 + "," + y2 + " " + x3 + "," + y3);
+                    $("#triangulo").attr("fill", $("#color").val());
+                    $("#triangulo").attr("stroke-width", $("#borde").val());
+                    $("#triangulo").attr("stroke", $("#colorBorde").val());
+                    $("#triangulo").css("visibility", "visible");
+                    /*$("#debug").attr("cx", centro);
+                    $("#debug").attr("cy", centro);
+                    $("#debug").css("visibility", "visible");*/
+                    break;
+                case "5":
+                    var linea = $("#size").val() / 3 - $("#borde").val() / 3;
+                    var centro = $("#size").val() * 1.2 / 2;
+                    var deg = $("#rotacion").val();
+                    var x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12;
+                    var baseX, baseY;
+                    baseX = centro + linea * 1.5 * coseno(90 - deg);
+                    baseY = centro + linea * 1.5 * seno(90 - deg);
+                    x1 = Math.round(baseX + (linea / 2) * coseno(180 - deg));
+                    y1 = Math.round(baseY + (linea / 2) * seno(180 - deg));
+                    x2 = Math.round(x1 + linea * coseno(270 - deg));
+                    y2 = Math.round(y1 + linea * seno(270 - deg));
+                    x3 = Math.round(x2 + linea * coseno(180 - deg));
+                    y3 = Math.round(y2 + linea * seno(180 - deg));
+                    x4 = Math.round(x3 + linea * coseno(270 - deg));
+                    y4 = Math.round(y3 + linea * seno(270 - deg));
+                    x5 = Math.round(x4 + linea * coseno(0 - deg));
+                    y5 = Math.round(y4 + linea * seno(0 - deg));
+                    x6 = Math.round(x5 + linea * coseno(270 - deg));
+                    y6 = Math.round(y5 + linea * seno(270 - deg));
+                    x7 = Math.round(x6 + linea * coseno(0 - deg));
+                    y7 = Math.round(y6 + linea * seno(0 - deg));
+                    x8 = Math.round(x7 + linea * coseno(90 - deg));
+                    y8 = Math.round(y7 + linea * seno(90 - deg));
+                    x9 = Math.round(x8 + linea * coseno(0 - deg));
+                    y9 = Math.round(y8 + linea * seno(0 - deg));
+                    x10 = Math.round(x9 + linea * coseno(90 - deg));
+                    y10 = Math.round(y9 + linea * seno(90 - deg));
+                    x11 = Math.round(x10 + linea * coseno(180 - deg));
+                    y11 = Math.round(y10 + linea * seno(180 - deg));
+                    x12 = Math.round(x11 + linea * coseno(90 - deg));
+                    y12 = Math.round(y11 + linea * seno(90 - deg));
+                    $("#cruz").attr("points", x1 + "," + y1 + " " + x2 + "," + y2 + " " + x3 + "," + y3 + " " + x4 + "," + y4 + " " + x5 + "," + y5 + " " + x6 + "," + y6 + " " + x7 + "," + y7 + " " + x8 + "," + y8 + " " + x9 + "," + y9 + " " + x10 + "," + y10 + " " + x11 + "," + y11 + " " + x12 + "," + y12);
+                    $("#cruz").attr("fill", $("#color").val());
+                    $("#cruz").attr("stroke-width", $("#borde").val());
+                    $("#cruz").attr("stroke", $("#colorBorde").val());
+                    $("#cruz").css("visibility", "visible");
+                    break;
+            }
+        }
+        $(document).ready(function () {
+            /*setInterval(function()
+            {
+                $("#rotacion").val(parseInt($("#rotacion").val()) + 2);
+                if($("#rotacion").val() > 359) $("#rotacion").val(0);
+                preview()
+            }, 10);*/
+            $("#btnpreview").click(function (e) {
+                preview();
+            });
+            switch ($("#tipo").val()) {
+                case "1":
+                    $("#rotacion").attr("disabled", "disabled");
+                    $("#rotacion").val("0");
+                    break;
+                case "3":
+                    $("#borde").attr("disabled", "disabled");
+                    $("#colorBorde").attr("disabled", "disabled");
+                    $("#rotacion").attr("disabled", "disabled");
+                    $("#borde").val("0");
+                    $("#rotacion").val("0");
+                    break;
+            }
+            $("#tipo").change(function () {
+                $("#borde").removeAttr("disabled");
+                $("#colorBorde").removeAttr("disabled");
+                $("#rotacion").removeAttr("disabled");
+                switch ($("#tipo").val()) {
+                    case "1":
+                        $("#rotacion").attr("disabled", "disabled");
+                        $("#rotacion").val("0");
+                        break;
+                    case "3":
+                        $("#borde").attr("disabled", "disabled");
+                        $("#colorBorde").attr("disabled", "disabled");
+                        $("#rotacion").attr("disabled", "disabled");
+                        $("#borde").val("0");
+                        $("#rotacion").val("0");
+                        break;
+                }
+            });
+        });
+    </script>
+    <div style="width:1900px; height:auto;">
+        <div style="float:left; width:400px; height:auto;">
+            @Html.ActionLink("Volver", "Index", "Figuras", new { }, new { @class = "btn btn-primary" })
+            <h2>Nueva Figura</h2>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.tipo, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.tipo)
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => model.tipo, new List<SelectListItem>{
+                       new SelectListItem { Value = "1" , Text = "Circulo" },
+                       new SelectListItem { Value = "2" , Text = "Cuadrado" },
+                       new SelectListItem { Value = "3" , Text = "Estrella" },
+                       new SelectListItem { Value = "4" , Text = "Triangulo" },
+                       new SelectListItem { Value = "5" , Text = "Cruz" }})
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.nombre)
+                        </td>
+                        <td>@Html.TextBoxFor(model => model.nombre, new { maxlength = "128" })</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.size, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.size)
+                        </td>
+                        <td>@Html.TextBoxFor(model => model.size, new { type = "number", min = "0", max = "1000" })</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.color, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.color)
+                        </td>
+                        <td>@Html.TextBoxFor(model => model.color, new { type = "color" })</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.borde, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.borde)
+                        </td>
+                        <td>@Html.TextBoxFor(model => model.borde, new { type = "number", min = "0", max = "500" })</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.colorBorde, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.colorBorde)
+                        </td>
+                        <td>@Html.TextBoxFor(model => model.colorBorde, new { type = "color" })</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.rotacion, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.rotacion)
+                        </td>
+                        <td>@Html.TextBoxFor(model => model.rotacion, new { type = "number", min = "0", max = "360" })</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" id="enviar" class="btn btn-success" value="Crear">
+                            <input type="button" class="btn btn-info" value="Previsualizar" id="btnpreview">
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+        <div id="demofigura" style="float:left; width:1500px; height:auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1000" height="1000">
+                <circle id="circulo" style="visibility:hidden;" />
+                <polygon id="cuadrado" style="visibility:hidden;" />
+                <polygon id="estrella" style="visibility:hidden;" />
+                <polygon id="triangulo" style="visibility:hidden;" />
+                <polygon id="cruz" style="visibility:hidden;" />
+            </svg>
+        </div>
+    </div>
+</div>

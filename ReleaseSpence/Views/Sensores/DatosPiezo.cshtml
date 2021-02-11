@@ -1,0 +1,199 @@
+﻿@model ReleaseSpence.Models.CorregirPiezo
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#cotaAgua").blur(function (e) {
+                $("#distT_A").val(Math.round(($("#cotaTierra").val().replace(",", ".") - $("#cotaAgua").val().replace(",", ".")) * 1000) / 1000);
+                $("#distT_A").val($("#distT_A").val().replace(".", ","));
+            });
+            $("#distT_A").blur(function (e) {
+                $("#cotaAgua").val(Math.round(($("#cotaTierra").val().replace(",", ".") - $("#distT_A").val().replace(",", ".")) * 1000) / 1000);
+                $("#cotaAgua").val($("#cotaAgua").val().replace(".", ","));
+            });
+
+
+            $("#dtp_desde").datetimepicker();
+            $("#dtp_hasta").datetimepicker();
+        });
+    </script>
+
+    <h2>Corregir Datos por Calibración</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idSensor)
+    <table class="table">
+
+        <tr><td colspan="4" class="jqplot-title">RANGO DE CALIBRACIÓN</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label" })
+            </td>
+            <td>
+                @Model.nombre
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.seriePiezo, new { @class = "control-label" })
+            </td>
+            <td>
+                @Model.seriePiezo
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.desde)
+                @Html.ValidationMessageFor(model => model.desde)
+            </td>
+            <td>
+                <div class='input-group date autolink' id='dtp_desde'>
+                    @Html.TextBoxFor(model => model.desde, new { @class = "form-control", data_date_format = "DD-MM-YYYY HH:mm:ss", Value = "", data_val = "false" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </td>
+            <td>
+                @Html.LabelFor(model => model.hasta)
+                @Html.ValidationMessageFor(model => model.hasta)
+            </td>
+            <td>
+                <div class='input-group date autolink' id='dtp_hasta'>
+                    @Html.TextBoxFor(model => model.hasta, new { @class = "form-control", data_date_format = "DD-MM-YYYY HH:mm:ss", Value = "", data_val = "false" })
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </td>
+        </tr>
+
+        <tr><td colspan="4" class="jqplot-title">DATOS INICIALES DEL PUNTO DE MONITOREO</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.cotaTierra, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.cotaTierra)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.cotaTierra)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.cotaAgua, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.cotaAgua)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.cotaAgua)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.distT_A, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.distT_A)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.distT_A)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.cotaSensor, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.cotaSensor)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.cotaSensor)
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.carpeta, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.carpeta)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.carpeta)
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.tempI, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.tempI)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.tempI)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.baroI, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.baroI)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.baroI)
+            </td>
+        </tr>
+
+
+
+        <tr><td colspan="4" class="jqplot-title">DATOS DE CALIBRACIÓN DEL PIEZÓMETRO</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.coefA, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.coefA)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.coefA)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.coefB, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.coefB)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.coefB)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.coefC, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.coefC)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.coefC)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.tempK, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.tempK)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.tempK)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.metrosSensor, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.metrosSensor)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.metrosSensor)
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="4">
+                @Html.ActionLink("Volver", "Index", "Sensores", new { }, new { @class = "btn btn-primary" })
+                <input type="submit" id="enviar" class="btn btn-warning" value="Corregir">
+            </td>
+        </tr>
+    </table>
+    }
+</div>

@@ -1,0 +1,54 @@
+﻿@model ReleaseSpence.Models.Sensores
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('#f1').submit(function (e) {
+			e.preventDefault();
+			$.ajax({
+				type: 'post',
+				url: $(this).attr("action"),
+				data: $('#f1').serialize(),
+				success: function () {
+					$("#contenidomapa").load("@Url.Action("Detalle", new { id = ViewBag.idImagen, idTipo = ViewBag.idTipo })");
+				}
+			});
+			return false;
+		});
+		@{string urlstring = ""; }
+        @switch ((int)ViewBag.idTipo)
+        {
+            case 2:<text>
+		        @{urlstring = "\"" + Url.Action("Resumen_energia", new { id = Model.idSensor }) + "\""; }
+		        $("#resumen").load(@{ WriteLiteral(urlstring); });
+		    </text>break;
+            case 5:<text>
+		        @{urlstring = "\"" + Url.Action("Resumen_extensometro", new { id = Model.idSensor }) + "\""; }
+		        $("#resumen").load(@{ WriteLiteral(urlstring); });
+		    </text>break;
+            case 7:<text>
+                @{urlstring = "\"" + Url.Action("Resumen_piezometro", new { id = Model.idSensor }) + "\""; }
+	            $("#resumen").load(@{ WriteLiteral(urlstring); });
+            </text>break;
+		}
+	});
+</script>
+@using (Html.BeginForm("Marcador_click_sensor", "Mapas", FormMethod.Post, new { id = "f1" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("idSensor")
+    <table class="table" style="min-width:280px;">
+        <tr>
+            <td id="resumen"></td>
+        </tr>
+        <tr>
+            <td>
+                Quiere quitar este marcador del mapa?<br /><b>@Model.nombre</b>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" id="enviar" class="btn btn-danger" value="Quitar"> <input type="button" id="cancelar" class="btn btn-primary" value="Cancelar">
+            </td>
+        </tr>
+    </table>
+}

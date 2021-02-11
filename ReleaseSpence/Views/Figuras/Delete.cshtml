@@ -1,0 +1,64 @@
+﻿@model ReleaseSpence.Models.Figuras
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dialog").modal({ show: true });
+            $("#cerrar").click(function () {
+                $("#dialog").modal("hide");
+            });
+        });
+    </script>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.tipo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tipo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.size)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.size)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.color)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.color)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.borde)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.borde)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.colorBorde)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.colorBorde)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.rotacion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.rotacion)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="button" class="btn btn-primary" name="cerrar" id="cerrar" value="Cancelar"> <input type="submit" class="btn btn-danger" name="enviar" id="enviar" value="Eliminar" />
+        </div>
+    }
+</div>

@@ -1,0 +1,36 @@
+﻿@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;" >
+    <h2>Cargar Datos</h2>
+
+    @using (Html.BeginForm("Cargar", "Datos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Tipo de Sensor", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DropDownList("idTipo", (IEnumerable<SelectListItem>)ViewBag.idTipo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Archivo de datos", new { @class = "control-label col-md-2" })
+
+            <div class="col-md-4">
+                <input type="file" multiple name="archivos" id="archivos" style="max-width:initial" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <input type="submit" id="enviar" class="btn btn-success" value="Cargar">
+            </div>
+        </div>
+
+    </div>
+
+
+        if (ViewBag.contdatos != null) { WriteLiteral("Se han importado " + @ViewBag.contdatos + " datos"); }
+    }
+</div>

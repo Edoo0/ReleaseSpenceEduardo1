@@ -1,0 +1,29 @@
+﻿@model ReleaseSpence.Models.Imagenes
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("#dialog").modal({ show: true });
+		$("#cerrar").click(function () {
+			$("#dialog").modal("hide");
+		});
+	});
+</script>
+
+<dl class="dl-horizontal">
+	<dt>
+		@Html.DisplayNameFor(model => model.nombre)
+	</dt>
+
+	<dd>
+		@Html.DisplayFor(model => model.nombre)
+	</dd>
+</dl>
+@*<img src="~/Images/Mapas/@(Model.idImagen).jpg" style="max-width:538px; max-height:600px;" />*@
+<br /><br />
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	<div class="form-actions no-color">
+		<input type="button" class="btn btn-primary" name="cerrar" id="cerrar" value="Cancelar"> <input type="submit" class="btn btn-danger" name="enviar" id="enviar" value="Eliminar" />
+	</div>
+}

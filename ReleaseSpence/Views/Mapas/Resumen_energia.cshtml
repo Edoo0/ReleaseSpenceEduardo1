@@ -1,0 +1,5 @@
+﻿@model ReleaseSpence.Models.Sensores
+
+@Html.ActionLink("Ver Graficos", "Graphics", "Mapas", new { id = Model.idSensor, idTipo = Model.idTipo, precision = false,
+datos = 200, desde = DateTime.Now.AddDays(-1).ToString("ddMMyyyyHHmmss"), hasta = DateTime.Now.ToString("ddMMyyyyHHmmss") }, new { @class = "btn btn-primary", target = "_blank" })
+@Html.ActionLink("Ver Estado", "Monitoreo", "Mapas", new { id = Model.idSensor }, new { @class = "btn btn-primary", target = "_blank" })

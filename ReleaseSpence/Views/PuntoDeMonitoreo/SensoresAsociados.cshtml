@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Sensores>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $("a.popup").click(function (e) {
+                e.preventDefault();
+                $("#Mdialog").css("width", "");
+                $("#Cdialog").load($(this).attr("href"));
+            });
+        });
+</script>
+
+<div style="padding:20px;">
+    <h2>Sensores Asociados al Punto de Monitoreo @ViewBag.nombrePunto</h2>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idSensor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sensores_Piezometros.cotaSensor)
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-wrench" title="Modificar Cota Piezómetro"></span>
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-remove" title="Eliminar Asociación"></span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model.OrderByDescending(o => o.Sensores_Piezometros.cotaSensor))
+        {
+            <tr>
+                @if (item.idPuntoMonitoreo == ViewBag.idPuntoMonitoreo)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.idSensor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sensores_Piezometros.cotaSensor)
+                    </td>
+                    <td>
+                        <a href=@Url.Action("Edit", "Sensores", new { id = item.idSensor })><span class="glyphicon glyphicon-wrench" title="Modificar Piezómetro"></span></a>
+                    </td>
+                    <td>
+                        <a href=@Url.Action("EliminarAsociacion", "PuntoDeMonitoreo", new { id = item.idSensor }) class="popup"><span class="glyphicon glyphicon-remove" title="Eliminar Asociación"></span></a>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    @Html.ActionLink("Volver", "Index", "PuntoDeMonitoreo", new { }, new { @class = "btn btn-primary" })
+
+    @if (ViewBag.cont < 5)
+    {
+        @Html.ActionLink("Asociar Nuevo Sensor", "AsociarSensor", "PuntoDeMonitoreo", new { id = ViewBag.idPuntoMonitoreo }, new { @class = "btn btn-success" })
+    }
+
+</div>

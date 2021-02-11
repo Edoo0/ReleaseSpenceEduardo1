@@ -1,0 +1,21 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Imagenes>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("a.detalle").click(function (e) {
+			e.preventDefault();
+			$("#contenidomapa").load($(this).attr("href"));
+		});
+	});
+</script>
+<h2 style="margin-top:0;">Sensores de @ViewBag.nombre</h2>
+<ul class="pagination" style="margin:0;">
+	@foreach(var item in Model)
+	{
+		<li><a class="detalle" href=@Url.Action("Detalle", new { id = item.idImagen, idTipo = ViewBag.idTipo })>@item.nombre</a></li>
+	}
+</ul>
+<div id="contenidomapa"></div>
+</div>

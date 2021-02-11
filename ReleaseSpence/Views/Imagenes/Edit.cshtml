@@ -1,0 +1,57 @@
+﻿@model ReleaseSpence.Models.Imagenes
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    @Html.ActionLink("Volver", "Index", "Imagenes", new { }, new { @class = "btn btn-primary" })
+    <h2>Editar Plano</h2>
+    <div style="width:1200px; height:auto;">
+        <div style="float:left; width:500px; height:auto;">
+            @using (Html.BeginForm("Edit", "Imagenes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.idImagen)
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label" })<br />
+                            @Html.ValidationMessageFor(model => model.nombre)
+                        </td>
+                        <td>
+                            @Html.EditorFor(model => model.nombre)
+                        </td>
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.archivo, new { @class = "control-label" })<br />
+                            (Cambio opcional)<br />
+                            @Html.ValidationMessageFor(model => model.archivo)
+                        </td>
+                        <td>
+                            <input type="file" name="archivo" id="archivo" style="max-width:none;" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label class="control-label" for="idTipos">
+                                Tipos de sensor<br />
+                                con los que usara<br />
+                                este plano
+                            </label>
+                        </td>
+                        <td>
+                            @Html.ListBox("idTipos")
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" id="enviar" class="btn btn-warning" value="Guardar Cambios">
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+        <div style="float:left; width:700px; height:auto;">
+            <img src="~/Images/Mapas/@(Model.idImagen).jpg" style="max-width:700px; max-height:1000px;" />
+        </div>
+    </div>
+</div>

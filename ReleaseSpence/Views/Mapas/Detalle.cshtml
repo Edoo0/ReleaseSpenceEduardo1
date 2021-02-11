@@ -1,0 +1,476 @@
+﻿@*@model IEnumerable<ReleaseSpence.Models.Sensores>*@
+@model Tuple<List<ReleaseSpence.Models.Sensores>, List<ReleaseSpence.Models.Punto_de_Monitoreo>>
+
+@using System.Globalization
+@{
+    int anchoimg = System.Drawing.Image.FromFile(Server.MapPath("~/Images/Mapas/" + ViewBag.Imagen.idImagen + ".jpg")).Width;
+    short borde = 10;
+    short info_offset = 10;
+    short info_border = 2;
+    short info_padding = 2;
+}
+<script type="text/javascript">
+	$(document).ready(function()
+    {
+		var left = 0;
+		var top = 0;
+		var ejecutar = true;
+		var x, y, mx, nx, my, ny;
+		@if (ViewBag.Imagen.mx != null)
+		{
+			WriteLiteral("var geoset = true;");
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+			WriteLiteral("\r\nmx=" + ViewBag.Imagen.mx + ";");
+			WriteLiteral("\r\nnx=" + ViewBag.Imagen.nx + ";");
+			WriteLiteral("\r\nmy=" + ViewBag.Imagen.my + ";");
+			WriteLiteral("\r\nny=" + ViewBag.Imagen.ny + ";\r\n");
+			CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("es-CL");
+		}
+		else
+		{
+			WriteLiteral("var geoset = false;");
+		}
+
+        //var onMap = false;
+        //var onPoint = false;
+        //var cerrar = true;
+
+        //$("a.marcadorsvg").mouseenter(function () { onMap = true; });
+        //$("a.marcadorsvg").mouseleave(function () { onMap = false; });
+
+        //$("#mapa").mouseenter(function () { onPoint = true; });
+        //$("#mapa").mouseleave(function () { onPoint = false; });
+        
+
+        function timeFunction() {
+            setTimeout(function () {
+                ejecutar = true;
+                $("#mouseinfo").html("X: " + x + "<br>Y: " + y);
+            }, 100000);
+        }
+
+		$("#mapa").on("mousemove", function(e)
+        {
+			if(ejecutar)
+			{
+				if(left > e.pageX) $("#mouseinfo").css("left", e.pageX - $("#mapcont").position().left + @info_offset);
+				else if(left < e.pageX) $("#mouseinfo").css("left", e.pageX - $("#mapcont").position().left - @(info_border*2) - $("#mouseinfo").width() - @(info_padding*2) - @info_offset);
+				left = e.pageX;
+				if(top > e.pageY) $("#mouseinfo").css("top", e.pageY - $("#mapcont").position().top + @info_offset);
+				else if(top < e.pageY) $("#mouseinfo").css("top", e.pageY - $("#mapcont").position().top - @(info_border*2) - $("#mouseinfo").height() - @(info_padding*2) - @info_offset);
+				top = e.pageY;
+				x = Math.round(e.pageX - $("#mapcont").position().left - @borde);
+				y = Math.round(e.pageY - $("#mapcont").position().top - @borde);
+				if(!geoset) $("#mouseinfo").html("X: " + x + "<br>Y: " + y);
+				else $("#mouseinfo").html("E: " + Math.round((x*mx+nx)*1000)/1000 + "<br>N: " +  Math.round((y*my+ny)*1000)/1000);
+            }
+        });        
+
+		$("#mapa").click(function()
+		{
+            if (ejecutar)
+            {
+				ejecutar = false;
+				@{
+					string urlstring = "\"" + Url.Action("Mapa_click") + "/" + ViewBag.idTipo + "?x=\"+x+\"&y=\"+y+\"&idImagen=" + ViewBag.Imagen.idImagen + "\"";
+				}
+				$("#mouseinfo").load(@{ WriteLiteral(urlstring); });
+            }
+            timeFunction()
+        });
+
+		$("a.marcadorsvg").click(function(e)
+		{
+			e.preventDefault();
+			if(ejecutar)
+            {
+                cerrar = false;
+				ejecutar = false;
+				$("#mouseinfo").load($(this).attr("href"));
+            }
+            timeFunction()
+        });
+
+		$(document).on("click", "#cancelar", function()
+        {
+            ejecutar = true;
+			$("#mouseinfo").html("X: " + x + "<br>Y: " + y);
+        });
+                
+		$("a.popup").click(function (e)
+		{
+			e.preventDefault();
+			$("#Cdialog").load($(this).attr("href"));
+        });
+
+		$("a.moverse").click(function(e)
+		{
+			e.preventDefault();
+			$('html,body').animate({scrollTop:($("#marcador"+$(this).attr("objetivo")).offset().top - $(window).height()/2)+$("#dibujo"+$(this).attr("objetivo")).height()/2,
+				scrollLeft:($("#marcador"+$(this).attr("objetivo")).offset().left - $(window).width()/2)+$("#dibujo"+$(this).attr("objetivo")).width()/2},"slow");
+        });
+
+		@{
+			urlstring = Url.Action("Detalle", new { id = ViewBag.Imagen.idImagen, idTipo = ViewBag.idTipo });
+		}
+
+		$("#refreshlink").attr("href", "@{ WriteLiteral(urlstring); }&desde=" + strdate($("#desde").val()) + "&hasta=" + strdate($("#hasta").val()));
+		$(".autolink").change(function (e)
+		{
+			$("#refreshlink").attr("href", "@{ WriteLiteral(urlstring); }&desde=" + strdate($("#desde").val()) + "&hasta=" + strdate($("#hasta").val()));
+		});
+		$("#dtp_desde").datetimepicker();
+		$("#dtp_hasta").datetimepicker();
+		$("a.detalle").click(function (e)
+		{
+			e.preventDefault();
+			$("#contenidomapa").load($(this).attr("href"));
+		});
+		function strdate(fecha)
+		{
+			fecha = fecha.replace(/:/g, "").replace(/-/g, "").replace(" ", "")
+			return fecha;
+		}
+	});
+</script>
+<div class="bs-example" style="border-style:double; width:auto; display:inline-block; padding:5px; margin-bottom:5px;">
+    <h3 style="margin-top:0px;">Rango de búsqueda de alertas</h3>
+    <form class="form-inline" role="form">
+        <div class="form-group" style="width:200px;">
+            <label for="desde">Desde</label>
+            <div class='input-group date autolink' id='dtp_desde'>
+                <input type='text' class="form-control" id="desde" data-date-format="DD-MM-YYYY HH:mm:ss" value="@ViewBag.desde.ToString("dd-MM-yyyy HH:mm:ss")" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+        <div class="form-group" style="width:200px;">
+            <label for="grupo">Hasta</label>
+            <div class='input-group date autolink' id='dtp_hasta'>
+                <input type='text' class="form-control" id="hasta" data-date-format="DD-MM-YYYY HH:mm:ss" value="@ViewBag.hasta.ToString("dd-MM-yyyy HH:mm:ss")" />
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+        </div>
+        <div class="form-group" style="width:250px;">
+            <label for="grupo">Ver las últimas alertas</label>
+            <div class="btn-group" role="group" aria-label="...">
+                <a id="1d" class="btn btn-default detalle" href="@{ WriteLiteral(urlstring); }&desde=1d&hasta=1d">1d</a>
+                <a id="1s" class="btn btn-default detalle" href="@{ WriteLiteral(urlstring); }&desde=1s&hasta=1s">1s</a>
+                <a id="1m" class="btn btn-default detalle" href="@{ WriteLiteral(urlstring); }&desde=1m&hasta=1m">1m</a>
+                <a id="3m" class="btn btn-default detalle" href="@{ WriteLiteral(urlstring); }&desde=3m&hasta=3m">3m</a>
+                <a id="1a" class="btn btn-default detalle" href="@{ WriteLiteral(urlstring); }&desde=1a&hasta=1a">1a</a>
+            </div>
+        </div>
+        <a id="refreshlink" class="btn btn-primary detalle" href="" style="vertical-align:bottom;">Refrescar</a>
+    </form>
+</div>
+
+
+<div id="noticias" style="@{ WriteLiteral(ViewBag.alertas.Count > 0 ? "background-color:#F80":"background-color:#AFA"); }; border-style:outset; border-color:#FC0; border-width:4px; padding:4px; margin-bottom:5px; width:auto; height:auto;">
+        <ul>
+            @if (ViewBag.alertas.Count > 0)
+            {
+                foreach (var item in ViewBag.alertas)
+                {
+                    <li>
+                        El sensor @Html.ActionLink((string)item.nombre, "AlarmasList", "Mapas",
+    new { id = item.idSensor, idTipo = ViewBag.idTipo, desde = ViewBag.desde, hasta = ViewBag.hasta },
+    new { @class = "popup" }) ha tenido @item.cantidad lecturas fuera del Umbral de Alerta <a class="moverse" objetivo="@(item.idSensor)" href=""><span class="glyphicon glyphicon-map-marker" title="Ir al marcador"></span></a>
+    </li>
+    }
+    }
+    else
+    {
+    <li>No hay lecturas fuera del Umbral de Alerta</li>
+    }
+        </ul>
+
+    </div>
+
+<div id="mapcont" style="position:relative; width:auto; height:auto;">
+    <div id="mapa" style="width:@(anchoimg+borde*2)px; height:auto; overflow:hidden; position:relative; background-color:#333; border-style:double; border-width:@(borde)px; border-color:#000; border-radius:@(borde)px;">
+        <img src="~/Images/Mapas/@(ViewBag.Imagen.idImagen).jpg">
+
+
+        @foreach (var item in Model.Item2)
+        {
+            if (item.idPuntoMonitoreo != 0 && item.MarcadoresMpz != null)
+            {
+                switch (item.Figuras.tipo)
+                {
+                    case 1:
+                        {
+                            <div id="marcador@(item.MarcadoresMpz.idPuntoMonitoreo)" style="position:absolute; top:@(item.MarcadoresMpz.y - item.Figuras.size/2)px; left:@(item.MarcadoresMpz.x - item.Figuras.size/2)px; width:auto; height:auto; line-height: 0;">
+                                <a class="marcadorsvg" href="@Url.Action("Marcador_click_punto", new { id = item.idPuntoMonitoreo, idImagen = item.MarcadoresMpz.idImagen })">
+                                    <svg class="dibujo" id="dibujo@(item.MarcadoresMpz.idPuntoMonitoreo)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@item.Figuras.size" height="@item.Figuras.size">
+                                        <circle cx="@(item.Figuras.size / 2)" cy="@(item.Figuras.size / 2)" r="@(item.Figuras.size/2 - item.Figuras.borde/2)"
+                                                fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                    </svg>
+                                </a>
+                            </div>
+                        }
+                        break;
+                    case 2:
+                        {
+                            int largo = (item.Figuras.size - item.Figuras.borde).Value;
+                            double centro = item.Figuras.size * 1.42 / 2;
+                            short x1, x2, x3, x4, y1, y2, y3, y4, deg;
+                            deg = item.Figuras.rotacion.Value;
+                            x1 = (short)Math.Round(centro + (largo * 1.42 / 2) * Funciones.coseno(225 - deg));
+                            y1 = (short)Math.Round(centro + (largo * 1.42 / 2) * Funciones.seno(225 - deg));
+                            x2 = (short)Math.Round(x1 + largo * Funciones.coseno(90 - deg));
+                            y2 = (short)Math.Round(y1 + largo * Funciones.seno(90 - deg));
+                            x3 = (short)Math.Round(x2 + largo * Funciones.coseno(0 - deg));
+                            y3 = (short)Math.Round(y2 + largo * Funciones.seno(0 - deg));
+                            x4 = (short)Math.Round(x3 + largo * Funciones.coseno(270 - deg));
+                            y4 = (short)Math.Round(y3 + largo * Funciones.seno(270 - deg));
+                            <div id="marcador@(item.MarcadoresMpz.idPuntoMonitoreo)" style="position:absolute; top:@(item.MarcadoresMpz.y - Math.Round(centro))px; left:@(item.MarcadoresMpz.x - Math.Round(centro))px; width:auto; height:auto; line-height: 0;">
+                                <a class="marcadorsvg" href="@Url.Action("Marcador_click_punto", new { id = item.idPuntoMonitoreo, idImagen = item.MarcadoresMpz.idImagen })">
+                                    <svg class="dibujo" id="dibujo@(item.MarcadoresMpz.idPuntoMonitoreo)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+                                        <polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4"
+                                                 fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                    </svg>
+                                </a>
+                            </div>
+                        }
+                        break;
+                    case 3:
+                        {
+                            int largo = item.Figuras.size;
+                            int x1 = 0;
+                            int x2 = largo;
+                            int x3 = (int)Math.Round(x2 + largo * Funciones.coseno(144));
+                            int x4 = (int)Math.Round(x3 + largo * Funciones.coseno(288));
+                            int x5 = (int)Math.Round(x4 + largo * Funciones.coseno(72));
+                            int y1 = (int)Math.Round(largo * 0.36);
+                            int y2 = y1;
+                            int y3 = (int)Math.Round(y2 + largo * Funciones.seno(144));
+                            int y4 = (int)Math.Round(y3 + largo * Funciones.seno(288));
+                            int y5 = (int)Math.Round(y4 + largo * Funciones.seno(72));
+                            <div id="marcador@(item.MarcadoresMpz.idPuntoMonitoreo)" style="position:absolute; top:@(item.MarcadoresMpz.y - item.Figuras.size/2)px; left:@(item.MarcadoresMpz.x - item.Figuras.size/2)px; width:auto; height:auto; line-height: 0;">
+                                <a class="marcadorsvg" href="@Url.Action("Marcador_click_punto", new { id = item.idPuntoMonitoreo, idImagen = item.MarcadoresMpz.idImagen })">
+                                    <svg class="dibujo" id="dibujo@(item.MarcadoresMpz.idPuntoMonitoreo)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@(item.Figuras.size)" height="@Math.Round(item.Figuras.size*0.95)">
+                                        <polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4 @x5,@y5"
+                                                 fill="#@item.Figuras.color" />
+                                    </svg>
+                                </a>
+                            </div>
+                        }
+                        break;
+                    case 4:
+                    {
+                        short deg = item.Figuras.rotacion.Value;
+                        double largo = (item.Figuras.size - item.Figuras.borde * Math.Pow(3, 1 / 2.0)).Value;
+                        double centro = item.Figuras.size / Math.Pow(3, 1 / 2.0);
+                        int x1, x2, x3, y1, y2, y3;
+                        double baseX, baseY;
+                        baseX = (centro + (item.Figuras.size * Math.Pow(3, 1 / 2.0) / 6 - item.Figuras.borde / 2) * Funciones.coseno(90 - deg)).Value;
+                        baseY = (centro + (item.Figuras.size * Math.Pow(3, 1 / 2.0) / 6 - item.Figuras.borde / 2) * Funciones.seno(90 - deg)).Value;
+                        x1 = (int)Math.Round(baseX + largo / 2 * Funciones.coseno(180 - deg));
+                        y1 = (int)Math.Round(baseY + largo / 2 * Funciones.seno(180 - deg));
+                        x2 = (int)Math.Round(x1 + largo * Funciones.coseno(300 - deg));
+                        y2 = (int)Math.Round(y1 + largo * Funciones.seno(300 - deg));
+                        x3 = (int)Math.Round(x2 + largo * Funciones.coseno(60 - deg));
+                        y3 = (int)Math.Round(y2 + largo * Funciones.seno(60 - deg));
+                        <div id="marcador@(item.MarcadoresMpz.idPuntoMonitoreo)" style="position:absolute; top:@(item.MarcadoresMpz.y - Math.Round(centro))px; left:@(item.MarcadoresMpz.x - Math.Round(centro))px; width:auto; height:auto; line-height: 0;">
+                            <a class="marcadorsvg" href="@Url.Action("Marcador_click_punto", new { id = item.idPuntoMonitoreo, idImagen = item.MarcadoresMpz.idImagen })">
+                                <svg class="dibujo" id="dibujo@(item.MarcadoresMpz.idPuntoMonitoreo)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+                                    <polygon points="@x1,@y1 @x2,@y2 @x3,@y3"
+                                             fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    break;
+                    case 5:
+                        {
+                            double linea = (item.Figuras.size / 3.0 - item.Figuras.borde / 3.0).Value;
+                            double centro = item.Figuras.size * 1.2 / 2;
+                            short deg = item.Figuras.rotacion.Value;
+                            int x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12;
+                            double baseX, baseY;
+                            baseX = centro + linea * 1.5 * Funciones.coseno(90 - deg);
+                            baseY = centro + linea * 1.5 * Funciones.seno(90 - deg);
+                            x1 = (int)Math.Round(baseX + (linea / 2) * Funciones.coseno(180 - deg));
+                            y1 = (int)Math.Round(baseY + (linea / 2) * Funciones.seno(180 - deg));
+                            x2 = (int)Math.Round(x1 + linea * Funciones.coseno(270 - deg));
+                            y2 = (int)Math.Round(y1 + linea * Funciones.seno(270 - deg));
+                            x3 = (int)Math.Round(x2 + linea * Funciones.coseno(180 - deg));
+                            y3 = (int)Math.Round(y2 + linea * Funciones.seno(180 - deg));
+                            x4 = (int)Math.Round(x3 + linea * Funciones.coseno(270 - deg));
+                            y4 = (int)Math.Round(y3 + linea * Funciones.seno(270 - deg));
+                            x5 = (int)Math.Round(x4 + linea * Funciones.coseno(0 - deg));
+                            y5 = (int)Math.Round(y4 + linea * Funciones.seno(0 - deg));
+                            x6 = (int)Math.Round(x5 + linea * Funciones.coseno(270 - deg));
+                            y6 = (int)Math.Round(y5 + linea * Funciones.seno(270 - deg));
+                            x7 = (int)Math.Round(x6 + linea * Funciones.coseno(0 - deg));
+                            y7 = (int)Math.Round(y6 + linea * Funciones.seno(0 - deg));
+                            x8 = (int)Math.Round(x7 + linea * Funciones.coseno(90 - deg));
+                            y8 = (int)Math.Round(y7 + linea * Funciones.seno(90 - deg));
+                            x9 = (int)Math.Round(x8 + linea * Funciones.coseno(0 - deg));
+                            y9 = (int)Math.Round(y8 + linea * Funciones.seno(0 - deg));
+                            x10 = (int)Math.Round(x9 + linea * Funciones.coseno(90 - deg));
+                            y10 = (int)Math.Round(y9 + linea * Funciones.seno(90 - deg));
+                            x11 = (int)Math.Round(x10 + linea * Funciones.coseno(180 - deg));
+                            y11 = (int)Math.Round(y10 + linea * Funciones.seno(180 - deg));
+                            x12 = (int)Math.Round(x11 + linea * Funciones.coseno(90 - deg));
+                            y12 = (int)Math.Round(y11 + linea * Funciones.seno(90 - deg));
+                            <div id="marcador@(item.MarcadoresMpz.idPuntoMonitoreo)" style="position:absolute; top:@(item.MarcadoresMpz.y - Math.Round(centro))px; left:@(item.MarcadoresMpz.x - Math.Round(centro))px; width:auto; height:auto; line-height: 0;">
+                                <a class="marcadorsvg" href="@Url.Action("Marcador_click_punto", new { id = item.idPuntoMonitoreo, idImagen = item.MarcadoresMpz.idImagen })">
+                                    <svg class="dibujo" id="dibujo@(item.MarcadoresMpz.idPuntoMonitoreo)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+                                        <polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4 @x5,@y5 @x6,@y6 @x7,@y7 @x8,@y8 @x9,@y9 @x10,@y10 @x11,@y11 @x12,@y12"
+                                                 fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                    </svg>
+                                </a>
+                            </div>
+                        }
+                        break;
+                }
+            }
+        }
+
+
+
+
+        @foreach (var item in Model.Item1)
+        {
+            switch (item.Figuras.tipo)
+            {
+                case 1:
+                    {
+                        <div id="marcador@(item.Marcadores.idSensor)" style="position:absolute; top:@(item.Marcadores.y - item.Figuras.size/2)px; left:@(item.Marcadores.x - item.Figuras.size/2)px; width:auto; height:auto; line-height: 0;">
+                            <a class="marcadorsvg" href="@Url.Action("Marcador_click_sensor", new { id = item.idSensor, idTipo = item.idTipo, idImagen = item.Marcadores.idImagen })">
+                                <svg class="dibujo" id="dibujo@(item.Marcadores.idSensor)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@item.Figuras.size" height="@item.Figuras.size">
+                                    <circle cx="@(item.Figuras.size / 2)" cy="@(item.Figuras.size / 2)" r="@(item.Figuras.size/2 - item.Figuras.borde/2)"
+                                            fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    break;
+                case 2:
+                    {
+                        int largo = (item.Figuras.size - item.Figuras.borde).Value;
+                        double centro = item.Figuras.size * 1.42 / 2;
+                        short x1, x2, x3, x4, y1, y2, y3, y4, deg;
+                        deg = item.Figuras.rotacion.Value;
+                        x1 = (short)Math.Round(centro + (largo * 1.42 / 2) * Funciones.coseno(225 - deg));
+                        y1 = (short)Math.Round(centro + (largo * 1.42 / 2) * Funciones.seno(225 - deg));
+                        x2 = (short)Math.Round(x1 + largo * Funciones.coseno(90 - deg));
+                        y2 = (short)Math.Round(y1 + largo * Funciones.seno(90 - deg));
+                        x3 = (short)Math.Round(x2 + largo * Funciones.coseno(0 - deg));
+                        y3 = (short)Math.Round(y2 + largo * Funciones.seno(0 - deg));
+                        x4 = (short)Math.Round(x3 + largo * Funciones.coseno(270 - deg));
+                        y4 = (short)Math.Round(y3 + largo * Funciones.seno(270 - deg));
+                        <div id="marcador@(item.Marcadores.idSensor)" style="position:absolute; top:@(item.Marcadores.y - Math.Round(centro))px; left:@(item.Marcadores.x - Math.Round(centro))px; width:auto; height:auto; line-height: 0;">
+                            <a class="marcadorsvg" href="@Url.Action("Marcador_click_sensor", new { id = item.idSensor, idTipo = item.idTipo, idImagen = item.Marcadores.idImagen })">
+                                <svg class="dibujo" id="dibujo@(item.Marcadores.idSensor)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+                                    <polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4"
+                                             fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    break;
+                case 3:
+                    {
+                        int largo = item.Figuras.size;
+                        int x1 = 0;
+                        int x2 = largo;
+                        int x3 = (int)Math.Round(x2 + largo * Funciones.coseno(144));
+                        int x4 = (int)Math.Round(x3 + largo * Funciones.coseno(288));
+                        int x5 = (int)Math.Round(x4 + largo * Funciones.coseno(72));
+                        int y1 = (int)Math.Round(largo * 0.36);
+                        int y2 = y1;
+                        int y3 = (int)Math.Round(y2 + largo * Funciones.seno(144));
+                        int y4 = (int)Math.Round(y3 + largo * Funciones.seno(288));
+                        int y5 = (int)Math.Round(y4 + largo * Funciones.seno(72));
+                        <div id="marcador@(item.Marcadores.idSensor)" style="position:absolute; top:@(item.Marcadores.y - item.Figuras.size/2)px; left:@(item.Marcadores.x - item.Figuras.size/2)px; width:auto; height:auto; line-height: 0;">
+                            <a class="marcadorsvg" href="@Url.Action("Marcador_click_sensor", new { id = item.idSensor, idTipo = item.idTipo, idImagen = item.Marcadores.idImagen })">
+                                <svg class="dibujo" id="dibujo@(item.Marcadores.idSensor)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@(item.Figuras.size)" height="@Math.Round(item.Figuras.size*0.95)">
+                                    <polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4 @x5,@y5"
+                                             fill="#@item.Figuras.color" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    break;
+                case 4:
+                    {
+                        short deg = item.Figuras.rotacion.Value;
+                        double largo = (item.Figuras.size - item.Figuras.borde * Math.Pow(3, 1 / 2.0)).Value;
+                        double centro = item.Figuras.size / Math.Pow(3, 1 / 2.0);
+                        int x1, x2, x3, y1, y2, y3;
+                        double baseX, baseY;
+                        baseX = (centro + (item.Figuras.size * Math.Pow(3, 1 / 2.0) / 6 - item.Figuras.borde / 2) * Funciones.coseno(90 - deg)).Value;
+                        baseY = (centro + (item.Figuras.size * Math.Pow(3, 1 / 2.0) / 6 - item.Figuras.borde / 2) * Funciones.seno(90 - deg)).Value;
+                        x1 = (int)Math.Round(baseX + largo / 2 * Funciones.coseno(180 - deg));
+                        y1 = (int)Math.Round(baseY + largo / 2 * Funciones.seno(180 - deg));
+                        x2 = (int)Math.Round(x1 + largo * Funciones.coseno(300 - deg));
+                        y2 = (int)Math.Round(y1 + largo * Funciones.seno(300 - deg));
+                        x3 = (int)Math.Round(x2 + largo * Funciones.coseno(60 - deg));
+                        y3 = (int)Math.Round(y2 + largo * Funciones.seno(60 - deg));
+                        <div id="marcador@(item.Marcadores.idSensor)" style="position:absolute; top:@(item.Marcadores.y - Math.Round(centro))px; left:@(item.Marcadores.x - Math.Round(centro))px; width:auto; height:auto; line-height: 0;">
+                            <a class="marcadorsvg" href="@Url.Action("Marcador_click_sensor", new { id = item.idSensor, idTipo = item.idTipo, idImagen = item.Marcadores.idImagen })">
+                                <svg class="dibujo" id="dibujo@(item.Marcadores.idSensor)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+                                    <polygon points="@x1,@y1 @x2,@y2 @x3,@y3"
+                                             fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    break;
+                case 5:
+                    {
+                        double linea = (item.Figuras.size / 3.0 - item.Figuras.borde / 3.0).Value;
+                        double centro = item.Figuras.size * 1.2 / 2;
+                        short deg = item.Figuras.rotacion.Value;
+                        int x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12;
+                        double baseX, baseY;
+                        baseX = centro + linea * 1.5 * Funciones.coseno(90 - deg);
+                        baseY = centro + linea * 1.5 * Funciones.seno(90 - deg);
+                        x1 = (int)Math.Round(baseX + (linea / 2) * Funciones.coseno(180 - deg));
+                        y1 = (int)Math.Round(baseY + (linea / 2) * Funciones.seno(180 - deg));
+                        x2 = (int)Math.Round(x1 + linea * Funciones.coseno(270 - deg));
+                        y2 = (int)Math.Round(y1 + linea * Funciones.seno(270 - deg));
+                        x3 = (int)Math.Round(x2 + linea * Funciones.coseno(180 - deg));
+                        y3 = (int)Math.Round(y2 + linea * Funciones.seno(180 - deg));
+                        x4 = (int)Math.Round(x3 + linea * Funciones.coseno(270 - deg));
+                        y4 = (int)Math.Round(y3 + linea * Funciones.seno(270 - deg));
+                        x5 = (int)Math.Round(x4 + linea * Funciones.coseno(0 - deg));
+                        y5 = (int)Math.Round(y4 + linea * Funciones.seno(0 - deg));
+                        x6 = (int)Math.Round(x5 + linea * Funciones.coseno(270 - deg));
+                        y6 = (int)Math.Round(y5 + linea * Funciones.seno(270 - deg));
+                        x7 = (int)Math.Round(x6 + linea * Funciones.coseno(0 - deg));
+                        y7 = (int)Math.Round(y6 + linea * Funciones.seno(0 - deg));
+                        x8 = (int)Math.Round(x7 + linea * Funciones.coseno(90 - deg));
+                        y8 = (int)Math.Round(y7 + linea * Funciones.seno(90 - deg));
+                        x9 = (int)Math.Round(x8 + linea * Funciones.coseno(0 - deg));
+                        y9 = (int)Math.Round(y8 + linea * Funciones.seno(0 - deg));
+                        x10 = (int)Math.Round(x9 + linea * Funciones.coseno(90 - deg));
+                        y10 = (int)Math.Round(y9 + linea * Funciones.seno(90 - deg));
+                        x11 = (int)Math.Round(x10 + linea * Funciones.coseno(180 - deg));
+                        y11 = (int)Math.Round(y10 + linea * Funciones.seno(180 - deg));
+                        x12 = (int)Math.Round(x11 + linea * Funciones.coseno(90 - deg));
+                        y12 = (int)Math.Round(y11 + linea * Funciones.seno(90 - deg));
+                        <div id="marcador@(item.Marcadores.idSensor)" style="position:absolute; top:@(item.Marcadores.y - Math.Round(centro))px; left:@(item.Marcadores.x - Math.Round(centro))px; width:auto; height:auto; line-height: 0;">
+                            <a class="marcadorsvg" href="@Url.Action("Marcador_click_sensor", new { id = item.idSensor, idTipo = item.idTipo, idImagen = item.Marcadores.idImagen })">
+                                <svg class="dibujo" id="dibujo@(item.Marcadores.idSensor)" xmlns="http://www.w3.org/2000/svg" version="1.1" width="@Math.Round(centro*2)" height="@Math.Round(centro*2)">
+                                    <polygon points="@x1,@y1 @x2,@y2 @x3,@y3 @x4,@y4 @x5,@y5 @x6,@y6 @x7,@y7 @x8,@y8 @x9,@y9 @x10,@y10 @x11,@y11 @x12,@y12"
+                                             fill="#@item.Figuras.color" stroke-width="@item.Figuras.borde" stroke="#@item.Figuras.colorBorde" />
+                                </svg>
+                            </a>
+                        </div>
+                    }
+                    break;
+            }
+        }
+
+
+    </div>
+    <div id="mouseinfo" style="background-color:#FFFFFF; border-style:solid; border-color:#888; border-radius:5px; border-width:@(info_border)px; padding:@(info_padding)px; position:absolute; width:auto; min-width:60px; height:auto; top:0; left:0; line-height:1;"></div>
+    
+    <div id="detallesensor" style="display:none; background-color:#FFFFFF; border-style:solid; border-color:#888; border-radius:5px; border-width:@(info_border)px; padding:@(info_padding)px; position:absolute; width:auto; min-width:60px; height:auto; top:0; left:0; line-height:1;"></div>
+    
+    <div id="detallepunto" style="display:none; background-color:#FFFFFF; border-style:solid; border-color:#888; border-radius:5px; border-width:@(info_border)px; padding:@(info_padding)px; position:absolute; width:auto; min-width:60px; height:auto; top:0; left:0; line-height:1;"></div>
+
+</div>

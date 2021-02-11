@@ -1,0 +1,27 @@
+﻿@model ReleaseSpence.Models.Sensores
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <h2>Nuevo Sensor</h2>
+
+    @using (Html.BeginForm())
+    {
+        <table class="table">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.idTipo, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.idTipo)
+                </td>
+                <td>
+                    @Html.DropDownList("idTipo", (IEnumerable<SelectListItem>)ViewBag.idTipo, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    @Html.ActionLink("Volver", "Index", "Sensores", new { }, new { @class = "btn btn-primary" })
+                    <input type="submit" id="enviar" class="btn btn-success" value="Siguiente">
+                </td>
+            </tr>
+        </table>
+    }
+</div>

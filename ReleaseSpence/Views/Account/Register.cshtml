@@ -1,0 +1,75 @@
+﻿@model ReleaseSpence.Models.UserRegister
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+
+    @Html.ActionLink("Volver", "Index", "Account", new { }, new { @class = "btn btn-primary" })
+
+    <h2>Nuevo Usuario</h2>
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.email, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.email)
+                </td>
+                <td style="width:300px;">
+                    @Html.TextBoxFor(m => m.email, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.userName, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.userName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.userName, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.fullName, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.fullName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.fullName, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.Password)
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                </td>
+                <td>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="control-label" for="roles">
+                        Roles
+                    </label>
+                </td>
+                <td>
+                    @Html.ListBox("roles")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" id="enviar" class="btn btn-success" value="Crear">
+                </td>
+            </tr>
+        </table>
+    }
+</div>

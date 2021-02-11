@@ -1,0 +1,236 @@
+﻿@model ReleaseSpence.Models.SensoresViewModel
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Sensores_Piezometros_cotaAgua").blur(function (e) {
+                $("#Sensores_Piezometros_distT_A").val(Math.round(($("#Sensores_Piezometros_cotaTierra").val().replace(",", ".") - $("#Sensores_Piezometros_cotaAgua").val().replace(",", ".")) * 1000) / 1000);
+                $("#Sensores_Piezometros_distT_A").val($("#Sensores_Piezometros_distT_A").val().replace(".", ","));
+            });
+            $("#Sensores_Piezometros_distT_A").blur(function (e) {
+                $("#Sensores_Piezometros_cotaAgua").val(Math.round(($("#Sensores_Piezometros_cotaTierra").val().replace(",", ".") - $("#Sensores_Piezometros_distT_A").val().replace(",", ".")) * 1000) / 1000);
+                $("#Sensores_Piezometros_cotaAgua").val($("#Sensores_Piezometros_cotaAgua").val().replace(".", ","));
+            });            
+        });
+    </script>
+
+    <h2>Editar Sensor</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idSensor)
+    <table class="table">
+        <tr><td colspan="4" class="jqplot-title">INFORMACIÓN GENERAL</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.idTipo, new { @class = "control-label" })
+            </td>
+            <td>
+                @ViewBag.nombreTipo
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.idFigura, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.idFigura)
+            </td>
+            <td>
+                @Html.DropDownList("idFigura",(IEnumerable<SelectListItem>)ViewBag.idFigura, new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.nombre)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.nombre)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.seriePiezo, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.seriePiezo)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.seriePiezo)
+            </td>
+        </tr>
+
+        <tr><td colspan="4" class="jqplot-title">DATOS INICIALES DEL PUNTO DE MONITOREO</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.cotaTierra, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.cotaTierra)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.cotaTierra)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.cotaAgua, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.cotaAgua)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.cotaAgua)
+            </td>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.distT_A, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.distT_A)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.distT_A)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.cotaSensor, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.cotaSensor)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.cotaSensor)
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.carpeta, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.carpeta)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.carpeta)
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.profundidadPozo, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.profundidadPozo)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.profundidadPozo)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.tempI, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.tempI)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.tempI)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.baroI, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.baroI)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.baroI)
+            </td>
+        </tr>
+
+        <tr><td colspan="4" class="jqplot-title">DATOS DE CALIBRACIÓN DEL PIEZÓMETRO</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.coefA, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.coefA)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.coefA)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.coefB, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.coefB)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.coefB)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.coefC, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.coefC)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.coefC)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.tempK, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.tempK)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.tempK)
+            </td>
+        </tr>
+        <tr>
+
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.metrosSensor, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.metrosSensor)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.metrosSensor)
+            </td>
+
+        </tr>
+
+        <tr><td colspan="4" class="jqplot-title">PARÁMETROS DEL SISTEMA</td> </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.maxLimit, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.maxLimit)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.maxLimit)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.minLimit, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.minLimit)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.minLimit)
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.freqRead, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.freqRead)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.freqRead)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.Sensores_Piezometros.freqSend, new { @class = "control-label" })<br />
+                @Html.ValidationMessageFor(model => model.Sensores_Piezometros.freqSend)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Sensores_Piezometros.freqSend)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                @Html.ActionLink("Volver", "Index", "Sensores", new { }, new { @class = "btn btn-primary" })
+                <input type="submit" id="enviar" class="btn btn-warning" value="Guardar Cambios">
+            </td>
+        </tr>
+    </table>
+    }
+</div>

@@ -1,0 +1,65 @@
+﻿@model ReleaseSpence.Models.Sensores
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    @Html.ActionLink("Volver", "Index", "Sensores", new { }, new { @class = "btn btn-primary" })
+    <h2>Editar Sensor</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idSensor)
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.idTipo, new { @class = "control-label" })
+                </td>
+                <td>
+                    @ViewBag.nombreTipo
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.idFigura, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.idFigura)
+                </td>
+                <td>
+                    @Html.DropDownList("idFigura")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.nombre, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.nombre)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.nombre)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.maxLimit, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.maxLimit)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.maxLimit)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.minLimit, new { @class = "control-label" })<br />
+                    @Html.ValidationMessageFor(model => model.minLimit)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.minLimit)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" id="enviar" class="btn btn-warning" value="Guardar Cambios">
+                </td>
+            </tr>
+        </table>
+    }
+</div>

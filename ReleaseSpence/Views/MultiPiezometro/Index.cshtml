@@ -1,0 +1,931 @@
+﻿@model List<ReleaseSpence.Models.Datos_piezometro>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div id="resizable1" style="padding:20px;width:90%;height:90%;">
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            @{
+                ViewBag.valMax1 = 0;
+                ViewBag.valMin1 = 0;
+
+                ViewBag.valMax2 = 0;
+                ViewBag.valMin2 = 0;
+
+                ViewBag.valMax3 = 0;
+                ViewBag.valMin3 = 0;
+
+                ViewBag.valMax4 = 0;
+                ViewBag.valMin4 = 0;
+
+                ViewBag.valMax5 = 0;
+                ViewBag.valMin5 = 0;
+
+                string str1 = "";
+                string str2 = "";
+                string str3 = "";
+                string str4 = "";
+                string str5 = "";
+
+                str1 = ViewBag.str1;
+                str2 = ViewBag.str2;
+                str3 = ViewBag.str3;
+                str4 = ViewBag.str4;
+                str5 = ViewBag.str5;
+
+
+                if (ViewBag.cantPz >= 1)
+                {
+                    if (ViewBag.pzPunto[0].maxLimit != null)
+                    {
+                        ViewBag.valMax1 = ViewBag.pzPunto[0].maxLimit;
+                    }
+                    if (ViewBag.pzPunto[0].minLimit != null)
+                    {
+                        ViewBag.valMin1 = ViewBag.pzPunto[0].minLimit;
+                    }
+
+                    //---
+
+                    if (str1.Length > 2)
+                    { str1 = str1.Substring(0, str1.Length - 2); }
+
+                    else
+                    { str1 = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+                }
+
+                if (ViewBag.cantPz >= 2)
+                {
+                    if (ViewBag.pzPunto[1].maxLimit != null)
+                    {
+                        ViewBag.valMax2 = ViewBag.pzPunto[1].maxLimit;
+                    }
+                    if (ViewBag.pzPunto[1].minLimit != null)
+                    {
+                        ViewBag.valMin2 = ViewBag.pzPunto[1].minLimit;
+                    }
+
+
+                    if (str2.Length > 2)
+                    { str2 = str2.Substring(0, str2.Length - 2); }
+                    else
+                    { str2 = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+                }
+
+                if (ViewBag.cantPz >= 3)
+                {
+                    if (ViewBag.pzPunto[2].maxLimit != null)
+                    {
+                        ViewBag.valMax3 = ViewBag.pzPunto[2].maxLimit;
+                    }
+                    if (ViewBag.pzPunto[2].minLimit != null)
+                    {
+                        ViewBag.valMin3 = ViewBag.pzPunto[2].minLimit;
+                    }
+
+                    //---
+
+                    if (str3.Length > 2)
+                    { str3 = str3.Substring(0, str3.Length - 2); }
+                    else
+                    { str3 = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+                }
+
+
+                if (ViewBag.cantPz >= 4)
+                {
+                    if (ViewBag.pzPunto[3].maxLimit != null)
+                    {
+                        ViewBag.valMax4 = ViewBag.pzPunto[3].maxLimit;
+                    }
+                    if (ViewBag.pzPunto[3].minLimit != null)
+                    {
+                        ViewBag.valMin4 = ViewBag.pzPunto[3].minLimit;
+                    }
+
+                    //---
+
+                    if (str4.Length > 2)
+                    { str4 = str4.Substring(0, str4.Length - 2); }
+                    else
+                    { str4 = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+                }
+
+                if (ViewBag.cantPz >= 5)
+                {
+                    if (ViewBag.pzPunto[4].maxLimit != null)
+                    {
+                        ViewBag.valMax5 = ViewBag.pzPunto[4].maxLimit;
+                    }
+                    if (ViewBag.pzPunto[4].minLimit != null)
+                    {
+                        ViewBag.valMin5 = ViewBag.pzPunto[4].minLimit;
+                    }
+
+                    //---
+
+                    if (str5.Length > 2)
+                    { str5 = str5.Substring(0, str5.Length - 2); }
+                    else
+                    { str5 = "['" + DateTime.Now.ToString("yyyy-MM-dd H:mm:ss") + "', 0]"; }
+                }
+
+            }
+
+            @if (ViewBag.primero != null || ViewBag.ultimo != null)
+            {<text>
+
+
+            @if(ViewBag.str5 != null)
+            {
+                ViewBag.nombre5 = ViewBag.nombreS5;
+                ViewBag.cotaSensor5 = ViewBag.cota5;
+                ViewBag.profundidad5 = (ViewBag.cotaTierra - ViewBag.cotaSensor5);
+                
+
+            }
+            else
+            {
+                ViewBag.nombre5 = "";
+                ViewBag.cota5S = 0;
+                ViewBag.profundidad5 = 0;
+            }
+
+            @if(ViewBag.str4 != null)
+            {
+                ViewBag.nombre4 = ViewBag.nombreS4;
+                ViewBag.cotaSensor4 = ViewBag.cota4;
+                ViewBag.profundidad4 = (ViewBag.cotaTierra - ViewBag.cotaSensor4);
+            }
+            else
+            {
+                ViewBag.nombre4 = "";
+                ViewBag.cota4S = 0;
+                ViewBag.profundidad4 = 0;
+            }
+
+            @if(ViewBag.str3 != null)
+            {
+                ViewBag.nombre3 = ViewBag.nombreS3;
+                ViewBag.cotaSensor3 = ViewBag.cota3;
+                ViewBag.profundidad3 = (ViewBag.cotaTierra - ViewBag.cotaSensor3);
+            }
+            else
+            {
+                ViewBag.nombre3 = "";
+                ViewBag.cota3S = 0;
+                ViewBag.profundidad3 = 0;
+            }
+
+            @if(ViewBag.str2 != null)
+            {
+                ViewBag.nombre2 = ViewBag.nombreS2;
+                ViewBag.cotaSensor2 = ViewBag.cota2;
+                ViewBag.profundidad2 = (ViewBag.cotaTierra - ViewBag.cotaSensor2);
+            }
+            else
+            {
+                ViewBag.nombre2 = "";
+                ViewBag.cota2S = 0;
+                ViewBag.profundidad2 = 0;
+            }
+
+            @if(ViewBag.str1 != null)
+            {
+                ViewBag.nombre1 = ViewBag.nombreS1;
+                ViewBag.cotaSensor1 = ViewBag.cota1;
+                ViewBag.profundidad1 = (ViewBag.cotaTierra - ViewBag.cotaSensor1);
+            }
+            else
+            {
+                ViewBag.nombre1 = "";
+                ViewBag.cotaSensor1 = 0;
+                ViewBag.profundidad1 = 0;
+            }
+
+            var cotaagua1 = [@{ WriteLiteral(str1); }];
+            var cotaagua2 = [@{ WriteLiteral(str2); }];
+            var cotaagua3 = [@{ WriteLiteral(str3); }];
+            var cotaagua4 = [@{ WriteLiteral(str4); }];
+            var cotaagua5 = [@{ WriteLiteral(str5); }];
+
+            var cotatierra =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaTierraS
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaTierraS
+                    ]
+                ];
+
+            var cotaSensorSerie5 =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor5
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor5
+                    ]
+                ];
+
+            var cotaSensorSerie4 =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor4
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor4
+                    ]
+                ];
+
+            var cotaSensorSerie3 =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor3
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor3
+                    ]
+                ];
+
+            var cotaSensorSerie2 =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor2
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor2
+                    ]
+                ];
+
+            var cotaSensorSerie1 =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor1
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.cotaSensor1
+                    ]
+                ];
+
+            var carpeta =
+                [
+                    [
+                        '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.carpetaS
+                    ],
+
+                    [
+                        '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+                         @ViewBag.carpetaS
+                    ]
+                ];
+
+
+            $.jqplot.sprintf.decimalMark = ',';
+
+            var plot1 = $.jqplot('chart1', [cotatierra, cotaagua5, cotaSensorSerie5, cotaagua4, cotaSensorSerie4, cotaagua3, cotaSensorSerie3, cotaagua2, cotaSensorSerie2, cotaagua1, cotaSensorSerie1, carpeta],
+                {
+                    title: 'Punto de Monitoreo : <b> @ViewBag.puntoMonitoreo.nombre </b><br> Sensores Asociados:@ViewBag.nombre1  @ViewBag.nombre2   @ViewBag.nombre3  @ViewBag.nombre4  @ViewBag.nombre5 ',
+                    
+                    highlighter:
+                    {
+                        show: true,
+                        bringSeriesToFront: false,
+                    },
+                                       
+                    seriesDefaults:
+                    {
+                        rendererOptions:
+                        {
+                            smooth: false,
+                            animation:
+                            {
+                                show: true
+                            }
+                        },
+
+                        showMarker: false,
+
+                        fillAndStroke: true
+                    },
+
+                    grid:
+                    {
+                        gridLineColor: '#000000',
+                        gridLineWidth: 0.5,
+                        backgroundColor: '#D5E3FF'
+                    },
+
+
+                    axes:
+                    {
+                        xaxis:
+                        {
+                            label: 'Fecha',
+                            renderer: $.jqplot.DateAxisRenderer,
+                            min: '@ViewBag.primero.ToString("yyyy-MM-dd H:mm:ss")',
+                            max: '@ViewBag.ultimo.ToString("yyyy-MM-dd H:mm:ss")',
+
+                            tickOptions:
+                            {
+                                formatString: '%d-%m-%Y<br>%H:%M:%S'
+                            }
+                        },
+
+                        yaxis:
+                        {
+                            label: 'MSNM',
+                            labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+                            min: (@ViewBag.Base) - (5),
+                            pad: 1.2,
+
+                            tickOptions:
+                            {
+                                formatString: '%#.3f'
+                            }
+                        }
+                    },
+
+                    cursor:
+                    {
+                        style: 'crosshair',
+                        show: true,
+                        zoom: true,
+                        clickReset: true,
+                        showVerticalLine: true,
+                        showHorizontalLine: true,
+                        followMouse: true,
+                        tooltipLocation: 'ne'
+                    },
+
+                    canvasOverlay:
+                    {
+                        show: true,
+                        objects:
+                            [
+                                {
+                                    horizontalLine:
+                                    {
+                                        name: 'Cota Tierra',
+                                        y: @ViewBag.cotaTierraS,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                        tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Cota Tierra :</th><td>@ViewBag.cotaTierra MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+
+                                {
+                                    horizontalLine:
+                                    {
+                                    name: 'Cota Sensor @ViewBag.nombre5',
+                                        y: @ViewBag.cota5S,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                        tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre5</td></tr>'
+                                        + '<tr><th>Profundidad Sensor :</th><td>@((ViewBag.profundidad5).ToString("N2")) Metros</td></tr>'
+                                        + '<tr><th>Cota Piezómetro :</th><td>@ViewBag.cotaSensor5 MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+
+                                {
+                                    horizontalLine:
+                                    {
+                                    name: 'Cota Sensor @ViewBag.nombre4',
+                                        y: @ViewBag.cota4S,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                            tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre4</td></tr>'
+                                        + '<tr><th>Profundidad Sensor :</th><td>@((ViewBag.profundidad4).ToString("N2")) Metros</td></tr>'
+                                        + '<tr><th>Cota Piezómetro :</th><td>@ViewBag.cotaSensor4 MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+
+                                {
+                                    horizontalLine:
+                                    {
+                                    name: 'Cota Sensor @ViewBag.nombre3',
+                                        y: @ViewBag.cota3S,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                            tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre3</td></tr>'
+                                        + '<tr><th>Profundidad Sensor :</th><td>@((ViewBag.profundidad3).ToString("N2")) Metros</td></tr>'
+                                        + '<tr><th>Cota Piezómetro :</th><td>@ViewBag.cotaSensor3 MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+
+                                {
+                                    horizontalLine:
+                                    {
+                                    name: 'Cota Sensor @ViewBag.nombre2',
+                                        y: @ViewBag.cota2S,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                            tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre2</td></tr>'
+                                        + '<tr><th>Profundidad Sensor :</th><td>@((ViewBag.profundidad2).ToString("N2")) Metros</td></tr>'
+                                        + '<tr><th>Cota Piezómetro :</th><td>@ViewBag.cotaSensor2 MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+
+                                {
+                                    horizontalLine:
+                                    {
+                                    name: 'Cota Sensor @ViewBag.nombre1',
+                                        y: @ViewBag.cota1S,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                            tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre1</td></tr>'
+                                        + '<tr><th>Profundidad Sensor :</th><td>@((ViewBag.profundidad1).ToString("N2")) Metros</td></tr>'
+                                        + '<tr><th>Cota Piezómetro :</th><td>@ViewBag.cotaSensor1 MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+
+                                {
+                                    horizontalLine:
+                                    {
+                                        name: 'Carpeta',
+                                        y: @ViewBag.carpetaS,
+                                        lineWidth: 3,
+                                        showTooltip: true,
+                                        tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Geomembrana :</th><td>@ViewBag.carpeta MSNM</td></tr></table>',
+                                        xOffset: 5,
+                                        color: 'rgba(0, 0, 0, 0)',
+                                        shadow: false,
+                                        highlightMouseOver: true,
+                                    }
+                                },
+                            ]
+                    },
+
+                    ///LEYENDA TEST
+                    //legend: {
+                    //    show: true,
+                        
+                    //    location: 'n',
+                    //    renderer: $.jqplot.EnhancedLegendRenderer,
+                    //    rendererOptions: {
+                    //        numberRows: 1
+                    //    }
+                        
+                    //},
+
+                    series:
+                        [
+                            //Cota Tierra
+                            {
+                                label: "Cota Tierra",
+                                fill: true,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                showSwatches: false,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#888888",
+                            },
+
+                            //Cota Agua 5
+                            {
+                                label: "Cota Agua",
+                                fill: true,
+                                show: true,
+                                fillAlpha: 0.35,
+                                fillToZero: true,
+                                fillToValue:@ViewBag.cota5S,
+                                lineWidth: 1.2,
+                                color: "#4B4BFF",
+
+                                markerOptions:
+                                {
+                                    show: true,
+                                    color: "rgba(75, 75, 255, 0.5)",
+                                    size: 3
+                                },
+                                                                
+                                highlighter:
+                                {
+                                    show: true,
+                                    sizeAdjust: 5,
+                                    tooltipOffset: 5,
+                                    yvalues: 7,
+                                    useAxesFormatters: true,
+                                    tooltipLocation: 'se',
+
+                                    formatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre5</td></tr>'
+                                        + '<tr><th>Fecha y Hora:</th><td>%s</td></tr>'
+                                        + '<tr><th>Cota Agua:</th><td>%s MSNM</td></tr>'
+                                        + '<tr><th>Columna Agua:</th><td>%s mts</td></tr>' //MODIFICADO
+                                        + '<tr><th>Presión Piezómetro:</th><td>%s kPa</td></tr>'
+                                        + '<tr><th>Temperatura Piezómetro:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>Presión Atmosférica:</th><td>%s milibars</td></tr>' //MODIFICADO
+                                        + '<tr><th>Temperatura Ambiente:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>B Units:</th><td>%s</td></tr>'
+                                        + '</table>'
+                                },
+
+                            },
+                            
+                            //Cota Sensor 5
+                            {
+                                label: "Sensor <a href=/PuntoDeMonitoreo/SensoresAsociados/@ViewBag.id>@ViewBag.nombre5</a>",
+                                fill: false,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#FFFF00"
+                            },
+
+                            //Cota Agua 4
+                            {
+                                label: "Cota Agua",
+                                fill: true,
+                                show: true,
+                                fillAlpha: 0.35,
+                                fillToZero: true,
+                                fillToValue: @ViewBag.cota4S,
+                                lineWidth: 1.2,
+                                color: "#4B4BFF",
+
+                                markerOptions:
+                                {
+                                    show: true,
+                                    color: "rgba(75, 75, 255, 0.5)",
+                                    size: 3
+                                },
+                                
+                                highlighter:
+                                {
+                                    show: true,
+                                    sizeAdjust: 5,
+                                    tooltipOffset: 5,
+                                    yvalues: 7,
+                                    useAxesFormatters: true,
+                                    tooltipLocation: 'se',
+
+                                    formatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre4</td></tr>'
+                                        + '<tr><th>Fecha y Hora:</th><td>%s</td></tr>'
+                                        + '<tr><th>Cota Agua:</th><td>%s MSNM</td></tr>'
+                                        + '<tr><th>Columna Agua:</th><td>%s mts</td></tr>' //MODIFICADO
+                                        + '<tr><th>Presión Piezómetro:</th><td>%s kPa</td></tr>'
+                                        + '<tr><th>Temperatura Piezómetro:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>Presión Atmosférica:</th><td>%s milibars</td></tr>' //MODIFICADO
+                                        + '<tr><th>Temperatura Ambiente:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>B Units:</th><td>%s</td></tr>'
+                                        + '</table>'
+                                },
+                            },
+
+                            //Cota Sensor 4
+                            {
+                                label: "Cota Sensor <a href=/PuntoDeMonitoreo/SensoresAsociados/@ViewBag.id>@ViewBag.nombre4</a>",
+                                fill: false,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#FFFF00"
+                            },
+
+                            //Cota Agua 3
+                            {
+                                label: "Cota Agua",
+                                fill: true,
+                                show: true,
+                                fillAlpha: 0.35,
+                                fillToZero: true,
+                                fillToValue: @ViewBag.cota3S,
+                                lineWidth: 1.2,
+                                color: "#4B4BFF",
+
+                                markerOptions:
+                                {
+                                    show: true,
+                                    color: "rgba(75, 75, 255, 0.5)",
+                                    size: 3
+                                },
+                                
+                                highlighter:
+                                {
+                                    show: true,
+                                    sizeAdjust: 5,
+                                    tooltipOffset: 5,
+                                    yvalues: 7,
+                                    useAxesFormatters: true,
+                                    tooltipLocation: 'se',
+
+                                    formatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre3</td></tr>'
+                                        + '<tr><th>Fecha y Hora:</th><td>%s</td></tr>'
+                                        + '<tr><th>Cota Agua:</th><td>%s MSNM</td></tr>'
+                                        + '<tr><th>Columna Agua:</th><td>%s mts</td></tr>' //MODIFICADO
+                                        + '<tr><th>Presión Piezómetro:</th><td>%s kPa</td></tr>'
+                                        + '<tr><th>Temperatura Piezómetro:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>Presión Atmosférica:</th><td>%s milibars</td></tr>' //MODIFICADO
+                                        + '<tr><th>Temperatura Ambiente:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>B Units:</th><td>%s</td></tr>'
+                                        + '</table>'
+                                },
+                            },
+
+                            //Cota Sensor 3
+                            {
+                                label: "Cota Sensor <a href=/PuntoDeMonitoreo/SensoresAsociados/@ViewBag.id>@ViewBag.nombre3</a>",
+                                fill: false,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#FFFF00"
+                            },
+
+                            //Cota Agua 2
+                            {
+                                label: "Cota Agua",
+                                fill: true,
+                                show: true,
+                                fillAlpha: 0.35,
+                                fillToZero: true,
+                                fillToValue: @ViewBag.cota2S,
+                                lineWidth: 1.2,
+                                color: "#4B4BFF",
+
+                                markerOptions:
+                                {
+                                    show: true,
+                                    color: "rgba(75, 75, 255, 0.5)",
+                                    size: 3
+                                },
+                                
+                                highlighter:
+                                {
+                                    show: true,
+                                    sizeAdjust: 5,
+                                    tooltipOffset: 5,
+                                    yvalues: 7,
+                                    useAxesFormatters: true,
+                                    tooltipLocation: 'se',
+
+                                    formatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre2</td></tr>'
+                                        + '<tr><th>Fecha y Hora:</th><td>%s</td></tr>'
+                                        + '<tr><th>Cota Agua:</th><td>%s MSNM</td></tr>'
+                                        + '<tr><th>Columna Agua:</th><td>%s mts</td></tr>' //MODIFICADO
+                                        + '<tr><th>Presión Piezómetro:</th><td>%s kPa</td></tr>'
+                                        + '<tr><th>Temperatura Piezómetro:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>Presión Atmosférica:</th><td>%s milibars</td></tr>' //MODIFICADO
+                                        + '<tr><th>Temperatura Ambiente:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>B Units:</th><td>%s</td></tr>'
+                                        + '</table>'
+                                },
+                            },
+
+                            //Cota Sensor 2
+                            {
+                                label: "Cota Sensor <a href=/PuntoDeMonitoreo/SensoresAsociados/@ViewBag.id>@ViewBag.nombre2</a>",
+                                fill: false,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#FFFF00"
+                            },
+
+                            //Cota Agua 1
+                            {
+                                label: "Cota Agua",
+                                fill: true,
+                                show: true,
+                                fillAlpha: 0.35,
+                                fillToZero: true,
+                                fillToValue: @ViewBag.cota1S,
+                                lineWidth: 1.2,
+                                color: "#4B4BFF",
+
+                                markerOptions:
+                                {
+                                    show: true,
+                                    color: "rgba(75, 75, 255, 0.5)",
+                                    size: 3
+                                },
+                                
+                                highlighter:
+                                {
+                                    show: true,
+                                    sizeAdjust: 5,
+                                    tooltipOffset: 5,
+                                    yvalues: 7,
+                                    useAxesFormatters: true,
+                                    tooltipLocation: 'se',
+
+                                    formatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
+                                        + '<tr><th>Sensor :</th><td>@ViewBag.nombre1</td></tr>'
+                                        + '<tr><th>Fecha y Hora:</th><td>%s</td></tr>'
+                                        + '<tr><th>Cota Agua:</th><td>%s MSNM</td></tr>'
+                                        + '<tr><th>Columna Agua:</th><td>%s mts</td></tr>' //MODIFICADO
+                                        + '<tr><th>Presión Piezómetro:</th><td>%s kPa</td></tr>'
+                                        + '<tr><th>Temperatura Piezómetro:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>Presión Atmosférica:</th><td>%s milibars</td></tr>' //MODIFICADO
+                                        + '<tr><th>Temperatura Ambiente:</th><td>%s C°</td></tr>'
+                                        + '<tr><th>B Units:</th><td>%s</td></tr>'
+                                        + '</table>'
+                                },
+                            },                           
+
+                            //Cota Sensor 1
+                            {
+                                label: "Cota Sensor <a href=/PuntoDeMonitoreo/SensoresAsociados/@ViewBag.id>@ViewBag.nombre1</a>",
+                                fill: false,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#FFFF00"
+                            },
+
+                            //Carpeta
+                            {
+                                label: "Carpeta",
+                                fill: false,
+                                fillAlpha: 0.5,
+                                fillToZero: true,
+                                fillToValue: 0,
+                                lineWidth: 1.2,
+                                color: "#00FF00"
+                            },
+                        ]
+                });
+            </text>}
+
+            $("#1d").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1d&hasta=1d");
+            $("#1s").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1s&hasta=1s");
+            $("#1m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1m&hasta=1m");
+            $("#3m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=3m&hasta=3m");
+            $("#1a").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1a&hasta=1a");
+            $("#refreshlink").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+
+
+            $(".autolink").change(function (e) {
+			$("#1d").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1d&hasta=1d");
+			$("#1s").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1s&hasta=1s");
+			$("#1m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1m&hasta=1m");
+			$("#3m").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=3m&hasta=3m");
+			$("#1a").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=1a&hasta=1a");
+		    $("#refreshlink").attr("href", "@ViewBag.id?idTipo=@ViewBag.idTipo&precision=" + $("#precision").is(":checked") + "&datos=" + $("#datos").val() + "&desde=" + $("#desde").val().replace(/:/g, "").replace(/-/g, "").replace(" ", "") + "&hasta=" + $("#hasta").val().replace(/:/g, "").replace(/-/g, "").replace(" ", ""));
+            });
+
+            $("#ayuda").click(function (e)
+            {
+                $("#dialogayuda").modal({ show: true });
+            });
+
+            $("#cerrarayuda").click(function ()
+            {
+                $("#dialogayuda").modal("hide");
+            });
+
+            $("#dtp_desde").datetimepicker();
+            $("#dtp_hasta").datetimepicker();
+        });
+
+    </script>
+
+    <div class="bs-example">
+        <form class="form-inline" role="form">
+            <table>
+                <tr>
+                    <td>
+                        <div class="form-group" style="width:180px;">
+                            <label for="datos">
+                                Puntos aproximados a graficar
+                            </label>
+                            <input type="number" class="form-control autolink" id="datos" value="@ViewBag.datos" placeholder="100">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group" style="width:180px;">
+                            <label for="precision">Máxima Precisión</label>
+                            <input type="checkbox" @(ViewBag.precision ? "checked" : "") class="form-control autolink" id="precision">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group" style="width:200px;">
+                            <label for="desde">Desde</label>
+                            <div class='input-group date autolink' id='dtp_desde'>
+                                <input type='text' class="form-control" id="desde" data-date-format="DD-MM-YYYY HH:mm:ss" value="@ViewBag.desde.ToString("dd-MM-yyyy HH:mm:ss")" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group" style="width:200px;">
+                            <label for="grupo">Hasta</label>
+                            <div class='input-group date autolink' id='dtp_hasta'>
+                                <input type='text' class="form-control" id="hasta" data-date-format="DD-MM-YYYY HH:mm:ss" value="@ViewBag.hasta.ToString("dd-MM-yyyy HH:mm:ss")" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group" style="width:250px;">
+                            <label for="grupo">Ver los últimos datos</label>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <a id="1d" class="btn btn-default" href="">1d</a>
+                                <a id="1s" class="btn btn-default" href="">1s</a>
+                                <a id="1m" class="btn btn-default" href="">1m</a>
+                                <a id="3m" class="btn btn-default" href="">3m</a>
+                                <a id="1a" class="btn btn-default" href="">1a</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a id="refreshlink" class="btn btn-primary" href="">Refrescar</a>
+                    </td>
+                    <td>
+                        <a id="ayuda" class="btn btn-info"><span class="glyphicon glyphicon-question-sign" title="Ayuda"></span></a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div id="chart1" style="width:1200px; height:500px;">
+        @if (ViewBag.confirmacion)
+        {<text><h1>No existen registros para los sensores asociados.</h1></text>}
+    </div>
+
+    <div id="dialogayuda" class="modal fade">
+        <div id="Mdayuda" class="modal-dialog">
+            <div id="Cdayuda" class="modal-content" style="padding:20px;">
+                <h4>Ayuda</h4>
+                <b>Puntos a graficar:</b> <br />Es la cantidad aproximada de puntos que se quiere ver en el gráfico. Si la cantidad de datos consultados es menor o igual al valor de esta casilla, se mostrará un punto por dato.<br />
+                <b>Máxima precisión:</b> <br />Si la casilla está marcada : graficará un punto por dato obtenido dentro del rango de fechas elegido. La casilla de "Puntos aproximados a graficar" no funciona cuando "Máxima Presición" está activado.<br /> Si la casilla NO está marcada: graficará un promedio de datos del rango de fechas seleccionado, siendo la cantidad promedio de puntos, la indicada en el cuadro de "Puntos aproximados a graficar", ésta cantidad puede ser modificada por el usuario. <br />No se recomienda marcar esta casilla si se va a consultar un volumen de datos demasiado grande ya que se podría generar un gráfico prácticamente ilegible.<br />
+                <b>Explicación del gráfico:</b><br />
+                La cota de tierra está graficada en color gris.<br />
+                La cota de agua está graficada en color azul <br />
+                El cielo se rellena con color celeste. <br />
+                Las líneas rojas representan los umbrales de alerta Superior e Inferior. <br />
+                La línea amarilla representa la cota aproximada del piezómetro, la cota exacta está en el título de la página.<br />
+                Puede pasar el raton sobre distintos puntos de la cota de agua para ver información detallada de cada dato.<br />
+                Para hacer zoom en el grafico debe hacer click y arrastrar el cursor seleccionando la zona que desee ampliar.<br />
+                Para reestablecer el zoom haga click sobre el grafico sin arrastrar.<br />
+                <b>Aclaración: B Units sólo está disponible cuando se hace una consulta con la casilla maxima precision marcada.</b>
+
+                <br /><br />
+                <div class="form-actions no-color">
+                    <input type="button" class="btn btn-primary" name="cerrar" id="cerrarayuda" value="Cerrar">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

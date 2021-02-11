@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Identity_Users>
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+
+<div style="padding:20px;">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.popup").click(function (e) {
+                e.preventDefault();
+                $("#Mdialog").css("width", "");
+                $("#Cdialog").load($(this).attr("href"));
+            });
+        });
+    </script>
+    @Html.ActionLink("Agregar Nuevo", "Register", "Account", new { }, new { @class = "btn btn-primary" })
+
+    <h2>Listado de Usuarios</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.userName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-edit" title="Edtar"></span> / <span class="glyphicon glyphicon-asterisk" title="Restablecer contrase&ntilde;a"></span> / <span class="glyphicon glyphicon-remove" title="Eliminar"></span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            if (item.idUsuario != 2){
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    <a href=@Url.Action("Edit", "Account", new { id = item.idUsuario })><span class="glyphicon glyphicon-edit" title="Editar"></span></a> / <a href=@Url.Action("ResetPass", "Account", new { id = item.idUsuario })><span class="glyphicon glyphicon-asterisk" title="Restablecer contrase&ntilde;a"></span></a> / @if (ViewBag.CurrentUserID != item.idUsuario && item.idUsuario != 1 && item.idUsuario != 2)
+                    { <a href=@Url.Action("Delete", "Account", new { id = item.idUsuario }) class="popup"><span class="glyphicon glyphicon-remove" title="Eliminar"></span></a>} 
+                </td>
+            </tr>}
+            }
+    </table>
+</div>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<ReleaseSpence.Models.Sensores>
+
+@{
+    ViewBag.Title = "AsociarSensor";
+    var punto = ViewBag.idPuntoMonitoreo;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="padding:20px;">
+    <h2>Asociar Sensor</h2>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sensores_Piezometros.seriePiezo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sensores_Piezometros.cotaSensor)
+            </th>
+            <th>
+                <span class="glyphicon glyphicon-ok" title="Agregar"></span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (item.idPuntoMonitoreo == 0)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sensores_Piezometros.seriePiezo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sensores_Piezometros.cotaSensor)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("AsociarSensorAdd", "PuntoDeMonitoreo", new { id = item.idSensor, idPunto = punto})">
+                            <span class="glyphicon glyphicon-ok" title="Agregar"></span>
+                        </a>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+    @Html.ActionLink("Volver", "SensoresAsociados", "PuntoDeMonitoreo", new { id = ViewBag.idPuntoMonitoreo }, new { @class = "btn btn-primary" })
+
+</div>

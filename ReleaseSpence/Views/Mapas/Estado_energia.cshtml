@@ -1,0 +1,98 @@
+﻿@model ReleaseSpence.Models.Datos_energia
+@{Layout = "~/Views/Shared/_Layout.cshtml";}
+<style type="text/css">
+	.s1 {
+		position: absolute;
+		width: auto;
+		height: auto;
+	}
+</style>
+<dl>
+	<dt>
+		@Html.DisplayNameFor(model => model.fecha)
+	</dt>
+	<dd>
+		@Html.DisplayFor(model => model.fecha)
+	</dd>
+</dl>
+<div style="position:relative; width:1200px; height:570px; margin-left:10px; margin-top:10px;">
+	<div style="position:absolute; width:1200px; height:570px; left:0; top:0;">
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1200" height="570">
+			<line x1="153" y1="200" x2="153" y2="370" stroke="#000" stroke-width="6"></line>
+			<polygon points="147,200 160,200 153,180" fill="#000"></polygon>
+			<line x1="210" y1="73" x2="440" y2="73" stroke="#000" stroke-width="6"></line>
+			<polygon points="440,67 440,80 460,73" fill="#000"></polygon>
+			<circle cx="470" cy="73" r="10" fill="#000"></circle>
+			<line x1="470" y1="103" x2="470" y2="223" stroke="#000" stroke-width="6"></line>
+			@{if (Model.batC < 0)
+			{
+			<polygon points="464,103 477,103 470,83" fill="#000"></polygon>}
+			else
+			{
+			<polygon points="464,223 477,223 470,243" fill="#000"></polygon>}}
+			<line x1="482" y1="73" x2="680" y2="73" stroke="#000" stroke-width="6"></line>
+			<polygon points="680,67 680,80 700,73" fill="#000"></polygon>
+			<line x1="815" y1="73" x2="1015" y2="73" stroke="#000" stroke-width="6"></line>
+			<polygon points="1015,67 1015,80 1035,73" fill="#000"></polygon>
+		</svg>
+	</div>
+	<div class="s1" style="left:100px; top:0px;"><img src="~/Images/mppt.jpg" /></div>
+	<div class="s1" style="left:0px; top:300px;"><img src="~/Images/panel.jpg" /></div>
+	<div class="s1" style="left:40px; top:340px;"><img src="~/Images/panel.jpg" /></div>
+	<div class="s1" style="left:80px; top:380px;"><img src="~/Images/panel.jpg" /></div>
+	<div class="s1" style="left:400px; top:250px;"><img src="~/Images/bateria.jpg" /></div>
+	<div class="s1" style="left:400px; top:370px;"><img src="~/Images/bateria.jpg" /></div>
+	<div class="s1" style="left:700px; top:0px;"><img src="~/Images/inversor.jpg" /></div>
+	<div class="s1" style="left:1050px; top:0px;"><img src="~/Images/consumo.jpg" /></div>
+	<div class="s1" style="left:135px; top:100px; background-color:rgba(255,255,255,0.5)"><b>Reg. de<br>Carga<br>MPPT</b></div>
+	<div class="s1" style="left:735px; top:100px; background-color:rgba(255,255,255,0.5)"><b>Inversor</b></div>
+	<div class="s1" style="left:1040px; top:115px;"><b>Consumo (220 V AC)</b></div>
+	<div class="s1" style="left:165px; top:250px;">@Math.Round((decimal)Model.panelV, 2) V<br>@Math.Round((decimal)Model.panelP, 2) W</div>
+	<div class="s1" style="left:210px; top:50px;">Eficiencia @Math.Round((decimal)Model.charE, 2)%</div>
+	<div class="s1" style="left:280px; top:80px;">@Math.Round((decimal)Model.charP, 2) W<br>@Math.Round((decimal)Model.charC, 2) A</div>
+	<div class="s1" style="left:450px; top:40px;">@Math.Round((decimal)Model.batV, 2) V</div>
+	<div class="s1" style="left:482px; top:150px;">@Math.Round((decimal)Model.batP, 2) W<br>@Math.Round((decimal)Model.batC, 2) A</div>
+	<div class="s1" style="left:430px; top:490px;">Estado de carga<br />@Math.Round((decimal)Model.batSOC, 2)%<br />
+	Temperatura<br />@Math.Round((decimal)Model.charT, 2)°C</div>
+	<div class="s1" style="left:550px; top:80px;">@Math.Round((decimal)Model.inv_inP, 2) W<br>@Math.Round((decimal)Model.inv_inC, 2) A</div>
+	<div class="s1" style="left:815px; top:50px;">Eficiencia @Math.Round((decimal)Model.invE, 2)%</div>
+	<div class="s1" style="left:860px; top:80px;">@Math.Round((decimal)Model.inv_outP, 2) W<br>@Math.Round((decimal)Model.inv_outC, 2) A</div>
+	<div class="s1" style="left:600px; top:200px; background-color:rgba(200,200,200,0.5); padding:10px;">
+		<b>Resumen</b>
+		<dl>
+			<dt>
+				Generación
+			</dt>
+			<dd>
+				@Math.Round((decimal)Model.charP, 2) W
+			</dd>
+			<dt>
+				Consumo
+			</dt>
+			<dd>
+				@Math.Round((decimal)Model.inv_inP, 2) W
+			</dd>
+			<dt>
+				Estado de carga baterías
+			</dt>
+			<dd>
+				@Math.Round((decimal)Model.batSOC, 2)%
+			</dd>
+			<dt>
+				Tiempo restante baterías
+			</dt>
+			<dd>
+				@{
+					if (Model.batTTG == -1)
+					{
+						Write("Infinito, generación superior a consumo");
+					}
+					else
+					{
+						TimeSpan ttg = new TimeSpan(0, (int)Model.batTTG, 0); Write(ttg);
+					}
+				}
+			</dd>
+		</dl>
+	</div>
+</div>
