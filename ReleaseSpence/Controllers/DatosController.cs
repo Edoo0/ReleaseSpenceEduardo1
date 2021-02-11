@@ -71,18 +71,16 @@ namespace ReleaseSpence.Controllers
 						ViewBag.contdatos = contadordatos;
 					}
 					break;
-                //En el cargar el 7 es el piezometro
+                //En el cargar el 7 es el piezometro.
 				case 7:
 					{
 						int contadordatos = 0;
 						foreach (HttpPostedFileBase archivo in archivos)
 						{
 							if (archivo != null && archivo.ContentLength > 0)
-							{
-								BinaryReader bread = new BinaryReader(archivo.InputStream);
-								byte[] archivobytes = bread.ReadBytes((int)archivo.InputStream.Length);
-								string archivotext = System.Text.Encoding.UTF8.GetString(archivobytes);
-								string[] lineas = archivotext.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+							{                                                      
+                                string archivotext = archivoATexto(archivo);
+                                string[] lineas = archivotext.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 								foreach (string linea in lineas)
 								{
 									if (linea.Length > 0)
@@ -178,32 +176,64 @@ namespace ReleaseSpence.Controllers
             return "acgms fail";
         }
 
+        private float calcularPresionPZ(Datos_piezometro dato, Sensores_Piezometros sp)
+        {
+            float presionEnMPa = (float)(sp.coefA * (dato.bUnits * dato.bUnits) + sp.coefB * dato.bUnits + sp.coefC + sp.tempK * (dato.temperatura_pz - sp.tempI) - 0.00010 * (dato.presion_bmp - sp.baroI));
+            return presionEnMPa * 1000;//conversion de MPa a kPa
+        }
+
+        private float calcularColumnaDeAgua(Datos_piezometro dato, Sensores_Piezometros sp, float presion_pz)
+        {
+            float columnaAguaActual = (float)(((presion_pz * 1000) / 9806.65));
+            float factorDeCorreccion = (float)((sp.cotaAgua - sp.metrosSensor) - sp.cotaSensor);
+            return (columnaAguaActual + factorDeCorreccion);
+        }
+
+        private float calcularCotaDeAgua(Sensores_Piezometros sp, float columnaDeAgua)
+        {
+            return (float)(columnaDeAgua + sp.cotaSensor);
+        }
+
         private void aplicar_formulas(Datos_piezometro dato, Sensores_Piezometros sp)
         {
-            dato.presion_pz = (float)(sp.coefA * (dato.bUnits * dato.bUnits) + sp.coefB * dato.bUnits + sp.coefC + sp.tempK * (dato.temperatura_pz - sp.tempI) - 0.00010 * (dato.presion_bmp - sp.baroI));
-            dato.presion_pz *= 1000;//conversion de MPa a kPa
-            dato.metrosSensor = (float)(((dato.presion_pz * 1000) / 9806.65));
-            dato.metrosSensor += (float)((sp.cotaAgua - sp.metrosSensor) - sp.cotaSensor); // Factor de Corrección
-            dato.cotaAgua = (float)(sp.cotaSensor + dato.metrosSensor);
+            dato.presion_pz = calcularPresionPZ(dato, sp);
+            dato.metrosSensor = calcularColumnaDeAgua(dato, sp, dato.presion_pz);
+            dato.cotaAgua = calcularCotaDeAgua(sp, dato.metrosSensor);
         }
-           
-        private Boolean esDatoValido(Datos_piezometro dato) {
-            return !((dato.bUnits == 0) || (dato.temperatura_pz <= 0) || (dato.metrosSensor < 0));
+
+        private string archivoATexto(HttpPostedFileBase archivo)
+        {
+            BinaryReader bread = new BinaryReader(archivo.InputStream);
+            byte[] archivobytes = bread.ReadBytes((int)archivo.InputStream.Length);
+            return System.Text.Encoding.UTF8.GetString(archivobytes);
+        }
+        private Boolean esDatoValido(Datos_piezometro dato, Sensores_Piezometros sp) {
+            return !((dato.bUnits == 0) || (dato.temperatura_pz <= 0) || (dato.metrosSensor < 0) || (dato.metrosSensor > sp.cotaTierra));
         }
 
         private void Datos_piezometroInsert(Datos_piezometro dato)
         {
-   
             Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
             if (sp != null)
             {
-                var ultimosDatos = Datos_piezometroRep.getLatest(6, dato.idSensor, dato.fecha);
+                aplicar_formulas(dato, sp);
+                if (esDatoValido(dato,sp))
+                {
+                    Console.WriteLine("es valido :)");
+                }
+                else
+                {
+                    Console.WriteLine("la re puta madre :c");
+                }
                 float accBunit = 0;
                 float accTempPz = 0;
                 var cantidad = 0;
+                var ultimosDatos = Datos_piezometroRep.getLatest(6, dato.idSensor, dato.fecha);
+                
+
                 foreach (var i in ultimosDatos)
                 {
-                    if (esDatoValido(i)) {
+                    if (esDatoValido(i,sp)) {
                         accBunit += i.bUnits;
                         accTempPz += i.temperatura_pz;
                         cantidad++;
@@ -221,7 +251,7 @@ namespace ReleaseSpence.Controllers
                     dato.temperatura_pz = promedioTempPz;
                 }
 
-                aplicar_formulas(dato, sp);
+                
                 if (dato.metrosSensor < 0) //EVITAR DATOS NEGATIVOS
                 {
                     dato.metrosSensor = 0;
