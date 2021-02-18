@@ -4,6 +4,8 @@ using ReleaseSpence.Models;
 using System.IO;
 using System.Web;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ReleaseSpence.Controllers
 {
@@ -19,27 +21,27 @@ namespace ReleaseSpence.Controllers
 		}
 
 
-        
+
         public void Reparar(int idSensor)
         {
             var datosRotos = Datos_piezometroRep.getDatosRotos(idSensor);
             Datos_piezometroRep.borrarDatosMalos(idSensor);
-            var datosBuenos = Datos_piezometroRep.getDatosBuenos(idSensor);
+            List<Datos_piezometro> datosBuenos = Datos_piezometroRep.getDatosBuenos(idSensor);
             float accBUnit = 0;
             //float accTempBmp = 0;
-            
-            
+
+
             foreach (var datoBueno in datosBuenos)
             {
                 accBUnit += datoBueno.bUnits;
-               // accTempBmp += (float)datoBueno.temperatura_bmp;
-               
-                
+                // accTempBmp += (float)datoBueno.temperatura_bmp;
+
+
             }
             var bUnitPromedio = accBUnit / datosBuenos.Count;
             //var tempBmpPromedio = accTempBmp / datosBuenos.Count;
-            
-            
+
+
 
             foreach (var datoRoto in datosRotos)
             {
@@ -47,7 +49,30 @@ namespace ReleaseSpence.Controllers
                 //datoRoto.temperatura_bmp = tempBmpPromedio;
                 Datos_piezometroInsert(datoRoto);
             }
+
+
+
+            List<Datos_piezometro> datosFiltrados = Datos_piezometroRep.getAll(idSensor);
+            for (int i = 1; i < datosFiltrados.Count() - 1; i++)
+            {
+                int L = 21;
+                if (Math.Abs(datosFiltrados[i].metrosSensor - datosFiltrados[i - 1].metrosSensor) > 0.3 * datosFiltrados[i - 1].metrosSensor)
+                {
+                    if (i >= L)
+                    {
+                        var ventana = datosFiltrados.GetRange(i - L, L);
+                        var ventanaOrdenadaPorColumna = ventana.OrderBy(s => s.cotaAgua).ToList();
+                        var puntoMedio = (int)Math.Floor((double)(L + 1) / 2);
+                        var columnaMediana = ventanaOrdenadaPorColumna[puntoMedio];
+                        datosFiltrados[i].cotaAgua = columnaMediana.cotaAgua;
+                        Datos_piezometroRep.updateCotaAgua(datosFiltrados[i].idDato, columnaMediana.cotaAgua);
+                    }
+
+                }
+            }
         }
+
+
 
         [HttpPost]
 		[Authorize(Roles = RolesSistema.Administrador + "," + RolesSistema.Escritura)]
@@ -304,33 +329,34 @@ namespace ReleaseSpence.Controllers
             }
         }
 
+        private void sanitizarDato(Datos_piezometro dato, Sensores_Piezometros sp)
+        {
+            if (dato.presion_pz >= 0)
+            {
+                dato.presion_pz = calcularPresionPZ(dato, sp);
+            }
+            else
+            {
+                dato.presion_pz = 0;
+            }
+
+            dato.metrosSensor = calcularColumnaDeAgua(dato, sp, dato.presion_pz);
+            dato.cotaAgua = calcularCotaDeAgua(sp, dato.metrosSensor);
+
+            if (dato.metrosSensor < 0) //EVITAR DATOS NEGATIVOS
+            {
+                dato.metrosSensor = 0;
+                dato.cotaAgua = (float)sp.cotaSensor;
+            }
+        }
+
         private void Datos_piezometroInsert(Datos_piezometro dato)
         {
             Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
             if (sp != null)
             {
-                if (dato.presion_pz >= 0)
-                {
-                    dato.presion_pz = 1000;//conversion de MPa a kPa
-                }
-                else
-                {
+                sanitizarDato(dato, sp);
 
-                    dato.presion_pz = 0;
-                    //float min = 0;
-                    //float max = (float)0.5;
-                    //dato.presion_pz = (float) (new Random().NextDouble() * (max - min) + min);
-                }
-
-                dato.metrosSensor = (float)(((dato.presion_pz * 1000) / 9806.65));
-                dato.metrosSensor += (float)((sp.cotaAgua - sp.metrosSensor) - sp.cotaSensor); // Factor de Corrección
-                dato.cotaAgua = (float)(sp.cotaSensor + dato.metrosSensor);
-                if (dato.metrosSensor < 0) //EVITAR DATOS NEGATIVOS
-                {
-                    dato.metrosSensor = 0;
-                    dato.cotaAgua = (float)sp.cotaSensor;
-                }
-                
                 if (TryValidateModel(dato))
                 {
                     Datos_piezometroRep.Create(dato);

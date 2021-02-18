@@ -104,11 +104,12 @@ namespace ReleaseSpence.Models
             SqlConnection con = db.Database.Connection as SqlConnection;
             
             string query="";
-            query += "SELECT TOP 6 * from Datos_piezometro ";
+            query += "SELECT TOP @cantidad * from Datos_piezometro ";
             query += "WHERE idSensor = @idSensor AND fecha < @fecha ";
             query += "ORDER BY fecha DESC";
 
             SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@cantidad", cantidad);
             cmd.Parameters.AddWithValue("@idSensor", idSensor);
             cmd.Parameters.AddWithValue("@fecha", fecha);
 
@@ -130,6 +131,42 @@ namespace ReleaseSpence.Models
             con.Close();
             return datos;
         }
+
+        public static List<Datos_piezometro> getAll(int idSensor)
+        {
+
+            List<Datos_piezometro> datos = new List<Datos_piezometro>();
+            SqlConnection con = db.Database.Connection as SqlConnection;
+
+            string query = "";
+            query += "SELECT * from Datos_piezometro ";
+            query += "WHERE idSensor = @idSensor ";
+            query += "ORDER BY fecha DESC";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@idSensor", idSensor);
+
+            if (!(con.State == ConnectionState.Open)) con.Open();
+            SqlDataReader lector = cmd.ExecuteReader();
+            while (lector.Read())
+            {
+                Datos_piezometro dato = new Datos_piezometro();
+                dato.idDato = (int)lector["idDato"];
+                dato.idSensor = (int)lector["idSensor"];
+                dato.fecha = (DateTime)lector["fecha"];
+                dato.cotaAgua = (float)lector["cotaAgua"];
+                dato.metrosSensor = (float)lector["metrosSensor"];
+                dato.temperatura_pz = (float)lector["temperatura_pz"];
+                dato.bUnits = (float)lector["bUnits"];
+                dato.presion_pz = (float)lector["presion_pz"];
+                dato.temperatura_bmp = (lector["temperatura_bmp"].GetType() == typeof(DBNull) ? 0 : (float)(lector["temperatura_bmp"]));
+                dato.presion_bmp = (lector["presion_bmp"].GetType() == typeof(DBNull) ? 0 : (float)(lector["presion_bmp"]));
+                datos.Add(dato);
+            }
+            con.Close();
+            return datos;
+        }
+
 
         public static List<Datos_piezometro> getDatosRotos(int idSensor)
         {
@@ -161,6 +198,7 @@ namespace ReleaseSpence.Models
 
                 }
                 Datos_piezometro dato = new Datos_piezometro();
+                dato.idDato = (int)lector["idDato"];
                 dato.idSensor = (int)lector["idSensor"];
                 dato.fecha = (DateTime)lector["fecha"];
                 dato.cotaAgua = (float)lector["cotaAgua"];
@@ -245,6 +283,50 @@ namespace ReleaseSpence.Models
             }
             con.Close();
             return datos;
+
+        }
+
+        public static void updateMetroSensor(int idDato, float metrosSensor)
+        {
+            List<Datos_piezometro> datos = new List<Datos_piezometro>();
+            SqlConnection con = db.Database.Connection as SqlConnection;
+
+            string query = "";
+            query += "UPDATE Datos_piezometro SET ";
+            query += "metrosSensor = @metrosSensor ";
+            query += "WHERE idDato = @idDato ";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@metrosSensor", metrosSensor);
+            cmd.Parameters.AddWithValue("@idDato", idDato);
+
+            if (!(con.State == ConnectionState.Open)) con.Open();
+
+            cmd.ExecuteNonQuery();
+
+            con.Close();
+
+        }
+
+        public static void updateCotaAgua(int idDato, float cotaAgua)
+        {
+            List<Datos_piezometro> datos = new List<Datos_piezometro>();
+            SqlConnection con = db.Database.Connection as SqlConnection;
+
+            string query = "";
+            query += "UPDATE Datos_piezometro SET ";
+            query += "cotaAgua = @cotaAgua ";
+            query += "WHERE idDato = @idDato ";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@cotaAgua", cotaAgua);
+            cmd.Parameters.AddWithValue("@idDato", idDato);
+
+            if (!(con.State == ConnectionState.Open)) con.Open();
+
+            cmd.ExecuteNonQuery();
+
+            con.Close();
 
         }
 
