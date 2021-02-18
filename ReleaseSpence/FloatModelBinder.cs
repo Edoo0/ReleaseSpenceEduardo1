@@ -26,6 +26,9 @@ namespace ReleaseSpence
 			string wantedSeperator = NumberFormatInfo.CurrentInfo.NumberDecimalSeparator;
 			string alternateSeperator = (wantedSeperator == "," ? "." : ",");
 
+
+
+
 			if (attemptedValue.IndexOf(wantedSeperator) == -1
 				&& attemptedValue.IndexOf(alternateSeperator) != -1)
 			{

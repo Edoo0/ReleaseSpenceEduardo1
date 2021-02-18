@@ -183,11 +183,11 @@ namespace ReleaseSpence.Controllers
                         datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                         + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                         + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].presion_pz <= 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                        + ", " + (datosP[cont].presion_pz < 0 ? "'0'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                         + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                         + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                         + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].bUnits == 0 ? "'no disponible'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
+                        + ", " + (datosP[cont].bUnits == 0 ? "'0'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
                         cont++;
                     }
                 }
@@ -224,11 +224,11 @@ namespace ReleaseSpence.Controllers
                         datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                         + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                         + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].presion_pz <= 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                        + ", " + (datosP[cont].presion_pz < 0 ? "'0'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                         + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                         + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                         + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].bUnits == 0 ? "'no disponible'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
+                        + ", " + (datosP[cont].bUnits == 0 ? "'0'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
                         cont++;
                     }
                 }
@@ -264,11 +264,11 @@ namespace ReleaseSpence.Controllers
                         datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                         + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                         + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].presion_pz <= 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                        + ", " + (datosP[cont].presion_pz < 0 ? "'0'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                         + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                         + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                         + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].bUnits == 0 ? "'no disponible'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
+                        + ", " + (datosP[cont].bUnits == 0 ? "'0'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
                         cont++;
                     }
                 }
@@ -303,11 +303,11 @@ namespace ReleaseSpence.Controllers
                         datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                         + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                         + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].presion_pz <= 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                        + ", " + (datosP[cont].presion_pz < 0 ? "'0'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                         + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                         + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                         + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].bUnits == 0 ? "'no disponible'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
+                        + ", " + (datosP[cont].bUnits == 0 ? "'0'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
                         cont++;
                     }
                 }
@@ -342,11 +342,11 @@ namespace ReleaseSpence.Controllers
                         datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                         + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                         + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].presion_pz <= 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                        + ", " + (datosP[cont].presion_pz < 0 ? "'0'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                         + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                         + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                         + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")
-                        + ", " + (datosP[cont].bUnits == 0 ? "'no disponible'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
+                        + ", " + (datosP[cont].bUnits == 0 ? "'0'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
                         cont++;
                     }
                 }

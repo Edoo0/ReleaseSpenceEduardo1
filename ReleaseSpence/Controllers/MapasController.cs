@@ -287,7 +287,7 @@ namespace ReleaseSpence.Controllers
                             datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                             + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                             + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                            + ", " + (datosP[cont].presion_pz <= 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                            + ", " + (datosP[cont].presion_pz < 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                             + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                             + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                             + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")

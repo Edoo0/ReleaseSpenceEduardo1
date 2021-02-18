@@ -18,7 +18,38 @@ namespace ReleaseSpence.Controllers
 			return View();
 		}
 
-		[HttpPost]
+
+        
+        public void Reparar(int idSensor)
+        {
+            var datosRotos = Datos_piezometroRep.getDatosRotos(idSensor);
+            Datos_piezometroRep.borrarDatosMalos(idSensor);
+            var datosBuenos = Datos_piezometroRep.getDatosBuenos(idSensor);
+            float accBUnit = 0;
+            //float accTempBmp = 0;
+            
+            
+            foreach (var datoBueno in datosBuenos)
+            {
+                accBUnit += datoBueno.bUnits;
+               // accTempBmp += (float)datoBueno.temperatura_bmp;
+               
+                
+            }
+            var bUnitPromedio = accBUnit / datosBuenos.Count;
+            //var tempBmpPromedio = accTempBmp / datosBuenos.Count;
+            
+            
+
+            foreach (var datoRoto in datosRotos)
+            {
+                datoRoto.bUnits = bUnitPromedio;
+                //datoRoto.temperatura_bmp = tempBmpPromedio;
+                Datos_piezometroInsert(datoRoto);
+            }
+        }
+
+        [HttpPost]
 		[Authorize(Roles = RolesSistema.Administrador + "," + RolesSistema.Escritura)]
 		[ValidateAntiForgeryToken]
 		public ActionResult Cargar([Bind(Include = "archivos,idTipo")] HttpPostedFileBase[] archivos, int idTipo)
@@ -211,7 +242,9 @@ namespace ReleaseSpence.Controllers
             return !((dato.bUnits == 0) || (dato.temperatura_pz <= 0) || (dato.metrosSensor < 0) || (dato.metrosSensor > sp.cotaTierra));
         }
 
-        private void Datos_piezometroInsert(Datos_piezometro dato)
+        
+
+        private void Datos_piezometroInsertXD(Datos_piezometro dato)
         {
             Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
             if (sp != null)
@@ -264,6 +297,40 @@ namespace ReleaseSpence.Controllers
 
                 }
 
+                if (TryValidateModel(dato))
+                {
+                    Datos_piezometroRep.Create(dato);
+                }
+            }
+        }
+
+        private void Datos_piezometroInsert(Datos_piezometro dato)
+        {
+            Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
+            if (sp != null)
+            {
+                if (dato.presion_pz >= 0)
+                {
+                    dato.presion_pz = 1000;//conversion de MPa a kPa
+                }
+                else
+                {
+
+                    dato.presion_pz = 0;
+                    //float min = 0;
+                    //float max = (float)0.5;
+                    //dato.presion_pz = (float) (new Random().NextDouble() * (max - min) + min);
+                }
+
+                dato.metrosSensor = (float)(((dato.presion_pz * 1000) / 9806.65));
+                dato.metrosSensor += (float)((sp.cotaAgua - sp.metrosSensor) - sp.cotaSensor); // Factor de Corrección
+                dato.cotaAgua = (float)(sp.cotaSensor + dato.metrosSensor);
+                if (dato.metrosSensor < 0) //EVITAR DATOS NEGATIVOS
+                {
+                    dato.metrosSensor = 0;
+                    dato.cotaAgua = (float)sp.cotaSensor;
+                }
+                
                 if (TryValidateModel(dato))
                 {
                     Datos_piezometroRep.Create(dato);

@@ -129,6 +129,122 @@ namespace ReleaseSpence.Models
             }
             con.Close();
             return datos;
+        }
+
+        public static List<Datos_piezometro> getDatosRotos(int idSensor)
+        {
+
+            List<Datos_piezometro> datos = new List<Datos_piezometro>();
+            SqlConnection con = db.Database.Connection as SqlConnection;
+
+            string query = "";
+
+            query += "SELECT * from Datos_piezometro dp ";
+            query += "JOIN Sensores s ON dp.idSensor = s.idSensor ";
+            query += "JOIN Sensores_Piezometros sp ON s.idSensor = sp.idSensor ";
+            query += "WHERE dp.idSensor = @idSensor AND (";
+            query += "dp.cotaAgua > sp.cotaTierra OR ";
+            query += "dp.metrosSensor < 0 OR ";
+            query += "dp.presion_pz < 0)";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@idSensor", idSensor);
+
+            if (!(con.State == ConnectionState.Open)) con.Open();
+            SqlDataReader lector = cmd.ExecuteReader();
+            while (lector.Read())
+            {
+                int iddatito = (int)lector["idDato"];
+                if (iddatito == 75658)
+                {
+                    Console.WriteLine("estoy aqui :)");
+
+                }
+                Datos_piezometro dato = new Datos_piezometro();
+                dato.idSensor = (int)lector["idSensor"];
+                dato.fecha = (DateTime)lector["fecha"];
+                dato.cotaAgua = (float)lector["cotaAgua"];
+                dato.metrosSensor = (float)lector["metrosSensor"];
+                dato.temperatura_pz = (float)lector["temperatura_pz"];
+                dato.bUnits = (float)lector["bUnits"];
+                dato.presion_pz = (float)lector["presion_pz"];
+                dato.temperatura_bmp = (lector["temperatura_bmp"].GetType() == typeof(DBNull) ? 0 : (float)(lector["temperatura_bmp"]));
+                dato.presion_bmp = (lector["presion_bmp"].GetType() == typeof(DBNull) ? 0 : (float)(lector["presion_bmp"]));
+                datos.Add(dato);
+            }
+            con.Close();
+            return datos;
+        }
+
+        public static int borrarDatosMalos(int idSensor)
+        {
+
+            List<Datos_piezometro> datos = new List<Datos_piezometro>();
+            SqlConnection con = db.Database.Connection as SqlConnection;
+
+            string query = "";
+
+            query += "DELETE dp FROM Datos_piezometro dp ";
+            query += "JOIN Sensores s ON dp.idSensor = s.idSensor ";
+            query += "JOIN Sensores_Piezometros sp ON s.idSensor = sp.idSensor ";
+            query += "WHERE dp.idSensor = @idSensor AND (";
+            query += "dp.cotaAgua > sp.cotaTierra OR ";
+            query += "dp.metrosSensor < 0 OR ";
+            query += "dp.presion_pz < 0)";
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@idSensor", idSensor);
+            int filasAfectadas = 0;
+            try
+            {
+                con.Open();
+                filasAfectadas = cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                con.Close();
+            }
+            return filasAfectadas;
+        }
+
+        public static List<Datos_piezometro> getDatosBuenos(int idSensor)
+        {
+
+            List<Datos_piezometro> datos = new List<Datos_piezometro>();
+            SqlConnection con = db.Database.Connection as SqlConnection;
+
+            string query = "";
+
+            query += "SELECT * from Datos_piezometro dp ";
+            query += "JOIN Sensores s ON dp.idSensor = s.idSensor ";
+            query += "JOIN Sensores_Piezometros sp ON s.idSensor = sp.idSensor ";
+            query += "WHERE dp.idSensor = @idSensor AND (";
+            query += "dp.cotaAgua < sp.cotaTierra AND ";
+            query += "dp.metrosSensor >= 0 AND ";
+            query += "dp.presion_pz >= 0)";
+            
+
+            SqlCommand cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@idSensor", idSensor);
+
+            if (!(con.State == ConnectionState.Open)) con.Open();
+            SqlDataReader lector = cmd.ExecuteReader();
+            while (lector.Read())
+            {
+                Datos_piezometro dato = new Datos_piezometro();
+                dato.fecha = (DateTime)lector["fecha"];
+                dato.cotaAgua = (float)lector["cotaAgua"];
+                dato.metrosSensor = (float)lector["metrosSensor"];
+                dato.temperatura_pz = (float)lector["temperatura_pz"];
+                dato.bUnits = (float)lector["bUnits"];
+                dato.presion_pz = (float)lector["presion_pz"];
+                dato.temperatura_bmp = (lector["temperatura_bmp"].GetType() == typeof(DBNull) ? 0 : (float)(lector["temperatura_bmp"]));
+                dato.presion_bmp = (lector["presion_bmp"].GetType() == typeof(DBNull) ? 0 : (float)(lector["presion_bmp"]));
+                datos.Add(dato);
+            }
+            con.Close();
+            return datos;
 
         }
 
