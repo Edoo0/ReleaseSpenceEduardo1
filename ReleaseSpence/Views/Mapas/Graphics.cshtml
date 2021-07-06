@@ -18,7 +18,8 @@ $(document).ready(function ()
 		axes: {
 			xaxis: { renderer: $.jqplot.DateAxisRenderer, tickOptions: { formatString: '%d-%m-%Y<br>%H:%M:%S' } },
 			yaxis: { pad: 1 }
-		},
+			
+        }, 
 		series: [{ lineWidth: 1, markerOptions: { show: false } }]
 	});
 
@@ -67,6 +68,7 @@ $(document).ready(function ()
 	</form>
 </div>
 <div id="chart1" style="width:1200px; height:600px;"></div>
+
 
 <div id="dialogayuda" class="modal fade">
 	<div id="Mdayuda" class="modal-dialog">

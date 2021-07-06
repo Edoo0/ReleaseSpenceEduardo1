@@ -161,6 +161,7 @@
             </div>
         </div>
         <a id="refreshlink" class="btn btn-primary detalle" href="" style="vertical-align:bottom;">Refrescar</a>
+        <a ></a>
     </form>
 </div>
 
@@ -173,9 +174,10 @@
                 {
                     <li>
                         El sensor @Html.ActionLink((string)item.nombre, "AlarmasList", "Mapas",
-    new { id = item.idSensor, idTipo = ViewBag.idTipo, desde = ViewBag.desde, hasta = ViewBag.hasta },
-    new { @class = "popup" }) ha tenido @item.cantidad lecturas fuera del Umbral de Alerta <a class="moverse" objetivo="@(item.idSensor)" href=""><span class="glyphicon glyphicon-map-marker" title="Ir al marcador"></span></a>
-    </li>
+                         new { id = item.idSensor, idTipo = ViewBag.idTipo, desde = ViewBag.desde, hasta = ViewBag.hasta },
+                         new { @class = "popup" }) ha tenido @item.cantidad lecturas fuera del Umbral de Alerta <a class="moverse" objetivo="@(item.idSensor)" href=""><span class="glyphicon glyphicon-map-marker" title="Ir al marcador"></span></a>
+            
+                    </li>
     }
     }
     else

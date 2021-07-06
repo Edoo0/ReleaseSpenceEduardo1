@@ -9,7 +9,7 @@
                 ViewBag.valMax = 0;
                 ViewBag.valMin = 0;
                 ViewBag.carpeta = 0;
-               
+
 
                 if (ViewBag.sensor.Sensores_Piezometros.carpeta < ViewBag.sensor.Sensores_Piezometros.cotaSensor)
                 {
@@ -147,7 +147,7 @@
 
             var plot1 = $.jqplot('chart1', [cotaTierra, cotaAgua, cotaSensor, carpeta, valMax, valMin],
                 {
-                 
+
                     title: 'Se han obtenido @Model.Count puntos procesando @ViewBag.total datos<br>@ViewBag.sensor.nombre - Cota de Agua - (CotaPz @ViewBag.sensor.Sensores_Piezometros.cotaSensor )',
 
                     highlighter:
@@ -249,7 +249,7 @@
                                         name: 'Cota Sensor',
                                         y: @ViewBag.cotaS,
                                         lineWidth: 3,
-                                        showTooltip: true,
+                                        showTooltip: false,
                                         tooltipFormatString: '<table style="background-color:rgba(255, 255, 255, 0.7);">'
                                         + '<tr><th>Profundidad Sensor :</th><td>@((ViewBag.sensor.Sensores_Piezometros.cotaTierra - ViewBag.sensor.Sensores_Piezometros.cotaSensor).ToString("N2")) Metros</td></tr>'
                                         + '<tr><th>Cota Piezómetro :</th><td>@ViewBag.sensor.Sensores_Piezometros.cotaSensor MSNM</td></tr></table>',
@@ -532,8 +532,27 @@
     <div id="chart1" style="width:1200px; height:600px;">
         @if (Model.Count == 0)
         {<text><h1>No hay datos</h1></text>}
-    </div>
 
+        <div id="cotasensor1" style="
+        background: #F3FF00;
+        display: inline;
+        position: absolute;
+        margin-left: 1220px;
+        margin-top: 20px;
+        padding: 10px;
+        height: auto;
+        width: 100px;
+">
+            <P>
+                cota sensor
+            </P>
+           
+
+            <input value="@ViewBag.sensor.Sensores_Piezometros.cotaSensor" disabled type="text" style="border:none; width:100px;"/>
+            
+        </div>
+    </div>
+    
     <div id="dialogayuda" class="modal fade">
         <div id="Mdayuda" class="modal-dialog">
             <div id="Cdayuda" class="modal-content" style="padding:20px;">

@@ -1,169 +1,122 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using log4net;
+using ReleaseSpence.Controllers;
 using ReleaseSpence.Models;
-using System.IO;
-using System.Web;
-using System.Threading.Tasks;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
+using System.Web;
+using System.Web.Mvc;
+
 
 namespace ReleaseSpence.Controllers
 {
     [Authorize]
     public class DatosController : ControladorBase
     {
+        private ILog _logger = LogManager.GetLogger(typeof(DatosController));
+
         private MonitoreoIntegradoEntities db = new MonitoreoIntegradoEntities();
 
-		public ActionResult Cargar()
-		{
-			ViewBag.idTipo = new SelectList(db.TipoSensores, "idTipo", "nombre");
-			return View();
-		}
-
-
-
-        public void Reparar(int idSensor)
+        public ActionResult Cargar()
         {
-            var datosRotos = Datos_piezometroRep.getDatosRotos(idSensor);
-            Datos_piezometroRep.borrarDatosMalos(idSensor);
-            List<Datos_piezometro> datosBuenos = Datos_piezometroRep.getDatosBuenos(idSensor);
-            float accBUnit = 0;
-            //float accTempBmp = 0;
 
-
-            foreach (var datoBueno in datosBuenos)
-            {
-                accBUnit += datoBueno.bUnits;
-                // accTempBmp += (float)datoBueno.temperatura_bmp;
-
-
-            }
-            var bUnitPromedio = accBUnit / datosBuenos.Count;
-            //var tempBmpPromedio = accTempBmp / datosBuenos.Count;
-
-
-
-            foreach (var datoRoto in datosRotos)
-            {
-                datoRoto.bUnits = bUnitPromedio;
-                //datoRoto.temperatura_bmp = tempBmpPromedio;
-                Datos_piezometroInsert(datoRoto);
-            }
-
-
-
-            List<Datos_piezometro> datosFiltrados = Datos_piezometroRep.getAll(idSensor);
-            for (int i = 1; i < datosFiltrados.Count() - 1; i++)
-            {
-                int L = 21;
-                if (Math.Abs(datosFiltrados[i].metrosSensor - datosFiltrados[i - 1].metrosSensor) > 0.3 * datosFiltrados[i - 1].metrosSensor)
-                {
-                    if (i >= L)
-                    {
-                        var ventana = datosFiltrados.GetRange(i - L, L);
-                        var ventanaOrdenadaPorColumna = ventana.OrderBy(s => s.cotaAgua).ToList();
-                        var puntoMedio = (int)Math.Floor((double)(L + 1) / 2);
-                        var columnaMediana = ventanaOrdenadaPorColumna[puntoMedio];
-                        datosFiltrados[i].cotaAgua = columnaMediana.cotaAgua;
-                        Datos_piezometroRep.updateCotaAgua(datosFiltrados[i].idDato, columnaMediana.cotaAgua);
-                    }
-
-                }
-            }
+            ViewBag.idTipo = new SelectList(db.TipoSensores, "idTipo", "nombre");
+            return View();
         }
 
-
-
         [HttpPost]
-		[Authorize(Roles = RolesSistema.Administrador + "," + RolesSistema.Escritura)]
-		[ValidateAntiForgeryToken]
-		public ActionResult Cargar([Bind(Include = "archivos,idTipo")] HttpPostedFileBase[] archivos, int idTipo)
-		{
-			switch (idTipo)
-			{
-				case 2:
-					{
-						int contadordatos = 0;
-						foreach (HttpPostedFileBase archivo in archivos)
-						{
-							if (archivo != null && archivo.ContentLength > 0)
-							{
-								BinaryReader bread = new BinaryReader(archivo.InputStream);
-								byte[] archivobytes = bread.ReadBytes((int)archivo.InputStream.Length);
-								string archivotext = System.Text.Encoding.UTF8.GetString(archivobytes);
-								string[] lineas = archivotext.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-								foreach (string linea in lineas)
-								{
-									if (linea.Length > 0)
-									{
-										string[] variables = linea.Split(';');
-										Datos_energia dato = new Datos_energia();
-										dato.idSensor = int.Parse(variables[0]);
-										dato.fecha = DateTime.Parse(variables[1]);
-										dato.panelV = float.Parse(variables[2].Replace('.', ','));
-										dato.panelP = float.Parse(variables[3].Replace('.', ','));
-										dato.charC = float.Parse(variables[4].Replace('.', ','));
-										dato.charT = float.Parse(variables[5].Replace('.', ','));
-										dato.batV = float.Parse(variables[6].Replace('.', ','));
-										dato.batC = float.Parse(variables[7].Replace('.', ','));
-										dato.batSOC = float.Parse(variables[8].Replace('.', ','));
-										dato.batCE = float.Parse(variables[9].Replace('.', ','));
-										dato.batTTG = int.Parse(variables[10]);
-										dato.inv_inC = float.Parse(variables[11].Replace('.', ','));
-										dato.inv_outC = float.Parse(variables[12].Replace('.', ','));
-										dato.panelC = (dato.panelV == 0 ? 0 : dato.panelP / dato.panelV);
-										dato.charP = dato.charC * dato.batV;
-										dato.charE = (dato.panelP == 0 ? 0 : (float)(dato.charP * 100.0) / dato.panelP);
-										dato.batP = dato.batV * dato.batC;
-										dato.inv_inP = dato.batV * dato.inv_inC;
-										dato.inv_outP = (float)220.0 * dato.inv_outC;
-										dato.invE = (dato.inv_inP == 0 ? 0 : (float)(dato.inv_outP * 100.0) / dato.inv_inP);
-										Datos_energiaRep.Create(dato);
-										contadordatos++;
-									}
-								}
-							}
-						}
-						ViewBag.contdatos = contadordatos;
-					}
-					break;
+        [Authorize(Roles = RolesSistema.Administrador + "," + RolesSistema.Escritura)]
+        [ValidateAntiForgeryToken]
+        public ActionResult Cargar([Bind(Include = "archivos,idTipo")] HttpPostedFileBase[] archivos, int idTipo)
+        {
+            switch (idTipo)
+            {
+                case 2:
+                    {
+                        int contadordatos = 0;
+                        foreach (HttpPostedFileBase archivo in archivos)
+                        {
+                            if (archivo != null && archivo.ContentLength > 0)
+                            {
+                                BinaryReader bread = new BinaryReader(archivo.InputStream);
+                                byte[] archivobytes = bread.ReadBytes((int)archivo.InputStream.Length);
+                                string archivotext = System.Text.Encoding.UTF8.GetString(archivobytes);
+                                string[] lineas = archivotext.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+                                foreach (string linea in lineas)
+                                {
+                                    if (linea.Length > 0)
+                                    {
+                                        string[] variables = linea.Split(';');
+                                        Datos_energia dato = new Datos_energia();
+                                        dato.idSensor = int.Parse(variables[0]);
+                                        dato.fecha = DateTime.Parse(variables[1]);
+                                        dato.panelV = float.Parse(variables[2].Replace('.', ','));
+                                        dato.panelP = float.Parse(variables[3].Replace('.', ','));
+                                        dato.charC = float.Parse(variables[4].Replace('.', ','));
+                                        dato.charT = float.Parse(variables[5].Replace('.', ','));
+                                        dato.batV = float.Parse(variables[6].Replace('.', ','));
+                                        dato.batC = float.Parse(variables[7].Replace('.', ','));
+                                        dato.batSOC = float.Parse(variables[8].Replace('.', ','));
+                                        dato.batCE = float.Parse(variables[9].Replace('.', ','));
+                                        dato.batTTG = int.Parse(variables[10]);
+                                        dato.inv_inC = float.Parse(variables[11].Replace('.', ','));
+                                        dato.inv_outC = float.Parse(variables[12].Replace('.', ','));
+                                        dato.panelC = (dato.panelV == 0 ? 0 : dato.panelP / dato.panelV);
+                                        dato.charP = dato.charC * dato.batV;
+                                        dato.charE = (dato.panelP == 0 ? 0 : (float)(dato.charP * 100.0) / dato.panelP);
+                                        dato.batP = dato.batV * dato.batC;
+                                        dato.inv_inP = dato.batV * dato.inv_inC;
+                                        dato.inv_outP = (float)220.0 * dato.inv_outC;
+                                        dato.invE = (dato.inv_inP == 0 ? 0 : (float)(dato.inv_outP * 100.0) / dato.inv_inP);
+                                        Datos_energiaRep.Create(dato);
+                                        contadordatos++;
+                                    }
+                                }
+                            }
+                        }
+                        ViewBag.contdatos = contadordatos;
+                    }
+                    break;
                 //En el cargar el 7 es el piezometro.
-				case 7:
-					{
-						int contadordatos = 0;
-						foreach (HttpPostedFileBase archivo in archivos)
-						{
-							if (archivo != null && archivo.ContentLength > 0)
-							{                                                      
+                case 7:
+                    {
+                        int contadordatos = 0;
+                        foreach (HttpPostedFileBase archivo in archivos)
+                        {
+                            if (archivo != null && archivo.ContentLength > 0)
+                            {
                                 string archivotext = archivoATexto(archivo);
                                 string[] lineas = archivotext.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-								foreach (string linea in lineas)
-								{
-									if (linea.Length > 0)
-									{
-										string[] variables = linea.Split(';');
-										Datos_piezometro dato = new Datos_piezometro();
+                                foreach (string linea in lineas)
+                                {
+                                    if (linea.Length > 0)
+                                    {
+                                        string[] variables = linea.Split(';');
+                                        Datos_piezometro dato = new Datos_piezometro();
                                         dato.idSensor = int.Parse(variables[0]);
                                         dato.fecha = DateTime.Parse(variables[1]);
                                         dato.bUnits = float.Parse(variables[2].Replace('.', ','));
-										dato.temperatura_pz = float.Parse(variables[3].Replace('.', ','));
-										dato.temperatura_bmp = float.Parse(variables[4].Replace('.', ','));
-										dato.presion_bmp = float.Parse(variables[5].Replace('.', ','));
-										Datos_piezometroInsert(dato);
-										contadordatos++;
-									}
-								}
-							}
-						}
-						ViewBag.contdatos = contadordatos;
-						break;
-					}
-			}
-			ViewBag.idTipo = new SelectList(db.TipoSensores, "idTipo", "nombre");
-			return View();
-		}
+                                        dato.temperatura_pz = float.Parse(variables[3].Replace('.', ','));
+                                        dato.temperatura_bmp = float.Parse(variables[4].Replace('.', ','));
+                                        dato.presion_bmp = float.Parse(variables[5].Replace('.', ','));
+                                        Datos_piezometroInsert(dato);
+                                        contadordatos++;
+                                    }
+                                }
+                            }
+                        }
+                        ViewBag.contdatos = contadordatos;
+                        break;
+                    }
+            }
+            ViewBag.idTipo = new SelectList(db.TipoSensores, "idTipo", "nombre");
+            return View();
+        }
 
-		[HttpPost]
+        [HttpPost]
         [AllowAnonymous]
         public void Datos_energiaCreate([Bind(Include = "idSensor,panelV,panelP,charC,charT,batV,batC,batSOC,batCE,batTTG,inv_inC,inv_outC")] Datos_energia dato)
         {
@@ -232,50 +185,59 @@ namespace ReleaseSpence.Controllers
             return "acgms fail";
         }
 
-        private float calcularPresionPZ(Datos_piezometro dato, Sensores_Piezometros sp)
-        {
-            float presionEnMPa = (float)(sp.coefA * (dato.bUnits * dato.bUnits) + sp.coefB * dato.bUnits + sp.coefC + sp.tempK * (dato.temperatura_pz - sp.tempI) - 0.00010 * (dato.presion_bmp - sp.baroI));
-            return presionEnMPa * 1000;//conversion de MPa a kPa
-        }
 
-        private float calcularColumnaDeAgua(Datos_piezometro dato, Sensores_Piezometros sp, float presion_pz)
+        public void Reparar3(int idSensor)
         {
-            float columnaAguaActual = (float)(((presion_pz * 1000) / 9806.65));
-            float factorDeCorreccion = (float)((sp.cotaAgua - sp.metrosSensor) - sp.cotaSensor);
-            return (columnaAguaActual + factorDeCorreccion);
-        }
+            List<Datos_piezometro> datosFiltrados = Datos_piezometroRep.getAll(idSensor);
 
-        private float calcularCotaDeAgua(Sensores_Piezometros sp, float columnaDeAgua)
-        {
-            return (float)(columnaDeAgua + sp.cotaSensor);
-        }
 
-        private void aplicar_formulas(Datos_piezometro dato, Sensores_Piezometros sp)
-        {
-            dato.presion_pz = calcularPresionPZ(dato, sp);
-            dato.metrosSensor = calcularColumnaDeAgua(dato, sp, dato.presion_pz);
-            dato.cotaAgua = calcularCotaDeAgua(sp, dato.metrosSensor);
-        }
+            for (int i = 0; i < datosFiltrados.Count(); i++)
+            {
 
+
+
+                var freq = Math.Sqrt(datosFiltrados[i].bUnits * 1000);
+                var period = 1 / freq;
+                var picos = 0.1 / period;
+                var freq_2 = (picos - 1) / 0.1;
+                var bunits2 = Math.Pow(freq_2, 2) / 1000;
+
+
+                datosFiltrados[i].bUnits = (float)bunits2;
+
+                // if (datosFiltrados[i].idDato == 47093)
+                //{
+                //    Console.WriteLine("aguante boca");
+                // }
+                Datos_piezometroRep.delete(datosFiltrados[i].idDato);
+                Datos_piezometroInsert(datosFiltrados[i]);
+
+
+
+
+
+            }
+        }
         private string archivoATexto(HttpPostedFileBase archivo)
         {
             BinaryReader bread = new BinaryReader(archivo.InputStream);
             byte[] archivobytes = bread.ReadBytes((int)archivo.InputStream.Length);
             return System.Text.Encoding.UTF8.GetString(archivobytes);
         }
-        private Boolean esDatoValido(Datos_piezometro dato, Sensores_Piezometros sp) {
+        private Boolean esDatoValido(Datos_piezometro dato, Sensores_Piezometros sp)
+        {
             return !((dato.bUnits == 0) || (dato.temperatura_pz <= 0) || (dato.metrosSensor < 0) || (dato.metrosSensor > sp.cotaTierra));
         }
 
-        
+
 
         private void Datos_piezometroInsertXD(Datos_piezometro dato)
         {
             Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
             if (sp != null)
             {
-                aplicar_formulas(dato, sp);
-                if (esDatoValido(dato,sp))
+                Reparador.aplicar_formulas(dato, sp);
+                if (esDatoValido(dato, sp))
                 {
                     Console.WriteLine("es valido :)");
                 }
@@ -287,16 +249,17 @@ namespace ReleaseSpence.Controllers
                 float accTempPz = 0;
                 var cantidad = 0;
                 var ultimosDatos = Datos_piezometroRep.getLatest(6, dato.idSensor, dato.fecha);
-                
+
 
                 foreach (var i in ultimosDatos)
                 {
-                    if (esDatoValido(i,sp)) {
+                    if (esDatoValido(i, sp))
+                    {
                         accBunit += i.bUnits;
                         accTempPz += i.temperatura_pz;
                         cantidad++;
                     }
-                    
+
                 }
                 float promedioBunit = accBunit / cantidad;
                 float promedioTempPz = accTempPz / cantidad;
@@ -309,7 +272,7 @@ namespace ReleaseSpence.Controllers
                     dato.temperatura_pz = promedioTempPz;
                 }
 
-                
+
                 if (dato.metrosSensor < 0) //EVITAR DATOS NEGATIVOS
                 {
                     dato.metrosSensor = 0;
@@ -318,7 +281,7 @@ namespace ReleaseSpence.Controllers
                 if (dato.cotaAgua >= sp.cotaTierra)
                 {
                     dato.bUnits = promedioBunit;
-                    aplicar_formulas(dato, sp);
+                    Reparador.aplicar_formulas(dato, sp);
 
                 }
 
@@ -328,41 +291,43 @@ namespace ReleaseSpence.Controllers
                 }
             }
         }
+      
 
-        private void sanitizarDato(Datos_piezometro dato, Sensores_Piezometros sp)
-        {
-            if (dato.presion_pz >= 0)
-            {
-                dato.presion_pz = calcularPresionPZ(dato, sp);
-            }
-            else
-            {
-                dato.presion_pz = 0;
-            }
-
-            dato.metrosSensor = calcularColumnaDeAgua(dato, sp, dato.presion_pz);
-            dato.cotaAgua = calcularCotaDeAgua(sp, dato.metrosSensor);
-
-            if (dato.metrosSensor < 0) //EVITAR DATOS NEGATIVOS
-            {
-                dato.metrosSensor = 0;
-                dato.cotaAgua = (float)sp.cotaSensor;
-            }
-        }
 
         private void Datos_piezometroInsert(Datos_piezometro dato)
         {
-            Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
-            if (sp != null)
-            {
-                sanitizarDato(dato, sp);
+            //_logger.Fatal("TASK OVERFLOW ::: START -> EJECUCION INDIRECTA!");
 
-                if (TryValidateModel(dato))
-                {
-                    Datos_piezometroRep.Create(dato);
-                }
-            }
+            //Reparador.OnTimedEvent();
+
+            //_logger.Error("TASK OVERFLOW ::: END -> EJECUCION INDIRECTA!");
+
+
+
+
+            //Sensores_Piezometros sp = db.Sensores_Piezometros.Find(dato.idSensor);
+
+           // Reparador.Reparar2(dato.idSensor);
+
+            //Reparar(dato.idSensor);
+
+
+
+            //if (sp != null)
+            //{
+
+
+            //    sanitizarDato(dato, sp);
+
+            //    if (TryValidateModel(dato))
+            //    {
+            //        Datos_piezometroRep.Create(dato);
+            //    }
+            //}
+            Reparador.Datos_piezometroInsert(dato);
         }
+
+
 
         [HttpPost]
         [AllowAnonymous]
@@ -428,9 +393,9 @@ namespace ReleaseSpence.Controllers
                     returndata += "fr" + sensor.freqRead + "\r\n";
                     returndata += "fs" + sensor.freqSend + "\r\n";
                     returndata += "cs" + sensor.cotaSensor + "\r\n";
-                    returndata += "ci" + sensor.cotaAgua + "\r\n"; 
+                    returndata += "ci" + sensor.cotaAgua + "\r\n";
                     returndata += "fd" + sensor.metrosSensor + "\r\n";
-                    returndata += "ct" + sensor.cotaTierra + "\r\n"; 
+                    returndata += "ct" + sensor.cotaTierra + "\r\n";
                     return returndata;
                 }
             }
@@ -465,7 +430,7 @@ namespace ReleaseSpence.Controllers
                 //-------------------------------------------
                 dato.dato = (float)Math.Round(valor, 2);
                 int elrandom = rnd.Next(1, 100);
-                variacion = (float)((Math.Pow(1.0+elrandom/1500.0, (elrandom)) - 1.0)/100);
+                variacion = (float)((Math.Pow(1.0 + elrandom / 1500.0, (elrandom)) - 1.0) / 100);
                 if (valor + variacion > maximo) valor = valor;
                 else if (valor + variacion > maximo || valor + variacion < minimo) valor -= variacion;
                 else valor += variacion;
@@ -500,10 +465,24 @@ namespace ReleaseSpence.Controllers
             //    variacion = (float)(rnd.Next((-max_variacion * 10), (max_variacion * 10)) / 10.0);
             //    if (valor + variacion > maximo || valor + variacion < minimo) valor -= variacion;
             //    else valor += variacion;
-            //    //var errores = ModelState.Values.SelectMany(v => v.Errors);
+            //    //var generarRandomEntre = ModelState.Values.SelectMany(v => v.Errors);
             //    //-----------------------------------------------
             //    Datos_piezometroRep.Create(dato);
             //}
         }
+
+        
+
+        public float generarRandomEntre(double min, double max)
+        {
+            Random random = new Random();
+            double nroRnd = random.NextDouble();
+            nroRnd = nroRnd * (max - min) + min;
+            return Convert.ToSingle(nroRnd);
+        }
+
+
+        
     }
+
 }

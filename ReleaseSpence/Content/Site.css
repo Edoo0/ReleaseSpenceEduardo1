@@ -65,3 +65,8 @@ input[type="checkbox"].input-validation-error {
     opacity: 0.5;
     pointer-events: none;
 }
+
+.imagensensor{
+    width:200px;
+    height:auto;
+}

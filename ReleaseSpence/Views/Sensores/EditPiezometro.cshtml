@@ -96,7 +96,22 @@
             <td>
                 @Html.EditorFor(model => model.Sensores_Piezometros.cotaSensor)
             </td>
+            <td>
 
+            </td>
+            <td>
+
+                <a target="_blank" href="~/Images/@(Model.nombre).jpg">
+
+
+                    <!--<div class="imagensensor"><img src="~/Images/@Html.LabelFor(model=> model.nombre)" style="max-width:600px; max-height:100px;"></div>-->
+                    <div class="imagensensor"><img src="~/Images/@(Model.nombre).jpg" style="max-width:600px; max-height:100px;"></div>
+
+                </a>
+                <a class="btn btn-primary detalle" target="_blank" href="~/Images/@(Model.nombre).jpg" download>DESCARGAR</a>
+
+
+            </td>
         </tr>
         <tr>
             <td>

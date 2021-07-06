@@ -35,8 +35,10 @@ namespace ReleaseSpence.Controllers
             if (idTipo == 5) ViewBag.alertas = Datos_extensometroRep.Alertas(id, idTipo, fdesde, fhasta);
             else if (idTipo == 7) ViewBag.alertas = Datos_piezometroRep.Alertas(id, idTipo, fdesde, fhasta);
             List<Sensores> sensores = db.Sensores.Where(i => i.idTipo == idTipo).Where(i => i.Marcadores.idImagen == id).ToList();
-            List<Punto_de_Monitoreo> puntoList = db.Punto_de_Monitoreo.ToList();
+           
+            List<Punto_de_Monitoreo>  puntoList= db.Punto_de_Monitoreo.Where(i => i.MarcadoresMpz.idImagen == id).ToList();
             ViewBag.PuntoMonitoreoList = puntoList;
+
 
             return PartialView(Tuple.Create(sensores, puntoList));
         }
@@ -287,11 +289,11 @@ namespace ReleaseSpence.Controllers
                             datoString += "['" + datosP[cont].fecha.ToString("yyyy-MM-dd H:mm:ss")
                             + "', " + datosP[cont].cotaAgua.ToString().Replace(",", ".")
                             + ", " + datosP[cont].metrosSensor.ToString().Replace(",", ".")
-                            + ", " + (datosP[cont].presion_pz < 0 ? "'no disponible'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
+                            + ", " + (datosP[cont].presion_pz < 0 ? "'0'" : datosP[cont].presion_pz.ToString().Replace(",", "."))
                             + ", " + datosP[cont].temperatura_pz.ToString().Replace(",", ".")
                             + ", " + datosP[cont].presion_bmp.ToString().Replace(",", ".")
                             + ", " + datosP[cont].temperatura_bmp.ToString().Replace(",", ".")
-                            + ", " + (datosP[cont].bUnits == 0 ? "'no disponible'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
+                            + ", " + (datosP[cont].bUnits == 0 ? "'0'" : datosP[cont].bUnits.ToString().Replace(",", ".")) + "] ,";
                             cont++;
                         }
                         ViewBag.confirmacion = false;
